@@ -1,0 +1,10 @@
+build_environment: ubuntu1204
+language: java
+jdk: oraclejdk7
+
+before_install: mvn clean
+notifications:
+   email:
+      - surya.kiran@sv.cmu.edu
+      - shishir.kinkar@sv.cmu.edu
+      - bo.liu@sv.cmu.edu
