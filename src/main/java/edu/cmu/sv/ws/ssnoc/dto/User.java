@@ -12,8 +12,9 @@ import com.google.gson.Gson;
 public class User {
 	private String userName;
 	private String password;
-	private String lastStatusCode;
+	private String lastStatus;
 	private String lastLocation;
+	private Timestamp lastStatusTime;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
 	
@@ -33,12 +34,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getLastStatusCode() {
-		return lastStatusCode;
+	public String getLastStatus() {
+		return lastStatus;
 	}
 
-	public void setLastStatusCode(String lastStatusCode) {
-		this.lastStatusCode = lastStatusCode;
+	public void setLastStatus(String lastStatus) {
+		this.lastStatus = lastStatus;
 	}
 
 	public String getLastLocation() {
@@ -47,6 +48,14 @@ public class User {
 
 	public void setLastLocation(String lastLocation) {
 		this.lastLocation = lastLocation;
+	}
+
+	public Timestamp getLastStatusTime() {
+		return lastStatusTime;
+	}
+
+	public void setLastStatusTime(Timestamp lastStatusTime) {
+		this.lastStatusTime = lastStatusTime;
 	}
 
 	public Timestamp getCreatedAt() {

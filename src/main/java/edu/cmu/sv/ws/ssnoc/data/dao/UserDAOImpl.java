@@ -3,6 +3,7 @@ package edu.cmu.sv.ws.ssnoc.data.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +53,18 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 		try (ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				UserPO po = new UserPO();
+				
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int colCount = rsmd.getColumnCount();
+				
 				po = new UserPO();
-				po.setUserId(rs.getLong(1));
-				po.setUserName(rs.getString(2));
-				po.setPassword(rs.getString(3));
-				po.setSalt(rs.getString(4));
-
+				if(colCount >=1) po.setUserId(rs.getLong(1));
+				if(colCount >=2) po.setUserName(rs.getString(2));
+				if(colCount >=3) po.setPassword(rs.getString(3));
+				if(colCount >=4) po.setSalt(rs.getString(4));
+				if(colCount >=6) po.setLastStatus(rs.getString(6));
+				if(colCount >=7) po.setLastStatusTime(rs.getTimestamp(7));
+				if(colCount >=9) po.setLastLocation(rs.getString(9));
 				users.add(po);
 			}
 		} catch (SQLException e) {

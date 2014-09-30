@@ -14,7 +14,10 @@ import com.google.gson.Gson;
 public class StatusCrumbPO {
 	private long statusCrumbId;
 	private long userId;
-	private String statusCode;
+	private String userName;
+	private String status;
+	private long locationCrumbId;
+	private String location;
 	private Timestamp createdAt;
 
 	public long getStatusCrumbId() {
@@ -33,13 +36,36 @@ public class StatusCrumbPO {
 		this.userId = userId;
 	}
 
-
-	public String getStatusCode() {
-		return statusCode;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public long getLocationCrumbId() {
+		return locationCrumbId;
+	}
+
+	public void setLocationCrumbId(long locationCrumbId) {
+		this.locationCrumbId = locationCrumbId;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public Timestamp getCreatedAt() {

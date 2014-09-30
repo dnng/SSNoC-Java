@@ -28,7 +28,9 @@ public class ConverterUtils {
 
 		User dto = new User();
 		dto.setUserName(po.getUserName());
-		dto.setLastStatusCode(po.getLastStatusCode());
+		dto.setLastStatus(po.getLastStatus());
+		dto.setLastLocation(po.getLastLocation());
+		dto.setLastStatusTime(po.getLastStatusTime());
 		dto.setCreatedAt(po.getCreatedAt());
 		dto.setModifiedAt(po.getModifiedAt());
 
@@ -51,7 +53,9 @@ public class ConverterUtils {
 		UserPO po = new UserPO();
 		po.setUserName(dto.getUserName());
 		po.setPassword(dto.getPassword());
-		po.setLastStatusCode(dto.getLastStatusCode());
+		po.setLastStatus(dto.getLastStatus());
+		po.setLastStatusTime(dto.getLastStatusTime());
+		po.setLastLocation(dto.getLastLocation());
 		po.setCreatedAt(dto.getCreatedAt());
 		po.setModifiedAt(dto.getModifiedAt());
 
@@ -72,8 +76,12 @@ public class ConverterUtils {
 		}
 
 		StatusCrumb dto = new StatusCrumb();
+		dto.setStatusCrumbId(po.getStatusCrumbId());
 		dto.setUserId(po.getUserId());
-		dto.setStatusCode(po.getStatusCode());
+		dto.setUserName(po.getUserName());
+		dto.setStatus(po.getStatus());
+		dto.setLocationCrumbId(po.getLocationCrumbId());
+		dto.setLocation(po.getLocation());
 		dto.setCreatedAt(po.getCreatedAt());
 
 		return dto;
@@ -93,8 +101,12 @@ public class ConverterUtils {
 		}
 
 		StatusCrumbPO po = new StatusCrumbPO();
+		po.setStatusCrumbId(dto.getStatusCrumbId());
 		po.setUserId(dto.getUserId());
-		po.setStatusCode(dto.getStatusCode());
+		po.setUserName(dto.getUserName());
+		po.setStatus(dto.getStatus());
+		po.setLocationCrumbId(dto.getLocationCrumbId());
+		po.setLocation(dto.getLocation());
 		po.setCreatedAt(dto.getCreatedAt());
 
 		return po;

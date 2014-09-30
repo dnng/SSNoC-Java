@@ -10,34 +10,61 @@ import com.google.gson.Gson;
  * 
  */
 public class StatusCrumb {
-	private Long userId;
-	private String password;
-	private String statusCode;
+	private long statusCrumbId;
+	private String status;
+	private long userId;
+	private String userName;
+	private long locationCrumbId;
+	private String location;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
 	
-	public Long getUserId() {
+	public long getStatusCrumbId() {
+		return statusCrumbId;
+	}
+
+	public void setStatusCrumbId(long statusCrumbId) {
+		this.statusCrumbId = statusCrumbId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getStatusCode() {
-		return statusCode;
+	public long getLocationCrumbId() {
+		return locationCrumbId;
 	}
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
+	public void setLocationCrumbId(long locationCrumbId) {
+		this.locationCrumbId = locationCrumbId;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public Timestamp getCreatedAt() {

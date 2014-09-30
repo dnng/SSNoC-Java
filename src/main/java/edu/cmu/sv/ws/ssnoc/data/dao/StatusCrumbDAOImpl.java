@@ -48,25 +48,28 @@ public class StatusCrumbDAOImpl extends BaseDAOImpl implements IStatusCrumbDAO {
 		}
 
 		Log.debug("Executing stmt = " + stmt);
-		List<StatusCrumbPO> users = new ArrayList<StatusCrumbPO>();
+		List<StatusCrumbPO> statuses = new ArrayList<StatusCrumbPO>();
 		try (ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				StatusCrumbPO po = new StatusCrumbPO();
 				po = new StatusCrumbPO();
 				po.setStatusCrumbId(rs.getLong(1));
 				po.setUserId(rs.getLong(2));
-				po.setStatusCode(rs.getString(2));
-				po.setCreatedAt(rs.getTimestamp(4));
+				po.setUserName(rs.getString(3));
+				po.setStatus(rs.getString(4));
+				po.setLocationCrumbId(rs.getLong(5));
+				po.setLocation(rs.getString(6));
+				po.setCreatedAt(rs.getTimestamp(7));
 
-				users.add(po);
+				statuses.add(po);
 			}
 		} catch (SQLException e) {
 			handleException(e);
 		} finally {
-			Log.exit(users);
+			Log.exit(statuses);
 		}
 
-		return users;
+		return statuses;
 	}
 
 	/**
@@ -86,8 +89,8 @@ public class StatusCrumbDAOImpl extends BaseDAOImpl implements IStatusCrumbDAO {
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_STATUS_CRUMB)) {
 			stmt.setLong(1, statusCrumbPO.getUserId());
-			stmt.setString(2, statusCrumbPO.getStatusCode());
-			stmt.setTimestamp(3, statusCrumbPO.getCreatedAt());
+			stmt.setString(2, statusCrumbPO.getStatus());
+			stmt.setLong(3, statusCrumbPO.getLocationCrumbId());
 
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows inserted.");

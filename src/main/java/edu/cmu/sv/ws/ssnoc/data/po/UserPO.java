@@ -16,7 +16,9 @@ public class UserPO {
 	private String userName;
 	private String password;
 	private String salt;
-	private String lastStatusCode;
+	private String lastStatus;
+	private String lastLocation;
+	private Timestamp lastStatusTime;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
 
@@ -52,12 +54,28 @@ public class UserPO {
 		this.salt = salt;
 	}
 
-	public String getLastStatusCode() {
-		return lastStatusCode;
+	public String getLastStatus() {
+		return lastStatus;
 	}
 
-	public void setLastStatusCode(String lastStatusCode) {
-		this.lastStatusCode = lastStatusCode;
+	public void setLastStatus(String lastStatus) {
+		this.lastStatus = lastStatus;
+	}
+
+	public String getLastLocation() {
+		return lastLocation;
+	}
+
+	public void setLastLocation(String lastLocation) {
+		this.lastLocation = lastLocation;
+	}
+
+	public Timestamp getLastStatusTime() {
+		return lastStatusTime;
+	}
+
+	public void setLastStatusTime(Timestamp lastStatusTime) {
+		this.lastStatusTime = lastStatusTime;
 	}
 
 	public Timestamp getCreatedAt() {
