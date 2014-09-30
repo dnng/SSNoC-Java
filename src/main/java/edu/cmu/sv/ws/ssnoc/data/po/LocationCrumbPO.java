@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 public class LocationCrumbPO {
 	private long locationCrumbId;
 	private long userId;
+	private String userName;
 	private String location;
 	private Timestamp createdAt;
 
@@ -31,6 +32,14 @@ public class LocationCrumbPO {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getLocation() {

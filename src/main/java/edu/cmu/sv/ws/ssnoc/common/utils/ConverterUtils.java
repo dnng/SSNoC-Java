@@ -1,7 +1,9 @@
 package edu.cmu.sv.ws.ssnoc.common.utils;
 
+import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.dto.LocationCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 
@@ -106,6 +108,52 @@ public class ConverterUtils {
 		po.setUserName(dto.getUserName());
 		po.setStatus(dto.getStatus());
 		po.setLocationCrumbId(dto.getLocationCrumbId());
+		po.setLocation(dto.getLocation());
+		po.setCreatedAt(dto.getCreatedAt());
+
+		return po;
+	}
+	
+	/**
+	 * Convert LocationCrumbPO to Location crumb DTO object.
+	 * 
+	 * @param po
+	 *            - Location crumb PO object
+	 * 
+	 * @return - Location crumb DTO Object
+	 */
+	public static final LocationCrumb convert(LocationCrumbPO po) {
+		if (po == null) {
+			return null;
+		}
+
+		LocationCrumb dto = new LocationCrumb();
+		dto.setLocationCrumbId(po.getLocationCrumbId());
+		dto.setUserId(po.getUserId());
+		dto.setUserName(po.getUserName());
+		dto.setLocation(po.getLocation());
+		dto.setCreatedAt(po.getCreatedAt());
+
+		return dto;
+	}
+
+	/**
+	 * Convert Location crumb DTO to LocationCrumbPO object
+	 * 
+	 * @param dto
+	 *            - Location crumb DTO object
+	 * 
+	 * @return - LocationCrumbPO object
+	 */
+	public static final LocationCrumbPO convert(LocationCrumb dto) {
+		if (dto == null) {
+			return null;
+		}
+
+		LocationCrumbPO po = new LocationCrumbPO();
+		po.setLocationCrumbId(dto.getLocationCrumbId());
+		po.setUserId(dto.getUserId());
+		po.setUserName(dto.getUserName());
 		po.setLocation(dto.getLocation());
 		po.setCreatedAt(dto.getCreatedAt());
 

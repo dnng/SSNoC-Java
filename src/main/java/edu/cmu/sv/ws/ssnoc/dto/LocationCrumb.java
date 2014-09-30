@@ -14,14 +14,15 @@ import com.google.gson.Gson;
 	public class LocationCrumb {
 		private Long locationCrumbId;
 		private Long userId;
+		private String userName;
 		private String location;
 		private Timestamp createdAt;
-		
-		public Long getlocationCrumbId() {
+
+		public Long getLocationCrumbId() {
 			return locationCrumbId;
 		}
 
-		public void setlocationCrumbId(Long locationCrumbId) {
+		public void setLocationCrumbId(Long locationCrumbId) {
 			this.locationCrumbId = locationCrumbId;
 		}
 
@@ -33,11 +34,19 @@ import com.google.gson.Gson;
 			this.userId = userId;
 		}
 
-		public String getlocation() {
+		public String getUserName() {
+			return userName;
+		}
+
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
+
+		public String getLocation() {
 			return location;
 		}
 
-		public void setlocation(String location) {
+		public void setLocation(String location) {
 			this.location = location;
 		}
 
