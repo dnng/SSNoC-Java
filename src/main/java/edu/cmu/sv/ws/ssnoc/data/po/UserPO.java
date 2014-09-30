@@ -16,9 +16,9 @@ public class UserPO {
 	private String userName;
 	private String password;
 	private String salt;
-	private String lastStatusCrumbId;
+	private long lastStatusCrumbId;
 	private String lastStatus;
-	private String lastLocationCrumbId;
+	private long lastLocationCrumbId;
 	private String lastLocation;
 	private Timestamp lastStatusTime;
 	private Timestamp createdAt;
@@ -56,11 +56,11 @@ public class UserPO {
 		this.salt = salt;
 	}
 
-	public String getLastStatusCrumbId() {
+	public long getLastStatusCrumbId() {
 		return lastStatusCrumbId;
 	}
 
-	public void setLastStatusCrumbId(String lastStatusCrumbId) {
+	public void setLastStatusCrumbId(long lastStatusCrumbId) {
 		this.lastStatusCrumbId = lastStatusCrumbId;
 	}
 
@@ -72,11 +72,11 @@ public class UserPO {
 		this.lastStatus = lastStatus;
 	}
 
-	public String getLastLocationCrumbId() {
+	public long getLastLocationCrumbId() {
 		return lastLocationCrumbId;
 	}
 
-	public void setLastLocationCrumbId(String lastLocationCrumbId) {
+	public void setLastLocationCrumbId(long lastLocationCrumbId) {
 		this.lastLocationCrumbId = lastLocationCrumbId;
 	}
 	public String getLastLocation() {

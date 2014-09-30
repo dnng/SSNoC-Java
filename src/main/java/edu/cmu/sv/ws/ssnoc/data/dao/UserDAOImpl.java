@@ -145,4 +145,36 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 		}
 	}
 
+	
+	/**
+	 * This method will update the information of the user into the database.
+	 * 
+	 * @param userPO
+	 *            - User information to be saved.
+	 */
+	
+	@Override
+	public void update(UserPO userPO) {
+		Log.enter(userPO);
+		if (userPO == null) {
+			Log.warn("Inside update method with userPO == NULL");
+			return;
+		}
+
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SQL.UPDATE_USER_BY_ID)) {
+			stmt.setLong(1, userPO.getLastStatusCrumbId());
+			stmt.setLong(2, userPO.getLastLocationCrumbId());
+			stmt.setLong(3, userPO.getUserId());
+
+			int rowCount = stmt.executeUpdate();
+			Log.trace("Statement executed, and " + rowCount + " rows updated.");
+		} catch (SQLException e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
+		
+	}
+
 }

@@ -37,5 +37,14 @@ public interface IUserDAO {
 	 * @return - UserPO with the user information if a match is found.
 	 */
 	UserPO findByName(String userName);
+	
+	/**
+	 * This method will update the information of the user into the database.
+	 * 
+	 * @param userPO
+	 *            - User information to be saved.
+	 */
+	void update(UserPO userPO);
+	
 
 }

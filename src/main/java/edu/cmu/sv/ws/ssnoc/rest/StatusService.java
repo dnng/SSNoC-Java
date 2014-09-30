@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
-import edu.cmu.sv.ws.ssnoc.common.utils.SSNCipher;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.ILocationCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IStatusCrumbDAO;
@@ -69,9 +68,10 @@ public class StatusService extends BaseService {
 			
 			//Step 4: Update the user with the new status id, location crumb id and modified at time
 			UserPO upo = new UserPO();
-			//upo.set
-			
-			
+			upo.setUserId(userId);
+			upo.setLastStatusCrumbId(statusId);
+			upo.setLastLocationCrumbId(locationId);
+			uDao.update(upo);
 			
 			//Step 5: send a response back
 			resp = ConverterUtils.convert(scpo);
