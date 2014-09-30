@@ -7,11 +7,13 @@ package edu.cmu.sv.ws.ssnoc.data;
  * 
  */
 public class SQL {
-	/*
-	 * List the USERS table name, and list all queries related to this table
-	 * here.
-	 */
+
 	public static final String SSN_USERS = "SSN_USERS";
+	public static final String SSN_STATUS_CRUMBS = "SSN_STATUS_CRUMBS";
+	public static final String SSN_LOCATION_CRUMBS = "SSN_LOCATION_CRUMBS";
+	public static final String SSN_WALL_MESSAGES = "SSN_WALL_MESSAGES";
+	public static final String SSN_CHAT_MESSAGES = "SSN_CHAT_MESSAGES";
+
 
 	/**
 	 * Query to check if a given table exists in the H2 database.
@@ -36,14 +38,17 @@ public class SQL {
 	 * Query to load all users in the system.
 	 */
 	public static final String FIND_ALL_USERS = "select user_id, user_name, password,"
-			+ " salt, last_status_code, created_at, modified_at " + " from " + SSN_USERS + " order by user_name";
+			+ " salt, last_status_code_id, ssc.status, ssc.created_at, last_location_id, slc.location created_at, modified_at " + " from " + SSN_USERS + " u "
+			+ " left outer join "+ SSN_STATUS_CRUMBS + " ssc on u.last_status_code_id = ssc.status_crumb_id "
+			+ " left outer join "+ SSN_LOCATION_CRUMBS + " slc on u.last_location_id = slc.location_crumb_id "
+			+ " order by user_name";
 
 	/**
 	 * Query to find a user details depending on his name. Note that this query
 	 * does a case insensitive search with the user name.
 	 */
 	public static final String FIND_USER_BY_NAME = "select user_id, user_name, password,"
-			+ " salt, last_status_code, created_at, modified_at "
+			+ " salt, last_status_code_id, created_at, modified_at "
 			+ " from "
 			+ SSN_USERS
 			+ " where UPPER(user_name) = UPPER(?)";
@@ -69,38 +74,22 @@ public class SQL {
 	 * Query to insert a row into the users table.
 	 */
 	public static final String INSERT_USER = "insert into " + SSN_USERS
-			+ " (user_name, password, salt, last_status_code, created_at) values (?, ?, ?, ?, CURRENT_TIMESTAMP() )";
+			+ " (user_name, password, salt, last_status_code_id, created_at) values (?, ?, ?, ?, CURRENT_TIMESTAMP() )";
 	
 	/**
 	 * Query to update a row in the users table.
 	 */
 	public static final String UPDATE_USER_BY_ID = "update " + SSN_USERS
-			+ " set last_status_code = ?, modified_at = ?"
+			+ " set last_status_code_id = ?, modified_at = ?"
 			+ " where user_id = ?";
 	
 	/**
 	 * Query to update a row in the users table.
 	 */
 	public static final String UPDATE_USER_BY_NAME = "update " + SSN_USERS
-			+ " set last_status_code = ?, modified_at = ?"
+			+ " set last_status_code_id = ?, modified_at = ?"
 			+ " where UPPER(user_name) = UPPER(?)";
 	
-	
-	/*
-
-- Get Latest Status & location for all users 
-select user_id, user_name, last_status_id, last_location_id, ssc.status, slc.location_desc from ssn_users u
-left outer join ssn_status_crumbs ssc where u.last_status_id = ssc.status_crumb_id
-left outer join son_location_crumbs slc where u.last_location_id = slc.location_crumb_id
-
-	 */
-	
-	
-	/*
-	 * List the STATUS_CRUMBS table name, and list all queries related to this table
-	 * here.
-	 */
-	public static final String SSN_STATUS_CRUMBS = "SSN_STATUS_CRUMBS";
 
 	// ****************************************************************
 	// All queries related to STATUS_CRUMBS
@@ -110,19 +99,19 @@ left outer join son_location_crumbs slc where u.last_location_id = slc.location_
 	 */
 	public static final String CREATE_STATUS_CRUMBS = "create table IF NOT EXISTS "
 			+ SSN_STATUS_CRUMBS + " ( status_crumb_id IDENTITY PRIMARY KEY,"
-			+ " user_id BIGINT," + " status_code VARCHAR(10), location_crumb_id BIGINT, "
+			+ " user_id BIGINT," + " status VARCHAR(10), location_crumb_id BIGINT, "
 			+ " created_at TIMESTAMP )";
 
 	/**
 	 * Query to load all status crumbs in the system.
 	 */
-	public static final String FIND_ALL_STATUS_CRUMBS = "select status_crumb_id, user_id, status_code, location_crumb_id, "
+	public static final String FIND_ALL_STATUS_CRUMBS = "select status_crumb_id, user_id, status, location_crumb_id, "
 			+ " created_at " + " from " + SSN_STATUS_CRUMBS + " order by created_at DESC";
 
 	/**
 	 * Query to find a status_crumb depending on the user_id.
 	 */
-	public static final String FIND_STATUS_CRUMB_FOR_USER_ID = "select status_crumb_id, user_id, status_code, location_crumb_id, "
+	public static final String FIND_STATUS_CRUMB_FOR_USER_ID = "select status_crumb_id, user_id, status, location_crumb_id, "
 			+ " created_at "
 			+ " from "
 			+ SSN_STATUS_CRUMBS
@@ -132,10 +121,9 @@ left outer join son_location_crumbs slc where u.last_location_id = slc.location_
 	 * Query to insert a row into the status_crumbs table.
 	 */
 	public static final String INSERT_STATUS_CRUMB = "insert into " + SSN_STATUS_CRUMBS
-			+ " (user_id, status_code, location_crumb_id, created_at) values (?, ?, ?, ?)";
+			+ " (user_id, status, location_crumb_id, created_at) values (?, ?, ?, ?)";
 		
 	
-	public static final String SSN_LOCATION_CRUMBS = "SSN_LOCATION_CRUMBS";
 
 	// ****************************************************************
 	// All queries related to LOCATION_CRUMBS
@@ -145,24 +133,24 @@ left outer join son_location_crumbs slc where u.last_location_id = slc.location_
 	*/
 	public static final String CREATE_LOCATION_CRUMBS = "create table IF NOT EXISTS "
 	+ SSN_LOCATION_CRUMBS + " ( location_crumb_id IDENTITY PRIMARY KEY,"
-	+ " user_id BIGINT," + " location_desc VARCHAR(50),"
+	+ " user_id BIGINT," + " location VARCHAR(50),"
 	+ " created_at TIMESTAMP )";
 
 
 	/**
 	* Query to load all location crumbs in the system.
 	*/
-	public static final String FIND_ALL_LOCATION_CRUMBS = "select location_crumb_id, user_id, location_desc,"
+	public static final String FIND_ALL_LOCATION_CRUMBS = "select location_crumb_id, user_id, location,"
 	+ " created_at " + " from " + SSN_LOCATION_CRUMBS + " order by created_at DESC";
 
 	
 	/**
 	* Query to find a location_crumb depending on the user_id.
 	*/
-	public static final String FIND_LOCATION_CRUMB_FOR_USER_ID = "select Location_crumb_id, user_id, status_code,"
+	public static final String FIND_LOCATION_CRUMB_FOR_USER_ID = "select Location_crumb_id, user_id, location,"
 	+ " created_at "
 	+ " from "
-	+ SSN_STATUS_CRUMBS
+	+ SSN_LOCATION_CRUMBS
 	+ " where user_id = ?";
 
 	
@@ -170,15 +158,9 @@ left outer join son_location_crumbs slc where u.last_location_id = slc.location_
 	* Query to insert a row into the location_crumbs table.
 	*/
 	public static final String INSERT_LOCATION_CRUMB = "insert into " + SSN_LOCATION_CRUMBS
-	+ " (user_id, location_desc, created_at) values (?, ?, ?)";
+	+ " (user_id, location, created_at) values (?, ?, ?)";
 
 
-	
-	/*
-	 * List the WALL_MESSAGES table name, and list all queries related to this table
-	 * here.
-	 */
-	public static final String SSN_WALL_MESSAGES = "SSN_WALL_MESSAGES";
 
 	// ****************************************************************
 	// All queries related to WALL_MESSAGES
@@ -204,12 +186,6 @@ left outer join son_location_crumbs slc where u.last_location_id = slc.location_
 			+ " (sender_id, content, location, created_at) values (?, ?, ?, ?)";
 	
 	
-	
-	/*
-	 * List the CHAT_MESSAGES table name, and list all queries related to this table
-	 * here.
-	 */
-	public static final String SSN_CHAT_MESSAGES = "SSN_CHAT_MESSAGES";
 
 	// ****************************************************************
 	// All queries related to CHAT_MESSAGES
