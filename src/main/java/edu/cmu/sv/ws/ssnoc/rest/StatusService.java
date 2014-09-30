@@ -7,6 +7,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
+import edu.cmu.sv.ws.ssnoc.common.utils.SSNCipher;
+import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
+import edu.cmu.sv.ws.ssnoc.data.dao.ILocationCrumbDAO;
+import edu.cmu.sv.ws.ssnoc.data.dao.IStatusCrumbDAO;
+import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
+import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
+import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 
 /**
@@ -29,44 +39,49 @@ public class StatusService extends BaseService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/status")
 	public Response addStatusCrumb(StatusCrumb statusCrumb) {
-//		Log.enter(user + " " + statusCrumb);
-//		StatusCrumb resp = new StatusCrumb();
-//
-//		try {
-//			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
-//			UserPO existingUser = uDao.findByName(user.getUserName());
-//			
-//			IStatusCrumbDAO scDao = DAOFactory.getInstance().getStatusCrumbDAO();
-////
-////			// Validation to check that user name should be unique
-////			// in the system. If a new users tries to register with
-////			// an existing userName, notify that to the user.
-////			if (existingUser != null) {
-////				Log.trace("User name provided already exists. Validating if it is same password ...");
-////				if (!validateUserPassword(user.getPassword(), existingUser)) {
-////					Log.warn("Password is different for the existing user name.");
-////					throw new ValidationException("User name already taken");
-////				} else {
-////					Log.debug("Yay!! Password is same for the existing user name.");
-////
-////					resp.setUserName(existingUser.getUserName());
-////					return ok(resp);
-////				}
-////			}
-//
-//			UserPO po = ConverterUtils.convert(user);
-//			po = SSNCipher.encryptPassword(po);
-//
-////			dao.save(po);
-////			resp = ConverterUtils.convert(po);
-//		} catch (Exception e) {
-//			handleException(e);
-//		} finally {
-//			Log.exit();
-//		}
-//
-//		return created(resp);
-		return null;
+		Log.enter(statusCrumb);
+		StatusCrumb resp = new StatusCrumb();
+
+		try {
+			//Step 0: do some validations - check for null user name, null status, null location
+			
+			
+			
+			//Step 1: Get the existing user id from user name
+			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
+			UserPO existingUser = uDao.findByName(statusCrumb.getUserName());
+			long userId = existingUser.getUserId();
+			
+			//Step 2: Insert a new location and get back the location id
+			ILocationCrumbDAO lDao = DAOFactory.getInstance().getLocationCrumbDAO();
+			LocationCrumbPO lcpo = new LocationCrumbPO();
+			lcpo.setUserId(userId);
+			lcpo.setLocation(statusCrumb.getLocation());
+			long locationId = lDao.save(lcpo);
+			
+			//Step 3: Insert a new status crumb and get back the status crumb id
+			IStatusCrumbDAO scDao = DAOFactory.getInstance().getStatusCrumbDAO();
+			StatusCrumbPO scpo = new StatusCrumbPO();
+			scpo.setUserId(userId);
+			scpo.setLocationCrumbId(locationId);
+			scpo.setStatus(statusCrumb.getStatus());
+			long statusId = scDao.save(scpo);
+			
+			//Step 4: Update the user with the new status id, location crumb id and modified at time
+			UserPO upo = new UserPO();
+			//upo.set
+			
+			
+			
+			//Step 5: send a response back
+			resp = ConverterUtils.convert(scpo);
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
+
+		return created(resp);
 	}
 
 }

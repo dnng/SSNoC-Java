@@ -17,7 +17,7 @@ public interface IStatusCrumbDAO {
 	 * @param statusCrumbPO
 	 *            - Status Crumb information to be saved.
 	 */
-	void save(StatusCrumbPO statusCrumbPO);
+	long save(StatusCrumbPO statusCrumbPO);
 
 	/**
 	 * This method will load all the status crumbs in the

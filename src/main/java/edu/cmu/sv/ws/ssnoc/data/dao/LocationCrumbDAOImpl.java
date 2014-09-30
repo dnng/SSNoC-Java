@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,26 +77,36 @@ import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
 		 *            - Location crumb information to be saved.
 		 */
 		@Override
-		public void save(LocationCrumbPO locationCrumbPO) {
+		public long save(LocationCrumbPO locationCrumbPO) {
 			Log.enter(locationCrumbPO);
+			long locationId = 0;
 			if (locationCrumbPO == null) {
 				Log.warn("Inside save method with locationCrumbPO == NULL");
-				return;
+				return locationId;
 			}
 
 			try (Connection conn = getConnection();
-					PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_STATUS_CRUMB)) {
+					PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_LOCATION_CRUMB,  Statement.RETURN_GENERATED_KEYS)) {
 				stmt.setLong(1, locationCrumbPO.getUserId());
 				stmt.setString(2, locationCrumbPO.getLocation());
-				stmt.setTimestamp(3, locationCrumbPO.getCreatedAt());
 
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
+				
+				try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		            	locationId = generatedKeys.getLong(1);
+		            }
+		            else {
+		                throw new SQLException("Creating location failed, no ID obtained.");
+		            }
+		        }
 			} catch (SQLException e) {
 				handleException(e);
 			} finally {
 				Log.exit();
 			}
+			return locationId;
 		}
 
 		@Override

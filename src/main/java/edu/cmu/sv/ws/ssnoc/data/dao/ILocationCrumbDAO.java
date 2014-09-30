@@ -16,7 +16,7 @@ public interface ILocationCrumbDAO {
 	 * @param locationCrumbPO
 	 *            - Location Crumb information to be saved.
 	 */
-	void save(LocationCrumbPO locationCrumbPO);
+	long save(LocationCrumbPO locationCrumbPO);
 
 	/**
 	 * This method will load all the location crumbs in the

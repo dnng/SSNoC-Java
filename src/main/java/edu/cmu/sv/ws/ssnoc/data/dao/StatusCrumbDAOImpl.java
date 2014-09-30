@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,26 +80,38 @@ public class StatusCrumbDAOImpl extends BaseDAOImpl implements IStatusCrumbDAO {
 	 *            - Status crumb information to be saved.
 	 */
 	@Override
-	public void save(StatusCrumbPO statusCrumbPO) {
+	public long save(StatusCrumbPO statusCrumbPO) {
 		Log.enter(statusCrumbPO);
+		long statusId = 0;
 		if (statusCrumbPO == null) {
 			Log.warn("Inside save method with statusCrumbPO == NULL");
-			return;
+			return statusId;
 		}
 
 		try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_STATUS_CRUMB)) {
+				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_STATUS_CRUMB,  Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setLong(1, statusCrumbPO.getUserId());
 			stmt.setString(2, statusCrumbPO.getStatus());
 			stmt.setLong(3, statusCrumbPO.getLocationCrumbId());
 
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows inserted.");
+			
+			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+	            if (generatedKeys.next()) {
+	            	statusId = generatedKeys.getLong(1);
+	            }
+	            else {
+	                throw new SQLException("Creating status failed, no ID obtained.");
+	            }
+	        }
+			
 		} catch (SQLException e) {
 			handleException(e);
 		} finally {
 			Log.exit();
 		}
+		return statusId;
 	}
 
 	@Override
