@@ -40,5 +40,14 @@ public class DAOFactory {
 	public IStatusCrumbDAO getStatusCrumbDAO() {
 		return new StatusCrumbDAOImpl();
 	}
+	
+	/**
+	 * Method to get a new object implementing ILocationCrumbDAO
+	 * 
+	 * @return - Object implementing ILocationCrumbDAO
+	 */
+	public ILocationCrumbDAO getLocationCrumbDAO() {
+		return new LocationCrumbDAOImpl();
+	}
 
 }
