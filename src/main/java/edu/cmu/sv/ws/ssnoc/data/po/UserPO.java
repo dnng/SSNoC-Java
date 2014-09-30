@@ -1,5 +1,7 @@
 package edu.cmu.sv.ws.ssnoc.data.po;
 
+import java.sql.Timestamp;
+
 import com.google.gson.Gson;
 
 /**
@@ -14,6 +16,9 @@ public class UserPO {
 	private String userName;
 	private String password;
 	private String salt;
+	private String lastStatusCode;
+	private Timestamp createdAt;
+	private Timestamp modifiedAt;
 
 	public long getUserId() {
 		return userId;
@@ -45,6 +50,30 @@ public class UserPO {
 
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+
+	public String getLastStatusCode() {
+		return lastStatusCode;
+	}
+
+	public void setLastStatusCode(String lastStatusCode) {
+		this.lastStatusCode = lastStatusCode;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Timestamp getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Timestamp modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 	@Override

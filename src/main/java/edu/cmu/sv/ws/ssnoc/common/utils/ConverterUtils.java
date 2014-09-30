@@ -1,6 +1,8 @@
 package edu.cmu.sv.ws.ssnoc.common.utils;
 
+import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
@@ -26,6 +28,9 @@ public class ConverterUtils {
 
 		User dto = new User();
 		dto.setUserName(po.getUserName());
+		dto.setLastStatusCode(po.getLastStatusCode());
+		dto.setCreatedAt(po.getCreatedAt());
+		dto.setModifiedAt(po.getModifiedAt());
 
 		return dto;
 	}
@@ -46,6 +51,51 @@ public class ConverterUtils {
 		UserPO po = new UserPO();
 		po.setUserName(dto.getUserName());
 		po.setPassword(dto.getPassword());
+		po.setLastStatusCode(dto.getLastStatusCode());
+		po.setCreatedAt(dto.getCreatedAt());
+		po.setModifiedAt(dto.getModifiedAt());
+
+		return po;
+	}
+	
+	/**
+	 * Convert StatusCrumbPO to Status crumb DTO object.
+	 * 
+	 * @param po
+	 *            - Status crumb PO object
+	 * 
+	 * @return - Status crumb DTO Object
+	 */
+	public static final StatusCrumb convert(StatusCrumbPO po) {
+		if (po == null) {
+			return null;
+		}
+
+		StatusCrumb dto = new StatusCrumb();
+		dto.setUserId(po.getUserId());
+		dto.setStatusCode(po.getStatusCode());
+		dto.setCreatedAt(po.getCreatedAt());
+
+		return dto;
+	}
+
+	/**
+	 * Convert Status crumb DTO to StatusCrumbPO object
+	 * 
+	 * @param dto
+	 *            - Status crumb DTO object
+	 * 
+	 * @return - StatusCrumbPO object
+	 */
+	public static final StatusCrumbPO convert(StatusCrumb dto) {
+		if (dto == null) {
+			return null;
+		}
+
+		StatusCrumbPO po = new StatusCrumbPO();
+		po.setUserId(dto.getUserId());
+		po.setStatusCode(dto.getStatusCode());
+		po.setCreatedAt(dto.getCreatedAt());
 
 		return po;
 	}

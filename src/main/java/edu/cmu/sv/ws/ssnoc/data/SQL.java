@@ -85,6 +85,17 @@ public class SQL {
 			+ " set last_status_code = ?, modified_at = ?"
 			+ " where UPPER(user_name) = UPPER(?)";
 	
+	
+	/*
+
+- Get Latest Status & location for all users 
+select user_id, user_name, last_status_id, last_location_id, ssc.status, slc.location_desc from ssn_users u
+left outer join ssn_status_crumbs ssc where u.last_status_id = ssc.status_crumb_id
+left outer join son_location_crumbs slc where u.last_location_id = slc.location_crumb_id
+
+	 */
+	
+	
 	/*
 	 * List the STATUS_CRUMBS table name, and list all queries related to this table
 	 * here.

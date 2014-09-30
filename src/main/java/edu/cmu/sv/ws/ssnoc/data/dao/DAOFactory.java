@@ -31,5 +31,14 @@ public class DAOFactory {
 	public IUserDAO getUserDAO() {
 		return new UserDAOImpl();
 	}
+	
+	/**
+	 * Method to get a new object implementing IStatusCrumbDAO
+	 * 
+	 * @return - Object implementing IStatusCrumbDAO
+	 */
+	public IStatusCrumbDAO getStatusCrumbDAO() {
+		return new StatusCrumbDAOImpl();
+	}
 
 }

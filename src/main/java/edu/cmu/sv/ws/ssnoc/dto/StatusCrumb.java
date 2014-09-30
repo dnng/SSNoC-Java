@@ -5,24 +5,23 @@ import java.sql.Timestamp;
 import com.google.gson.Gson;
 
 /**
- * This object contains user information that is responded as part of the REST
+ * This object contains status crumb information that is responded as part of the REST
  * API request.
  * 
  */
-public class User {
-	private String userName;
+public class StatusCrumb {
+	private Long userId;
 	private String password;
-	private String lastStatusCode;
-	private String lastLocation;
+	private String statusCode;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
 	
-	public String getUserName() {
-		return userName;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getPassword() {
@@ -33,20 +32,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getLastStatusCode() {
-		return lastStatusCode;
+	public String getStatusCode() {
+		return statusCode;
 	}
 
-	public void setLastStatusCode(String lastStatusCode) {
-		this.lastStatusCode = lastStatusCode;
-	}
-
-	public String getLastLocation() {
-		return lastLocation;
-	}
-
-	public void setLastLocation(String lastLocation) {
-		this.lastLocation = lastLocation;
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public Timestamp getCreatedAt() {
