@@ -16,7 +16,9 @@ public class UserPO {
 	private String userName;
 	private String password;
 	private String salt;
+	private String lastStatusCrumbId;
 	private String lastStatus;
+	private String lastLocationCrumbId;
 	private String lastLocation;
 	private Timestamp lastStatusTime;
 	private Timestamp createdAt;
@@ -54,6 +56,14 @@ public class UserPO {
 		this.salt = salt;
 	}
 
+	public String getLastStatusCrumbId() {
+		return lastStatusCrumbId;
+	}
+
+	public void setLastStatusCrumbId(String lastStatusCrumbId) {
+		this.lastStatusCrumbId = lastStatusCrumbId;
+	}
+
 	public String getLastStatus() {
 		return lastStatus;
 	}
@@ -62,6 +72,13 @@ public class UserPO {
 		this.lastStatus = lastStatus;
 	}
 
+	public String getLastLocationCrumbId() {
+		return lastLocationCrumbId;
+	}
+
+	public void setLastLocationCrumbId(String lastLocationCrumbId) {
+		this.lastLocationCrumbId = lastLocationCrumbId;
+	}
 	public String getLastLocation() {
 		return lastLocation;
 	}
@@ -93,7 +110,6 @@ public class UserPO {
 	public void setModifiedAt(Timestamp modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
-
 	@Override
 	public String toString() {
 		return new Gson().toJson(this);
