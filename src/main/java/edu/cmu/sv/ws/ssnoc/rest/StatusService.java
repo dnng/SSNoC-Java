@@ -44,8 +44,6 @@ public class StatusService extends BaseService {
 		try {
 			//Step 0: do some validations - check for null user name, null status, null location
 			
-			
-			
 			//Step 1: Get the existing user id from user name
 			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
 			UserPO existingUser = uDao.findByName(statusCrumb.getUserName());
