@@ -36,7 +36,7 @@ public class StatusService extends BaseService {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Path("/status")
+	@Path("/new")
 	public Response addStatusCrumb(StatusCrumb statusCrumb) {
 		Log.enter(statusCrumb);
 		StatusCrumb resp = new StatusCrumb();
