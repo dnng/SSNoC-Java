@@ -5,4 +5,8 @@ jdk: oraclejdk7
 before_install: mvn clean
 notifications:
    email:
-	- neha.arora@sv.cmu.edu
+      - neha.arora@sv.cmu.edu
+      - lloyd.dsilva@sv.cmu.edu
+      - poorva.jain@sv.cmu.edu 
+      - anson.ling@sv.cmu.edu 
+      - daniel.noguchi@sv.cmu.edu 
