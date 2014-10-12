@@ -12,35 +12,53 @@ import com.google.gson.Gson;
  * 
  */
 public class MessagePO {
-	private long chatMessageId;
-	private long senderId;
-	private long receiverId;
+	private long MessageId;
+	private long AuthorId;
+	private long AuthorName;
+	private long TargetId;
+	private long TargetName;
 	private String content;
 	private String location;
 	private Timestamp createdAt;
 
-	public long getChatMessageId() {
-		return chatMessageId;
+	public long getMessageId() {
+		return MessageId;
 	}
 
-	public void setChatMessageId(long chatMessageId) {
-		this.chatMessageId = chatMessageId;
+	public void setMessageId(long messageId) {
+		MessageId = messageId;
 	}
 
-	public long getSenderId() {
-		return senderId;
+	public long getAuthorId() {
+		return AuthorId;
 	}
 
-	public void setSenderId(long senderId) {
-		this.senderId = senderId;
+	public void setAuthorId(long authorId) {
+		this.AuthorId = authorId;
 	}
 
-	public long getReceiverId() {
-		return receiverId;
+	public long getAuthorName() {
+		return AuthorName;
 	}
 
-	public void setReceiverId(long receiverId) {
-		this.receiverId = receiverId;
+	public void setAuthorName(long authorName) {
+		AuthorName = authorName;
+	}
+
+	public long getTargetId() {
+		return TargetId;
+	}
+
+	public void setTargetId(long targetId) {
+		this.TargetId = targetId;
+	}
+
+	public long getTargetName() {
+		return TargetName;
+	}
+
+	public void setTargetName(long targetName) {
+		TargetName = targetName;
 	}
 
 	public String getContent() {

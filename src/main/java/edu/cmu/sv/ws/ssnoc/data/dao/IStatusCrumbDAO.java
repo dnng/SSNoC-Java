@@ -3,7 +3,7 @@ package edu.cmu.sv.ws.ssnoc.data.dao;
 import java.util.List;
 
 import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
-import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+//import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 
 /**
  * Interface specifying the contract that all implementations will implement to
