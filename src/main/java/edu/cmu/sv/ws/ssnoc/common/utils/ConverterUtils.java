@@ -1,9 +1,11 @@
 package edu.cmu.sv.ws.ssnoc.common.utils;
 
 import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
+import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
 import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.LocationCrumb;
+import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 
@@ -159,4 +161,55 @@ public class ConverterUtils {
 
 		return po;
 	}
+	
+	
+	/**
+	 * Convert MessagePO to User DTO object.
+	 * 
+	 * @param po
+	 *            - User PO object
+	 * 
+	 * @return - User DTO Object
+	 */
+	public static final Message convert(MessagePO po) {
+		if (po == null) {
+			return null;
+		}
+
+		Message dto = new Message();
+		dto.setChatMessageId(po.getChatMessageId());
+		dto.setContent(po.getContent());
+		dto.setCreatedAt(po.getCreatedAt());
+		dto.setLocation(po.getLocation());
+		dto.setReceiverId(po.getReceiverId());
+		dto.setSenderId(po.getSenderId());
+		
+		return dto;
+	}
+/*
+	*//**
+	 * Convert User DTO to UserPO object
+	 * 
+	 * @param dto
+	 *            - User DTO object
+	 * 
+	 * @return - UserPO object
+	 *//*
+	public static final UserPO convert(User dto) {
+		if (dto == null) {
+			return null;
+		}
+
+		UserPO po = new UserPO();
+		po.setUserName(dto.getUserName());
+		po.setPassword(dto.getPassword());
+		po.setLastStatus(dto.getLastStatus());
+		po.setLastStatusTime(dto.getLastStatusTime());
+		po.setLastLocation(dto.getLastLocation());
+		po.setCreatedAt(dto.getCreatedAt());
+		po.setModifiedAt(dto.getModifiedAt());
+
+		return po;
+	}
+*/
 }
