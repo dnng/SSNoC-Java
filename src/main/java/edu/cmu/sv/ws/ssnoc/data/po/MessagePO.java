@@ -5,25 +5,26 @@ import java.sql.Timestamp;
 import com.google.gson.Gson;
 
 /**
- * This is the persistence class to save all wall message information in the system.
+ * This is the persistence class to save all chat message information in the system.
  * This contains information like the user's id, his location, his wall message
- * and the creation time information entered by the user when posting a wall message. <br/>
- * Information is saved in SSN_WALL_MESSAGES table.
+ * and the creation time information entered by the user when posting a chat message. <br/>
+ * Information is saved in SSN_CHAT_MESSAGES table.
  * 
  */
-public class WallMessagePO {
-	private long wallMessageId;
+public class MessagePO {
+	private long chatMessageId;
 	private long senderId;
+	private long receiverId;
 	private String content;
 	private String location;
 	private Timestamp createdAt;
 
-	public long getWallMessageId() {
-		return wallMessageId;
+	public long getChatMessageId() {
+		return chatMessageId;
 	}
 
-	public void setWallMessageId(long wallMessageId) {
-		this.wallMessageId = wallMessageId;
+	public void setChatMessageId(long chatMessageId) {
+		this.chatMessageId = chatMessageId;
 	}
 
 	public long getSenderId() {
@@ -32,6 +33,14 @@ public class WallMessagePO {
 
 	public void setSenderId(long senderId) {
 		this.senderId = senderId;
+	}
+
+	public long getReceiverId() {
+		return receiverId;
+	}
+
+	public void setReceiverId(long receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public String getContent() {
