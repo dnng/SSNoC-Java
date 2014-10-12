@@ -11,7 +11,6 @@ public class SQL {
 	public static final String SSN_USERS = "SSN_USERS";
 	public static final String SSN_STATUS_CRUMBS = "SSN_STATUS_CRUMBS";
 	public static final String SSN_LOCATION_CRUMBS = "SSN_LOCATION_CRUMBS";
-//	public static final String SSN_WALL_MESSAGES = "SSN_WALL_MESSAGES";
 	public static final String SSN_MESSAGES = "SSN_MESSAGES";
 
 	/**
@@ -177,35 +176,6 @@ public class SQL {
 			+ " (user_id, location, created_at) values (?, ?, CURRENT_TIMESTAMP())";
 
 	// ****************************************************************
-	// All queries related to WALL_MESSAGES
-	// ****************************************************************
-	/**
-//	 * Query to create the WALL_MESSAGES table.
-//	 */
-//	public static final String CREATE_WALL_MESSAGES = "create table IF NOT EXISTS "
-//			+ SSN_WALL_MESSAGES
-//			+ " ( wall_message_id IDENTITY PRIMARY KEY,"
-//			+ " sender_id BIGINT,"
-//			+ " content VARCHAR(1024),"
-//			+ " location VARCHAR(512)," + " created_at TIMESTAMP )";
-//
-//	/**
-//	 * Query to load all wall messages in the system.
-//	 */
-//	public static final String FIND_ALL_WALL_MESSAGES = "select wall_message_id, sender_id,"
-//			+ " content, location, created_at "
-//			+ " from "
-//			+ SSN_WALL_MESSAGES
-//			+ " order by created_at DESC";
-//
-//	/**
-//	 * Query to insert a new wall message into the wall_messages table.
-//	 */
-//	public static final String INSERT_WALL_MESSAGE = "insert into "
-//			+ SSN_WALL_MESSAGES
-//			+ " (sender_id, content, location, created_at) values (?, ?, ?, CURRENT_TIMESTAMP())";
-//
-	// ****************************************************************
 	// All queries related to CHAT_MESSAGES
 	// ****************************************************************
 	/**
@@ -217,15 +187,15 @@ public class SQL {
 			+ " author_id BIGINT,"
 			+ " target_id BIGINT,"
 			+ " content VARCHAR(1024),"
-			+ " location VARCHAR(512),"
-			+ " created_at TIMESTAMP "
-			+ " message_type VARCHAR(10),)";
+			+ " message_type VARCHAR(10),"
+			+ " location_id BIGINT,"
+			+ " created_at TIMESTAMP";
 
 	/**
 	 * Query to load all messages in the system.
 	 */
-	public static final String FIND_ALL_MESSAGES = "select message_id, sender_id, receiver_id,"
-			+ " content, location, created_at "
+	public static final String FIND_ALL_MESSAGES = "select message_id, author_id, target_id,"
+			+ " content, location_id, created_at "
 			+ " from "
 			+ SSN_MESSAGES
 			+ " order by created_at DESC";
@@ -233,24 +203,21 @@ public class SQL {
 	/**
 	 * Query to load all chat messages in the system.
 	 */
-	
-	public static final String FIND_ALL_CHAT_MESSAGES = "select message_id, sender_id, receiver_id,"
-			+ " content, location, created_at "
+	public static final String FIND_ALL_CHAT_MESSAGES = "select message_id, author_id, target_id,"
+			+ " content, location_id, created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ " where message_type=\"CHAT\" "
+			+ " where message_type=\"CHAT\""
 			+ " order by created_at DESC";
 
 	/**
 	 * Query to load all wall messages in the system.
 	 */
-	
-	public static final String FIND_ALL_WALL_MESSAGES = "select message_id, sender_id, receiver_id,"
-			+ " content, location, created_at "
+	public static final String FIND_ALL_WALL_MESSAGES = "select message_id, author_id, target_id,"
+			+ " content, location_id, created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ SSN_MESSAGES
-			+ " where message_type=\"WALL\" "
+			+ " where message_type=\"WALL\""
 			+ " order by created_at DESC";
 
 	/**
@@ -258,14 +225,13 @@ public class SQL {
 	 */
 	public static final String INSERT_CHAT_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, location, created_at, message_type) values (?, ?, ?, ?, CURRENT_TIMESTAMP(),\"CHAT\")";
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"CHAT\", ?,CURRENT_TIMESTAMP())";
 	
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, location, created_at, message_type) values (?, ?, ?, ?, CURRENT_TIMESTAMP(),\"WALL\")";
-	
-	
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"WALL\", ?,CURRENT_TIMESTAMP())";
+
 }
