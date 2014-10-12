@@ -182,24 +182,31 @@ public class SQL {
 	 * Query to create the CHAT_MESSAGES table.
 	 */
 	public static final String CREATE_MESSAGES = "create table IF NOT EXISTS "
-			+ SSN_MESSAGES
-			+ " ( message_id IDENTITY PRIMARY KEY,"
-			+ " author_id BIGINT,"
-			+ " target_id BIGINT,"
-			+ " content VARCHAR(1024),"
-			+ " message_type VARCHAR(10),"
-			+ " location_id BIGINT,"
-			+ " created_at TIMESTAMP";
+			+ SSN_MESSAGES + " ( message_id IDENTITY PRIMARY KEY,"
+			+ " author_id BIGINT," + " target_id BIGINT,"
+			+ " content VARCHAR(1024)," + " message_type VARCHAR(10),"
+			+ " location_id BIGINT," + " created_at TIMESTAMP";
 
 	/**
 	 * Query to load all messages in the system.
 	 */
-	public static final String FIND_ALL_MESSAGES = "select message_id, author_id, target_id,"
-			+ " content, location_id, created_at "
+	public static final String FIND_ALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
+			+ " sb.user_name, ssm.location_id, slc.location, "
+			+ " ssm.content, ssm.created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ " order by created_at DESC";
-	
+			+ " ssm "
+			+ " left outer join"
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id"
+			+ " left outer join"
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sa.user_id"
+			+ " left outer join"
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on u.last_location_id=slc.last.location_id"
+			+ " order by ssm.created_at, sa.user_name DESC";
+
 	/**
 	 * Query to load all chat messages in the system.
 	 */
@@ -207,8 +214,7 @@ public class SQL {
 			+ " content, location_id, created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ " where message_type=\"CHAT\""
-			+ " order by created_at DESC";
+			+ " where message_type=\"CHAT\"" + " order by created_at DESC";
 
 	/**
 	 * Query to load all wall messages in the system.
@@ -217,8 +223,7 @@ public class SQL {
 			+ " content, location_id, created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ " where message_type=\"WALL\""
-			+ " order by created_at DESC";
+			+ " where message_type=\"WALL\"" + " order by created_at DESC";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
@@ -226,7 +231,7 @@ public class SQL {
 	public static final String INSERT_CHAT_MESSAGE = "insert into "
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"CHAT\", ?,CURRENT_TIMESTAMP())";
-	
+
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */

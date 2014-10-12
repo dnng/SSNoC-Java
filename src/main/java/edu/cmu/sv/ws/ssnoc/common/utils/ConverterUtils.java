@@ -177,12 +177,12 @@ public class ConverterUtils {
 		}
 
 		Message dto = new Message();
-		dto.setChatMessageId(po.getChatMessageId());
+		//dto.setChatMessageId(po.getChatMessageId());
 		dto.setContent(po.getContent());
 		dto.setCreatedAt(po.getCreatedAt());
 		dto.setLocation(po.getLocation());
-		dto.setReceiverId(po.getReceiverId());
-		dto.setSenderId(po.getSenderId());
+		//dto.setReceiverId(po.getReceiverId());
+		//dto.setSenderId(po.getSenderId());
 		
 		return dto;
 	}
