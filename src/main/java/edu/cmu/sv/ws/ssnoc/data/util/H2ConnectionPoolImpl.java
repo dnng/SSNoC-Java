@@ -59,4 +59,34 @@ public class H2ConnectionPoolImpl implements IConnectionPool {
 
 		return ds.getConnection();
 	}
+	
+	/**
+	 * This method will switch the connection pool to the test database
+	 */
+	public void switchConnectionToTest() {
+		HikariConfig config = new HikariConfig();
+
+		config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
+		config.addDataSourceProperty("URL", PropertyUtils.TEST_DB_CONN_URL);
+		config.addDataSourceProperty("user", PropertyUtils.TEST_DB_USERNAME);
+		config.addDataSourceProperty("password", PropertyUtils.TEST_DB_PASSWORD);
+
+		ds = new HikariDataSource(config);
+		ds.setMaximumPoolSize(PropertyUtils.TEST_DB_CONNECTION_POOL_SIZE);	
+	}
+	
+	/**
+	 * This method will switch the connection pool to the live database
+	 */
+	public void switchConnectionToLive() {
+		HikariConfig config = new HikariConfig();
+
+		config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
+		config.addDataSourceProperty("URL", PropertyUtils.DB_CONN_URL);
+		config.addDataSourceProperty("user", PropertyUtils.DB_USERNAME);
+		config.addDataSourceProperty("password", PropertyUtils.DB_PASSWORD);
+
+		ds = new HikariDataSource(config);
+		ds.setMaximumPoolSize(PropertyUtils.DB_CONNECTION_POOL_SIZE);	
+	}
 }

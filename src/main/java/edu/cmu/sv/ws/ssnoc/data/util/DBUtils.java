@@ -44,6 +44,16 @@ public class DBUtils {
 		//dropTablesInDB(); // Please uncomment this for testing
 		createTablesInDB();
 	}
+	
+	/**
+	 * This method will initialize the database.
+	 * 
+	 * @throws SQLException
+	 */
+	public static void reinitializeDatabase() throws SQLException {
+		dropTablesInDB();
+		createTablesInDB();
+	}
 
 	/**
 	 * This method will create necessary tables in the database.
