@@ -19,6 +19,7 @@ import edu.cmu.sv.ws.ssnoc.data.SQL;
 public class DBUtils {
 	private static boolean DB_TABLES_EXIST = false;
 	private static List<String> CREATE_TABLE_LST;
+	private static List<String> DROP_TABLE_LST;
 
 	static {
 		CREATE_TABLE_LST = new ArrayList<String>();
@@ -26,6 +27,12 @@ public class DBUtils {
 		CREATE_TABLE_LST.add(SQL.CREATE_STATUS_CRUMBS);
 		CREATE_TABLE_LST.add(SQL.CREATE_LOCATION_CRUMBS);
 		CREATE_TABLE_LST.add(SQL.CREATE_MESSAGES);
+		
+		DROP_TABLE_LST = new ArrayList<String>();
+		DROP_TABLE_LST.add(SQL.DROP_USERS);
+		DROP_TABLE_LST.add(SQL.DROP_STATUS_CRUMBS);
+		DROP_TABLE_LST.add(SQL.DROP_LOCATION_CRUMBS);
+		DROP_TABLE_LST.add(SQL.DROP_MESSAGES);
 	}
 
 	/**
@@ -34,6 +41,7 @@ public class DBUtils {
 	 * @throws SQLException
 	 */
 	public static void initializeDatabase() throws SQLException {
+		//dropTablesInDB(); // Please uncomment this for testing
 		createTablesInDB();
 	}
 
@@ -68,6 +76,37 @@ public class DBUtils {
 			}
 
 			DB_TABLES_EXIST = true;
+		}
+		Log.exit();
+	}
+	
+	/**
+	 * This method will drop all tables in the database.
+	 * 
+	 * @throws SQLException
+	 */
+	protected static void dropTablesInDB() throws SQLException {
+		Log.enter();
+
+		final String CORE_TABLE_NAME = SQL.SSN_USERS;
+
+		try (Connection conn = getConnection();
+				Statement stmt = conn.createStatement();) {
+			if (doesTableExistInDB(conn, CORE_TABLE_NAME)) {
+				Log.info("Dropping tables in database ...");
+
+				for (String query : DROP_TABLE_LST) {
+					Log.debug("Executing query: " + query);
+					boolean status = stmt.execute(query);
+					Log.debug("Query execution completed with status: "
+							+ status);
+				}
+
+				Log.info("Tables dropped successfully");
+			} else {
+				Log.info("Tables do not exist in database. Not performing any action.");
+			}
+
 		}
 		Log.exit();
 	}

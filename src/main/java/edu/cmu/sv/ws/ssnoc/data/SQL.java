@@ -34,6 +34,12 @@ public class SQL {
 			+ " created_at TIMESTAMP," + " modified_at TIMESTAMP )";
 
 	/**
+	 * Query to drop the USERS table.
+	 */
+	public static final String DROP_USERS = "drop table if exists "
+			+ SSN_USERS;
+	
+	/**
 	 * Query to load all users in the system.
 	 */
 	public static final String FIND_ALL_USERS = "select u.user_id, u.user_name, u.password,"
@@ -105,6 +111,12 @@ public class SQL {
 			+ " user_id BIGINT,"
 			+ " status VARCHAR(10), location_crumb_id BIGINT, "
 			+ " created_at TIMESTAMP )";
+	
+	/**
+	 * Query to drop the STATUS_CRUMBS table.
+	 */
+	public static final String DROP_STATUS_CRUMBS = "drop table if exists "
+			+ SSN_STATUS_CRUMBS;
 
 	/**
 	 * Query to load all status crumbs in the system.
@@ -149,6 +161,12 @@ public class SQL {
 			+ " ( location_crumb_id IDENTITY PRIMARY KEY,"
 			+ " user_id BIGINT,"
 			+ " location VARCHAR(50)," + " created_at TIMESTAMP )";
+	
+	/**
+	 * Query to drop the LOCATION_CRUMBS table.
+	 */
+	public static final String DROP_LOCATION_CRUMBS = "drop table if exists "
+			+ SSN_LOCATION_CRUMBS;
 
 	/**
 	 * Query to load all location crumbs in the system.
@@ -176,16 +194,22 @@ public class SQL {
 			+ " (user_id, location, created_at) values (?, ?, CURRENT_TIMESTAMP())";
 
 	// ****************************************************************
-	// All queries related to CHAT_MESSAGES
+	// All queries related to MESSAGES
 	// ****************************************************************
 	/**
-	 * Query to create the CHAT_MESSAGES table.
+	 * Query to create the MESSAGES table.
 	 */
 	public static final String CREATE_MESSAGES = "create table IF NOT EXISTS "
 			+ SSN_MESSAGES + " ( message_id IDENTITY PRIMARY KEY,"
 			+ " author_id BIGINT," + " target_id BIGINT,"
 			+ " content VARCHAR(1024)," + " message_type VARCHAR(10),"
-			+ " location_id BIGINT," + " created_at TIMESTAMP";
+			+ " location_id BIGINT," + " created_at TIMESTAMP )";
+	
+	/**
+	 * Query to drop the MESSAGES table.
+	 */
+	public static final String DROP_MESSAGES = "drop table if exists "
+			+ SSN_MESSAGES;
 
 	/**
 	 * Query to load all messages in the system.
