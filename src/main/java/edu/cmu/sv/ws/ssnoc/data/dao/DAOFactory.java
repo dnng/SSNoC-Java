@@ -49,5 +49,14 @@ public class DAOFactory {
 	public ILocationCrumbDAO getLocationCrumbDAO() {
 		return new LocationCrumbDAOImpl();
 	}
+	
+	/**
+	 * Method to get a new object implementing IMessageDAO
+	 * 
+	 * @return - Object implementing IMessageDAO
+	 */
+	public IMessageDAO getMessageDAO() {
+		return new MessageDAOImpl();
+	}
 
 }

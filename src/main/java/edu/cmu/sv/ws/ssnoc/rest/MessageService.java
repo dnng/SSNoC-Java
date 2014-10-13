@@ -1,7 +1,6 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -42,11 +41,10 @@ public class MessageService extends BaseService {
 
 		Message message = null;
 		try {
-			//MessagePO msgPO = DAOFactory.getInstance().getMessageDAO().getMessage(messageID);
+			//MessagePO msgPO = DAOFactory.getInstance().getMessageDAO().loadExistingMessage(messageID);
 			MessagePO msgPO = new MessagePO();
-			msgPO.setContent("blah!");
-			msgPO.setLocation("somewhere");
-
+			//msgPO.setContent("blah!");
+			//msgPO.setLocation("somewhere");
 			message = ConverterUtils.convert(msgPO);
 
 		} catch (Exception e) {
@@ -55,11 +53,7 @@ public class MessageService extends BaseService {
 			Log.exit(message);
 		}
 
-		return message;	}
-	
-	private MessagePO loadExistingMessage(Long messageID) {
-		MessagePO message = new MessagePO();
-		return message;
+		return message;	
 	}
 
 }
