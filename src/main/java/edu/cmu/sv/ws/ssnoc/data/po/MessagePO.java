@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 public class MessagePO {
 	private long MessageId;
 	private long AuthorId;
-	private long AuthorName;
+	private String AuthorName;
 	private long TargetId;
 	private long TargetName;
 	private String content;
@@ -37,12 +37,12 @@ public class MessagePO {
 		this.AuthorId = authorId;
 	}
 
-	public long getAuthorName() {
+	public String getAuthorName() {
 		return AuthorName;
 	}
 
-	public void setAuthorName(long authorName) {
-		AuthorName = authorName;
+	public void setAuthorName(String string) {
+		AuthorName = string;
 	}
 
 	public long getTargetId() {

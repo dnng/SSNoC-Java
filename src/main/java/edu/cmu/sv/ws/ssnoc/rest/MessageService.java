@@ -41,8 +41,8 @@ public class MessageService extends BaseService {
 
 		Message message = null;
 		try {
-			//MessagePO msgPO = DAOFactory.getInstance().getMessageDAO().loadExistingMessage(messageID);
-			MessagePO msgPO = new MessagePO();
+			MessagePO msgPO = DAOFactory.getInstance().getMessageDAO().loadExistingMessage(messageID);
+			//MessagePO msgPO = new MessagePO();
 			//msgPO.setContent("blah!");
 			//msgPO.setLocation("somewhere");
 			message = ConverterUtils.convert(msgPO);
