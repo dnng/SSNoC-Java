@@ -14,11 +14,13 @@ import com.google.gson.Gson;
 public class MessagePO {
 	private long MessageId;
 	private long AuthorId;
-	private long AuthorName;
+	private String AuthorName;
 	private long TargetId;
-	private long TargetName;
+	private String TargetName;
 	private String content;
+	private long LocationId;
 	private String location;
+	private String message;
 	private Timestamp createdAt;
 
 	public long getMessageId() {
@@ -37,11 +39,11 @@ public class MessagePO {
 		this.AuthorId = authorId;
 	}
 
-	public long getAuthorName() {
+	public String getAuthorName() {
 		return AuthorName;
 	}
 
-	public void setAuthorName(long authorName) {
+	public void setAuthorName(String authorName) {
 		AuthorName = authorName;
 	}
 
@@ -53,11 +55,11 @@ public class MessagePO {
 		this.TargetId = targetId;
 	}
 
-	public long getTargetName() {
+	public String getTargetName() {
 		return TargetName;
 	}
 
-	public void setTargetName(long targetName) {
+	public void setTargetName(String targetName) {
 		TargetName = targetName;
 	}
 
@@ -69,12 +71,27 @@ public class MessagePO {
 		this.content = content;
 	}
 
+	public long getLocationId() {
+		return LocationId;
+	}
+	public void setLocationId(long LocationId) {
+		this.TargetId = LocationId;
+	}
+
 	public String getLocation() {
 		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public Timestamp getCreatedAt() {
@@ -89,5 +106,7 @@ public class MessagePO {
 	public String toString() {
 		return new Gson().toJson(this);
 	}
+
+
 
 }
