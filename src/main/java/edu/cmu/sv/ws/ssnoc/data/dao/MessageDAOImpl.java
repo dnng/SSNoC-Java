@@ -3,6 +3,7 @@ package edu.cmu.sv.ws.ssnoc.data.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 
 public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
@@ -182,10 +184,58 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 	}
 
 	@Override
-	public MessagePO loadMessageById(long message_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public MessagePO loadMessageById(long messageId) {
+		Log.enter();
+
+		String query = SQL.FIND_MESSAGE_BY_ID;
+
+		MessagePO message = new MessagePO();
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query);) {
+			stmt.setLong(1, messageId);
+			message = processMessageResult(stmt);
+		} catch (SQLException e) {
+			handleException(e);
+			Log.exit(message);
+		}
+		return message;
 	}
+	
+	private MessagePO processMessageResult(PreparedStatement stmt) {
+		Log.enter(stmt);
+
+		if (stmt == null) {
+			Log.warn("Inside processResults method with NULL statement object.");
+			return null;
+		}
+
+		Log.debug("Executing stmt = " + stmt);
+		MessagePO po = new MessagePO();
+		try (ResultSet rs = stmt.executeQuery()) {
+			if (rs.next()) {
+							
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int colCount = rsmd.getColumnCount();	
+				
+					
+				if(colCount >=1) po.setMessageId(rs.getLong(1));
+				if(colCount >=2) po.setAuthorId(rs.getLong(2));
+				if(colCount >=3) po.setAuthorName(rs.getString(3));
+				if(colCount >=4) po.setTargetId(rs.getLong(4));
+				if(colCount >=6) po.setLocationId(rs.getLong(6));
+				if(colCount >=7) po.setLocation(rs.getString(7));
+				if(colCount >=9) po.setContent(rs.getString(8));
+				if(colCount >=10)po.setCreatedAt(rs.getTimestamp(9));
+			}
+		} catch (SQLException e) {
+			handleException(e);
+		} finally {
+			Log.exit(po);
+		}
+
+		return po;
+	}
+	
 	@Override
 	public List<MessagePO> loadMessage() {
 		// TODO Auto-generated method stub

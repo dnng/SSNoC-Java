@@ -215,23 +215,16 @@ public class SQL {
 	/**
 	 * Query to load message by the specific message ID
 	 */
-	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
-			+ " sb.user_name, ssm.location_id, slc.location, "
-			+ " ssm.content, ssm.created_at "
-			+ " from "
-			+ SSN_MESSAGES
-			+ " ssm "
-			+ " left outer join"
-			+ SSN_USERS
-			+ " sa on ssm.author_id=sa.user_id"
-			+ " left outer join"
-			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id"
-			+ " left outer join"
-			+ SSN_LOCATION_CRUMBS
-			+ " slc on u.last_location_id=slc.last.location_id"
-			+ " where "
-			+ " order by ssm.created_at, sa.user_name DESC";
+
+	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.created_at "  
+	+ "from SSN_MESSAGES ssm "  
+	+ "left outer join SSN_USERS sa " 
+	+ "on ssm.author_id=sa.user_id " 
+	+ "left outer join SSN_USERS sb " 
+	+ "on ssm.target_id=sa.user_id " 
+	+ "left outer join SSN_LOCATION_CRUMBS slc on sa.last_location_id=slc.location_crumb_id " 
+	+ "where  ssm.message_id = ? " 
+	+ "order by ssm.created_at, sa.user_name DESC"; 
 
 	
 	/**
