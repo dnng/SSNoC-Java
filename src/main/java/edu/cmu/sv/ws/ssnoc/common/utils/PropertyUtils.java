@@ -61,6 +61,16 @@ public class PropertyUtils {
 	 * pool of connections that all DAOs making database requests will use.
 	 */
 	public static int TEST_DB_CONNECTION_POOL_SIZE;
+	
+	/**
+	 * Default sampling frequency for memory measurement
+	 */
+	public static int MEMORY_SAMPLING_FREQUENCY;
+	
+	/**
+	 * Default reporting period for memory measurement
+	 */
+	public static int MEMORY_REPORTING_PERIOD;
 
 	/**
 	 * List of invalid names
@@ -91,6 +101,8 @@ public class PropertyUtils {
 				TEST_DB_PASSWORD = prop.getProperty("testDbPassword");
 				TEST_DB_CONNECTION_POOL_SIZE = Integer.parseInt(prop
 						.getProperty("testDbConnPoolSize"));
+				MEMORY_SAMPLING_FREQUENCY = Integer.parseInt(prop.getProperty("memSamplingFrequency"));
+				MEMORY_REPORTING_PERIOD = Integer.parseInt(prop.getProperty("memReportingPeriod"));
 				ADMIN_CODE = prop.getProperty("adminCode");
 
 				// Load the list of invalid names into a Set
@@ -161,6 +173,16 @@ public class PropertyUtils {
 			TEST_DB_CONNECTION_POOL_SIZE = 20;
 		}
 
+		if (MEMORY_SAMPLING_FREQUENCY == 0) {
+			Log.warn("Initializing MEMORY_SAMPLING_FREQUENCY to system default values ...");
+			MEMORY_SAMPLING_FREQUENCY = 1;
+		}
+		
+		if (MEMORY_REPORTING_PERIOD == 0) {
+			Log.warn("Initializing MEMORY_REPORTING_PERIOD to system default values ...");
+			MEMORY_REPORTING_PERIOD = 60;
+		}
+		
 		if (ADMIN_CODE == null) {
 			Log.warn("Initializing ADMIN_CODE to system default values ...");
 			ADMIN_CODE = "5830";
