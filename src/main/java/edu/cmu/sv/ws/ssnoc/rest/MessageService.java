@@ -59,7 +59,9 @@ public class MessageService extends BaseService {
 			// Step 1: Get the existing user id from user name
 			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
 			UserPO existingUser = uDao.findByName(message.getUserName());
-			long userId = existingUser.getUserId();
+			long userId = 0;
+			if(existingUser != null)
+				userId = existingUser.getUserId();
 
 			// Step 2: Insert a new location and get back the location id
 			ILocationCrumbDAO lDao = DAOFactory.getInstance()
