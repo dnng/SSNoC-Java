@@ -69,5 +69,6 @@ public interface IMessageDAO {
 	 * @return - message.
 	 */
 	MessagePO loadMessageById(long message_id);
+	MessagePO loadExistingMessage(long messageID);
 
 }
