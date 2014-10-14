@@ -71,6 +71,11 @@ public class PropertyUtils {
 	 * Default reporting period for memory measurement
 	 */
 	public static int MEMORY_REPORTING_PERIOD;
+	
+	/**
+	 * Should we measure memory at startup
+	 */
+	public static boolean MEASURE_MEMORY ;
 
 	/**
 	 * List of invalid names
@@ -103,6 +108,7 @@ public class PropertyUtils {
 						.getProperty("testDbConnPoolSize"));
 				MEMORY_SAMPLING_FREQUENCY = Integer.parseInt(prop.getProperty("memSamplingFrequency"));
 				MEMORY_REPORTING_PERIOD = Integer.parseInt(prop.getProperty("memReportingPeriod"));
+				MEASURE_MEMORY = Boolean.parseBoolean(prop.getProperty("measureMemory"));
 				ADMIN_CODE = prop.getProperty("adminCode");
 
 				// Load the list of invalid names into a Set
@@ -181,6 +187,11 @@ public class PropertyUtils {
 		if (MEMORY_REPORTING_PERIOD == 0) {
 			Log.warn("Initializing MEMORY_REPORTING_PERIOD to system default values ...");
 			MEMORY_REPORTING_PERIOD = 60;
+		}
+		
+		if (MEASURE_MEMORY == false) {
+			Log.warn("Initializing MEASURE_MEMORY to system default values ...");
+			MEASURE_MEMORY = false;
 		}
 		
 		if (ADMIN_CODE == null) {

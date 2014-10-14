@@ -74,6 +74,7 @@ public class MeasurementUtils {
 	    
 	    //Printouts
 	    StringBuilder sb = new StringBuilder();
+	    sb.append("timestamp: " + System.currentTimeMillis() + "\n");
 	    sb.append("used volatile memory: " + nf.format(usedVolatileMemory) + "\n");
 	    sb.append("remaining volatile memory: " + nf.format(remainingVolatileMemory) + "\n");
 	    sb.append("used persistent memory: " + nf.format(usedPersistentMemory) + "\n");

@@ -8,18 +8,19 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import edu.cmu.sv.ws.ssnoc.common.controller.MeasurementController;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
+import edu.cmu.sv.ws.ssnoc.common.utils.PropertyUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.IMemoryCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.po.MemoryCrumbPO;
-import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.MemoryCrumb;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
@@ -44,13 +45,12 @@ public class MemoryService extends BaseService {
 		MemoryCrumb resp = new MemoryCrumb();
 
 		try {
-			//Step 1: Create test DB, setup limits for tests?
+			//Step 1: Switch measurement flag to true
+			PropertyUtils.MEASURE_MEMORY = true;
 			
-			//Step 2: Switch database connection to test DB
+			//Step 2: Start timer
+			MeasurementController.startMeasuring();
 			
-			//Step 3: Note down request time and start time and 
-			
-
 		} catch (Exception e) {
 			handleException(e);
 		} finally {
@@ -75,11 +75,11 @@ public class MemoryService extends BaseService {
 		MemoryCrumb resp = new MemoryCrumb();
 
 		try {
-			//Step 1: Create test DB, setup limits for tests?
+			//Step 1: Switch measurement flag to false
+			PropertyUtils.MEASURE_MEMORY = false;
 			
-			//Step 2: Switch database connection to test DB
-			
-			//Step 3: Note down request time and start time and 
+			//Step 2: Send back all the memory crumbs as requested
+			MeasurementController.stopMeasuring();
 
 		} catch (Exception e) {
 			handleException(e);
@@ -115,7 +115,7 @@ public class MemoryService extends BaseService {
 	}
 	
 	/**
-	 * This method deletes all the existing memory crumbs
+	 * This method gets all the existing memory crumbs
 	 * 
 	 * 
 	 * @return - An object of type Response with the status of the request
@@ -141,6 +141,37 @@ public class MemoryService extends BaseService {
 		
 		return memoryCrumbs;
 	}
+	
+	/**
+	 * This method gets all the existing memory crumbs
+	 * 
+	 * 
+	 * @return - An object of type Response with the status of the request
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/interval/{timeWindowInHours}")
+	public List<MemoryCrumb> getMemoryCrumbsForSpecifiedInterval(@PathParam("timeWindowInHours") String timeWindowInHours) {
+		Log.enter(timeWindowInHours);
+		List<MemoryCrumb> memoryCrumbs = null;
+		try {
+			List<MemoryCrumbPO> memoryCrumbPOs = DAOFactory.getInstance().getMemoryCrumbDAO().loadMemoryCrumbs();
+
+			memoryCrumbs = new ArrayList<MemoryCrumb>();
+			for (MemoryCrumbPO po : memoryCrumbPOs) {
+				MemoryCrumb dto = ConverterUtils.convert(po);
+				memoryCrumbs.add(dto);
+			}
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit(memoryCrumbs);
+		}
+		
+		return memoryCrumbs;
+	}
+	
+	//Add a status check rest api
 
 
 }
