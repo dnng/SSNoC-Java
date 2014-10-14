@@ -13,6 +13,7 @@ public class Message {
 	private long receiverId;
 	private String content;
 	private String location;
+	private String message;
 	private Timestamp createdAt;
 	public long getChatMessageId() {
 		return chatMessageId;
@@ -44,12 +45,27 @@ public class Message {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public String setUserName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	
 }

@@ -40,6 +40,27 @@ public class PropertyUtils {
 	 * pool of connections that all DAOs making database requests will use.
 	 */
 	public static int DB_CONNECTION_POOL_SIZE;
+	
+	/**
+	 * Test Database Connection URL.
+	 */
+	public static String TEST_DB_CONN_URL;
+
+	/**
+	 * Test User name used to connect to the database.
+	 */
+	public static String TEST_DB_USERNAME;
+
+	/**
+	 * Test Password to connect to the database.
+	 */
+	public static String TEST_DB_PASSWORD;
+
+	/**
+	 * Test Database connection Pool size parameter used by HikariCP, to maintain a
+	 * pool of connections that all DAOs making database requests will use.
+	 */
+	public static int TEST_DB_CONNECTION_POOL_SIZE;
 
 	/**
 	 * List of invalid names
@@ -65,6 +86,11 @@ public class PropertyUtils {
 				DB_PASSWORD = prop.getProperty("dbPassword");
 				DB_CONNECTION_POOL_SIZE = Integer.parseInt(prop
 						.getProperty("dbConnPoolSize"));
+				TEST_DB_CONN_URL = prop.getProperty("testDbConnURL");
+				TEST_DB_USERNAME = prop.getProperty("testDbUsername");
+				TEST_DB_PASSWORD = prop.getProperty("testDbPassword");
+				TEST_DB_CONNECTION_POOL_SIZE = Integer.parseInt(prop
+						.getProperty("testDbConnPoolSize"));
 				ADMIN_CODE = prop.getProperty("adminCode");
 
 				// Load the list of invalid names into a Set
@@ -113,6 +139,26 @@ public class PropertyUtils {
 		if (DB_CONNECTION_POOL_SIZE == 0) {
 			Log.warn("Initializing DB_CONNECTION_POOL_SIZE to system default values ...");
 			DB_CONNECTION_POOL_SIZE = 20;
+		}
+		
+		if (TEST_DB_CONN_URL == null) {
+			Log.warn("Initializing TEST_DB_CONN_URL to system default values ...");
+			TEST_DB_CONN_URL = "jdbc:h2:file:~/testh2db";
+		}
+
+		if (TEST_DB_USERNAME == null) {
+			Log.warn("Initializing TEST_DB_USERNAME to system default values ...");
+			TEST_DB_USERNAME = "ssnoc_user";
+		}
+
+		if (TEST_DB_PASSWORD == null) {
+			Log.warn("Initializing TEST_DB_USERNAME to system default values ...");
+			TEST_DB_PASSWORD = "bHGSR87#%1x";
+		}
+
+		if (TEST_DB_CONNECTION_POOL_SIZE == 0) {
+			Log.warn("Initializing TEST_DB_CONNECTION_POOL_SIZE to system default values ...");
+			TEST_DB_CONNECTION_POOL_SIZE = 20;
 		}
 
 		if (ADMIN_CODE == null) {
