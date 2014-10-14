@@ -62,7 +62,7 @@ public class MemoryCrumbDAOImpl extends BaseDAOImpl implements IMemoryCrumbDAO {
 				po = new MemoryCrumbPO();
 				if(colCount >=1) po.setMemoryCrumbId(rs.getLong(1));
 				if(colCount >=2) po.setUsedVolatileMemory(rs.getLong(2));
-				if(colCount >=3) po.setRemainingVolativeMemory(rs.getLong(3));
+				if(colCount >=3) po.setRemainingVolatileMemory(rs.getLong(3));
 				if(colCount >=4) po.setUsedPersistentMemory(rs.getLong(4));
 				if(colCount >=5) po.setRemainingPersistentMemory(rs.getLong(5));
 				if(colCount >=6) po.setOnlineUsers(rs.getLong(6));
@@ -95,7 +95,7 @@ public class MemoryCrumbDAOImpl extends BaseDAOImpl implements IMemoryCrumbDAO {
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_MEMORY_CRUMB)) {
 			stmt.setLong(1, memoryCrumbPO.getUsedVolatileMemory());
-			stmt.setLong(2, memoryCrumbPO.getRemainingVolativeMemory());
+			stmt.setLong(2, memoryCrumbPO.getRemainingVolatileMemory());
 			stmt.setLong(3, memoryCrumbPO.getUsedPersistentMemory());
 			stmt.setLong(4, memoryCrumbPO.getRemainingPersistentMemory());
 			stmt.setLong(5, memoryCrumbPO.getOnlineUsers());

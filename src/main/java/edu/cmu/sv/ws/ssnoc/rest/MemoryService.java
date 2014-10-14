@@ -1,7 +1,11 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,9 +13,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.IMemoryCrumbDAO;
+import edu.cmu.sv.ws.ssnoc.data.po.MemoryCrumbPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.MemoryCrumb;
+import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
@@ -104,6 +112,34 @@ public class MemoryService extends BaseService {
 		}
 
 		return created(resp);
+	}
+	
+	/**
+	 * This method deletes all the existing memory crumbs
+	 * 
+	 * 
+	 * @return - An object of type Response with the status of the request
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<MemoryCrumb> getMemoryCrumbsFor24Hours() {
+		Log.enter();
+		List<MemoryCrumb> memoryCrumbs = null;
+		try {
+			List<MemoryCrumbPO> memoryCrumbPOs = DAOFactory.getInstance().getMemoryCrumbDAO().loadMemoryCrumbs(); 
+
+			memoryCrumbs = new ArrayList<MemoryCrumb>();
+			for (MemoryCrumbPO po : memoryCrumbPOs) {
+				MemoryCrumb dto = ConverterUtils.convert(po);
+				memoryCrumbs.add(dto);
+			}
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit(memoryCrumbs);
+		}
+		
+		return memoryCrumbs;
 	}
 
 
