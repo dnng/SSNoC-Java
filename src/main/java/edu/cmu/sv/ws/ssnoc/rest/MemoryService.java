@@ -16,8 +16,8 @@ import edu.cmu.sv.ws.ssnoc.dto.PerformanceCrumb;
  * 
  */
 
-@Path("/performance")
-public class PerformanceService extends BaseService {
+@Path("/memory")
+public class MemoryService extends BaseService {
 	/**
 	 * This method sets up the performance testing hook
 	 * 
@@ -27,7 +27,7 @@ public class PerformanceService extends BaseService {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Path("/setup")
+	@Path("/start")
 	public Response setupPerformanceTest(PerformanceCrumb performanceCrumb) {
 		Log.enter(performanceCrumb);
 		PerformanceCrumb resp = new PerformanceCrumb();
@@ -58,7 +58,7 @@ public class PerformanceService extends BaseService {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Path("/teardown")
+	@Path("/stop")
 	public Response teardownPerformanceTest(PerformanceCrumb performanceCrumb) {
 		Log.enter(performanceCrumb);
 		PerformanceCrumb resp = new PerformanceCrumb();

@@ -64,6 +64,11 @@ public class H2ConnectionPoolImpl implements IConnectionPool {
 	 * This method will switch the connection pool to the test database
 	 */
 	public void switchConnectionToTest() {
+		//Close existing connection if any
+		if (ds != null) {
+			ds.close();
+		}
+		
 		HikariConfig config = new HikariConfig();
 
 		config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
@@ -79,6 +84,11 @@ public class H2ConnectionPoolImpl implements IConnectionPool {
 	 * This method will switch the connection pool to the live database
 	 */
 	public void switchConnectionToLive() {
+		//Close existing connection if any
+		if (ds != null) {
+			ds.close();
+		}
+		
 		HikariConfig config = new HikariConfig();
 
 		config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
