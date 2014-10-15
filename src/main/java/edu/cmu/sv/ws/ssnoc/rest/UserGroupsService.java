@@ -1,6 +1,5 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -10,10 +9,6 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
-import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
-import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
-import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
 
 /**
