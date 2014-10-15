@@ -311,8 +311,16 @@ public class SQL {
 			+ SSN_MEMORY_CRUMBS
 			+ " order by created_at DESC";
 	
-	//TODO: SQL Query to get all memory crumbs in a specific time duration
-
+	/**
+     * Query to load all memory crumbs in the specified time interval.
+     */
+    public static final String FIND_ALL_MEMORY_CRUMBS_IN_INTERVAL = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
+            + " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
+            + " from "
+            + SSN_MEMORY_CRUMBS
+            + " where created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
+            + " order by created_at DESC";
+    
 	/**
 	 * Query to delete all memory crumbs in the system.
 	 */
