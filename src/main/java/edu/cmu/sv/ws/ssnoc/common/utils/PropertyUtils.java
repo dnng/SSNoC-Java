@@ -75,7 +75,7 @@ public class PropertyUtils {
 	/**
 	 * Should we measure memory at startup
 	 */
-	public static boolean MEASURE_MEMORY ;
+	public static boolean MEASURE_MEMORY;
 
 	/**
 	 * List of invalid names
@@ -187,11 +187,6 @@ public class PropertyUtils {
 		if (MEMORY_REPORTING_PERIOD == 0) {
 			Log.warn("Initializing MEMORY_REPORTING_PERIOD to system default values ...");
 			MEMORY_REPORTING_PERIOD = 60;
-		}
-		
-		if (MEASURE_MEMORY == false) {
-			Log.warn("Initializing MEASURE_MEMORY to system default values ...");
-			MEASURE_MEMORY = false;
 		}
 		
 		if (ADMIN_CODE == null) {

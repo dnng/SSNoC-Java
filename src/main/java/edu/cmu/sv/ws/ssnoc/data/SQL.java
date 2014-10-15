@@ -240,15 +240,15 @@ public class SQL {
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
-			+ " left outer join"
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sa on ssm.author_id=sa.user_id"
-			+ " left outer join"
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id"
-			+ " left outer join"
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
-			+ " slc on u.last_location_id=slc.last.location_id"
+			+ " slc on ssm.location_id=slc.location_crumb_id"
 			+ " order by ssm.created_at DESC";
 
 	/**
@@ -260,16 +260,16 @@ public class SQL {
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
-			+ " left outer join"
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sa on ssm.author_id=sa.user_id"
-			+ " left outer join"
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id"
-			+ " left outer join"
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
-			+ " slc on u.last_location_id=slc.last.location_id"
-			+ " where ssm.message_type=\"CHAT\""
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'CHAT\'"
 			+ " order by ssm.created_at DESC";
 
 	/**
@@ -281,16 +281,16 @@ public class SQL {
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
-			+ " left outer join"
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sa on ssm.author_id=sa.user_id"
-			+ " left outer join"
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id"
-			+ " left outer join"
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
-			+ " slc on u.last_location_id=slc.last.location_id"
-			+ " where ssm.message_type=\"WALL\""
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'WALL\'"
 			+ " order by ssm.created_at DESC";
 
 	/**

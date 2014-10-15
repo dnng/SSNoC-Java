@@ -164,7 +164,6 @@ public class ConverterUtils {
 		return po;
 	}
 	
-	
 	/**
 	 * Convert MessagePO to message DTO object.
 	 * 
@@ -180,34 +179,40 @@ public class ConverterUtils {
 
 		Message dto = new Message();
 		dto.setMessageId(po.getMessageId());
-		dto.setContent(po.getContent());
-		dto.setCreatedAt(po.getCreatedAt());
-		dto.setLocation(po.getLocation());
 		dto.setAuthorId(po.getAuthorId());
+		dto.setAuthor(po.getAuthorName());
 		dto.setTargetId(po.getTargetId());
+		dto.setTarget(po.getTargetName());
+		dto.setContent(po.getContent());
+		dto.setLocationId(po.getLocationId());
+		dto.setLocation(po.getLocation());
+		dto.setPostedAt(po.getCreatedAt());
 		
 		return dto;
 	}
-///*
-//	*//**
-//	 * Convert message DTO to messagePO object
-//	 * 
-//	 * @param dto
-//	 *            - Message DTO object
-//	 * 
-//	 * @return - MessagePO object
-//	 */
+
+	/**
+	 * Convert message DTO to messagePO object
+	 * 
+	 * @param dto
+	 *            - Message DTO object
+	 * 
+	 * @return - MessagePO object
+	 */
 	public static final MessagePO convert(Message dto) {
 		if (dto == null) {
 			return null;}
 
 		MessagePO po = new MessagePO();
 		po.setMessageId(dto.getMessageId());
-		po.setContent(dto.getContent());
-		po.setCreatedAt(dto.getCreatedAt());
-		po.setLocation(dto.getLocation());
 		po.setAuthorId(dto.getAuthorId());
+		po.setAuthorName(dto.getAuthor());
 		po.setTargetId(dto.getTargetId());
+		po.setTargetName(dto.getTarget());
+		po.setContent(dto.getContent());
+		po.setLocationId(dto.getLocationId());
+		po.setLocation(dto.getLocation());
+		po.setCreatedAt(dto.getPostedAt());
 		return po;
 	}
 

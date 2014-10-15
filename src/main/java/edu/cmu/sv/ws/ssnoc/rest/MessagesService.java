@@ -45,10 +45,10 @@ public class MessagesService extends BaseService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "messages")
 	@Path("/wall")
-	public List<Message> loadWallMessage() {
+	public List<Message> loadWallMessages() {
 		Log.enter();
 
-		List<Message> message = new ArrayList<Message>();
+		List<Message> messages = new ArrayList<Message>();
 		try {
 			List<MessagePO> messagePO = DAOFactory.getInstance()
 					.getMessageDAO().loadWallMessages();
@@ -56,16 +56,16 @@ public class MessagesService extends BaseService {
 			if (messagePO != null) {
 				for (MessagePO po : messagePO) {
 					Message dto = ConverterUtils.convert(po);
-					message.add(dto);
+					messages.add(dto);
 				}
 			}
 		} catch (Exception e) {
 			handleException(e);
 		} finally {
-			Log.exit(message);
+			Log.exit(messages);
 		}
 
-		return message;
+		return messages;
 	}
 
 	
