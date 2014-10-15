@@ -166,12 +166,12 @@ public class ConverterUtils {
 	
 	
 	/**
-	 * Convert MessagePO to User DTO object.
+	 * Convert MessagePO to message DTO object.
 	 * 
 	 * @param po
-	 *            - User PO object
+	 *            - message PO object
 	 * 
-	 * @return - User DTO Object
+	 * @return - message DTO Object
 	 */
 	public static final Message convert(MessagePO po) {
 		if (po == null) {
@@ -179,43 +179,38 @@ public class ConverterUtils {
 		}
 
 		Message dto = new Message();
-		//dto.setChatMessageId(po.getChatMessageId());
+		dto.setMessageId(po.getMessageId());
 		dto.setContent(po.getContent());
 		dto.setCreatedAt(po.getCreatedAt());
 		dto.setLocation(po.getLocation());
-		//dto.setReceiverId(po.getReceiverId());
-		//dto.setSenderId(po.getSenderId());
+		dto.setAuthorId(po.getAuthorId());
+		dto.setTargetId(po.getTargetId());
 		
 		return dto;
 	}
-/*
-	*//**
-	 * Convert User DTO to UserPO object
-	 * 
-	 * @param dto
-	 *            - User DTO object
-	 * 
-	 * @return - UserPO object
-	 *//*
-	public static final UserPO convert(User dto) {
+///*
+//	*//**
+//	 * Convert message DTO to messagePO object
+//	 * 
+//	 * @param dto
+//	 *            - Message DTO object
+//	 * 
+//	 * @return - MessagePO object
+//	 */
+	public static final MessagePO convert(Message dto) {
 		if (dto == null) {
-			return null;
-		}
+			return null;}
 
-		UserPO po = new UserPO();
-		po.setUserName(dto.getUserName());
-		po.setPassword(dto.getPassword());
-		po.setLastStatus(dto.getLastStatus());
-		po.setLastStatusTime(dto.getLastStatusTime());
-		po.setLastLocation(dto.getLastLocation());
+		MessagePO po = new MessagePO();
+		po.setMessageId(dto.getMessageId());
+		po.setContent(dto.getContent());
 		po.setCreatedAt(dto.getCreatedAt());
-		po.setModifiedAt(dto.getModifiedAt());
-
+		po.setLocation(dto.getLocation());
+		po.setAuthorId(dto.getAuthorId());
+		po.setTargetId(dto.getTargetId());
 		return po;
 	}
-	
-*/
-	
+
 	/**
 	 * Convert MemoryCrumbPO to MemoryCrumb DTO object.
 	 * 
@@ -264,3 +259,5 @@ public class ConverterUtils {
 		return po;
 	}
 }
+
+

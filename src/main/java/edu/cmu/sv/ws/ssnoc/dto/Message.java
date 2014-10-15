@@ -5,33 +5,37 @@ import java.sql.Timestamp;
 /**
  * This object contains message information that is responded as part of the REST
  * API request.
- * 
+ *
  */
 public class Message {
-	private long chatMessageId;
-	private long senderId;
-	private long receiverId;
+	private long MessageId;
+	private long targetId;
+	private long authorId;
 	private String content;
 	private String location;
 	private String message;
 	private Timestamp createdAt;
-	public long getChatMessageId() {
-		return chatMessageId;
+
+
+	public long getMessageId() {
+		return MessageId;
 	}
-	public void setChatMessageId(long chatMessageId) {
-		this.chatMessageId = chatMessageId;
+	public void setMessageId(long messageId) {
+		MessageId = messageId;
 	}
-	public long getSenderId() {
-		return senderId;
+
+
+	public long getTargetId() {
+		return targetId;
 	}
-	public void setSenderId(long senderId) {
-		this.senderId = senderId;
+	public void setTargetId(long targetId) {
+		this.targetId = targetId;
 	}
-	public long getReceiverId() {
-		return receiverId;
+	public long getAuthorId() {
+		return authorId;
 	}
-	public void setReceiverId(long receiverId) {
-		this.receiverId = receiverId;
+	public void setAuthorId(long authorId) {
+		this.authorId = authorId;
 	}
 	public String getContent() {
 		return content;
@@ -65,7 +69,7 @@ public class Message {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
+
+
+
 }

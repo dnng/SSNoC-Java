@@ -63,15 +63,16 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			while (rs.next()) {
 				MessagePO po = new MessagePO();
 				po = new MessagePO();
-				po.setMessageId(rs.getLong(1));
-				po.setAuthorId(rs.getLong(2));
-				po.setAuthorName(rs.getString(3));
-				po.setTargetId(rs.getLong(4));
-				po.setTargetName(rs.getString(5));
-				po.setContent(rs.getString(6));
-				po.setLocationId(rs.getLong(7));
-				po.setLocation(rs.getString(8));
-				po.setCreatedAt(rs.getTimestamp(9));
+				po.setAuthorId(rs.getLong(1));
+				po.setAuthorName(rs.getString(2));
+				po.setTargetId(rs.getLong(3));
+				po.setTargetName(rs.getString(4));
+				po.setContent(rs.getString(5));
+				po.setCreatedAt(rs.getTimestamp(6));
+			//	po.setMessageId(rs.getLong(7));
+				//po.setLocationId(rs.getLong(8));
+				//po.setLocation(rs.getString(9));
+
 
 				messages.add(po);
 			}
@@ -118,7 +119,8 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				stmt.setLong(1, messagePO.getAuthorId());
 				stmt.setLong(2, messagePO.getTargetId());
 				stmt.setString(3, messagePO.getContent());
-				stmt.setLong(4, messagePO.getLocationId());
+				stmt.setString(4, "CHAT");
+				stmt.setLong(5, messagePO.getLocationId());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
@@ -153,9 +155,10 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			try (Connection conn = getConnection();
 					PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_WALL_MESSAGE,  Statement.RETURN_GENERATED_KEYS)) {
 				stmt.setLong(1, messagePO.getAuthorId());
-				//stmt.setLong(2, messagePO.getTargetId());
-				stmt.setString(2, messagePO.getContent());
-				stmt.setLong(3, messagePO.getLocationId());
+				stmt.setLong(2, messagePO.getTargetId());
+				stmt.setString(3, messagePO.getContent());
+				stmt.setString(4, "WALL");
+				stmt.setLong(5, messagePO.getLocationId());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				

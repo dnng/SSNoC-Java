@@ -21,6 +21,7 @@ public class MessagePO {
 	private long LocationId;
 	private String location;
 	private String message;
+	private String message_type;
 	private Timestamp createdAt;
 
 	public long getMessageId() {
@@ -93,6 +94,14 @@ public class MessagePO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getMessage_type() {
+		return message_type;
+	}
+
+	public void setMessage_type(String message_type) {
+		this.message_type = message_type;
 	}
 
 	public Timestamp getCreatedAt() {
