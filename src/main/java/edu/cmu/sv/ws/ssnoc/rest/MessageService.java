@@ -59,7 +59,9 @@ public class MessageService extends BaseService {
 			// Step 1: Get the existing user id from user name
 			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
 			UserPO existingUser = uDao.findByName(message.getUserName());
-			long userId = existingUser.getUserId();
+			long userId = 0;
+			if (existingUser != null)
+				userId = existingUser.getUserId();
 
 			// Step 2: Insert a new location and get back the location id
 			ILocationCrumbDAO lDao = DAOFactory.getInstance()
@@ -71,21 +73,20 @@ public class MessageService extends BaseService {
 
 			// Step 3: Insert a new wall message and get back the message
 			// id
-			IMessageDAO mDao = DAOFactory.getInstance()
-					.getMessageDAO();
+			IMessageDAO mDao = DAOFactory.getInstance().getMessageDAO();
 			MessagePO mpo = new MessagePO();
 			mpo.setAuthorId(userId);
 			mpo.setLocationId(locationId);
 			mpo.setMessage(message.getMessage());
-		//	long messageId = mDao.saveWallMessage(mpo);
+			long messageId = mDao.saveWallMessage(mpo);
 
 			// Step 4: Update the user with the new message, location crumb id
 			// and modified at time
-//			UserPO upo = new UserPO();
-//			upo.setUserId(userId);
-//			upo.setLastStatusCrumbId(statusId);
-//			upo.setLastLocationCrumbId(locationId);
-//			uDao.update(upo);
+			UserPO upo = new UserPO();
+			upo.setUserId(userId);
+			upo.setMessageId(messageId);
+			upo.setLastLocationCrumbId(locationId);
+			uDao.update(upo);
 
 			// Step 5: send a response back
 			resp = ConverterUtils.convert(mpo);
@@ -97,35 +98,39 @@ public class MessageService extends BaseService {
 
 		return created(resp);
 	}
+
 	@Path("/wall")
-		/**
-		 * This method loads all message in the system.
-		 * 
-		 * @return - List of all messages.
-		 */
-		@GET
-		@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-		@XmlElementWrapper(name = "messages")
-		public List<Message> loadMessage() {
-			Log.enter();
+	/**
+	 * This method loads all message in the system.
+	 * 
+	 * @return - List of all messages.
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@XmlElementWrapper(name = "messages")
+	public List<Message> loadWallMessage() {
+		Log.enter();
 
-			List<Message> message = null;
-			try {
-				List<MessagePO> messagePO = DAOFactory.getInstance().getMessageDAO().loadMessage();
+		List<Message> message = new ArrayList<Message>();
+		try {
+			List<MessagePO> messagePO = DAOFactory.getInstance()
+					.getMessageDAO().loadWallMessage();
 
-				message = new ArrayList<Message>();
+			if (messagePO != null) {
 				for (MessagePO po : messagePO) {
 					Message dto = ConverterUtils.convert(po);
 					message.add(dto);
 				}
-			} catch (Exception e) {
-				handleException(e);
-			} finally {
-				Log.exit(message);
 			}
-
-			return message;
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit(message);
 		}
+
+		return message;
+	}
+
 	/*
 	 * This method fetches all message information by the given message ID if
 	 * present
