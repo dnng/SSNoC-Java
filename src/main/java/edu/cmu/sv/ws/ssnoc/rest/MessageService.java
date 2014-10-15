@@ -18,15 +18,11 @@ import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.ILocationCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IMessageDAO;
-import edu.cmu.sv.ws.ssnoc.data.dao.IStatusCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
 import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
-import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
-import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
@@ -74,8 +70,6 @@ public class MessageService extends BaseService {
 
 			// Step 3: Insert a new wall message and get back the message
 			// id
-			IMessageDAO mDao = DAOFactory.getInstance()
-					.getMessageDAO();
 			MessagePO mpo = new MessagePO();
 			mpo.setAuthorId(userId);
 			mpo.setLocationId(locationId);
