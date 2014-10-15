@@ -3,10 +3,14 @@ package edu.cmu.sv.ws.ssnoc.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
@@ -54,6 +58,41 @@ public class MessagesService extends BaseService {
 
 		return messages;
 	}
+	
+	
+	/**
+	 * This method fetches chat messages sent between two users
+	 * 
+	 * @return - list of messages
+	 */
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/{userName1}/{userName2}")
+	public List<Message> getAllChatMessagesForPeers(@PathParam("userName1") String userName1, @PathParam("userName2") String userName2) {
+		Log.enter(userName1, userName2);
+		List<Message> messages = null;
+		try {
+			if (userName1 != null && userName2 != null)
+			{
+				List<MessagePO> peerMessages = DAOFactory.getInstance().getMessageDAO().getAllChatMessagesForPeers(userName1, userName2);
+				if (peerMessages != null) {
+					messages = new ArrayList<Message>();
+					for (MessagePO po: peerMessages) {
+						Message dto = ConverterUtils.convert(po);
+						messages.add(dto);
+					}
+				}
+			}
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit(messages);
+		}
+
+		return messages;
+	}
+
 
 	
 }

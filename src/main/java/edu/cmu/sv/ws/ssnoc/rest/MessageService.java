@@ -125,6 +125,8 @@ public class MessageService extends BaseService {
 	
 	/**
 	 * This method sends a chat message to another user
+	 * 
+	 * @return a success status if message created
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -13,6 +13,7 @@ import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.dto.Message;
 
 public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
@@ -211,6 +212,24 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		}
 
 		return message;
+	}
+	
+	public List<MessagePO> getAllChatMessagesForPeers(String userName1, String userName2) {
+		Log.enter();
+
+		String query = SQL.FIND_PEER_CHAT_MESSAGES;
+
+		List<MessagePO> peerChatMessages = new ArrayList<MessagePO>();
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query);) {
+			stmt.setString(1, userName1);
+			stmt.setString(2, userName2);
+			//message = processResult(stmt);
+		} catch (SQLException e) {
+			handleException(e);
+			Log.exit(peerChatMessages);
+		}
+		return peerChatMessages;
 	}
 
 }
