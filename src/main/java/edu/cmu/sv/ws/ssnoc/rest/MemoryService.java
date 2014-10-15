@@ -152,10 +152,10 @@ public class MemoryService extends BaseService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/interval/{timeWindowInHours}")
 	public List<MemoryCrumb> getMemoryCrumbsForSpecifiedInterval(@PathParam("timeWindowInHours") String timeWindowInHours) {
-		Log.enter(timeWindowInHours);
+		Log.enter();
 		List<MemoryCrumb> memoryCrumbs = null;
 		try {
-			List<MemoryCrumbPO> memoryCrumbPOs = DAOFactory.getInstance().getMemoryCrumbDAO().loadMemoryCrumbs();
+			List<MemoryCrumbPO> memoryCrumbPOs = DAOFactory.getInstance().getMemoryCrumbDAO().loadMemoryCrumbsInInterval(Long.parseLong(timeWindowInHours)); 
 
 			memoryCrumbs = new ArrayList<MemoryCrumb>();
 			for (MemoryCrumbPO po : memoryCrumbPOs) {
