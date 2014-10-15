@@ -21,6 +21,7 @@ public class UserPO {
 	private long lastLocationCrumbId;
 	private String lastLocation;
 	private Timestamp lastStatusTime;
+	private long messageId;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
 
@@ -93,6 +94,14 @@ public class UserPO {
 
 	public void setLastStatusTime(Timestamp lastStatusTime) {
 		this.lastStatusTime = lastStatusTime;
+	}
+
+	public long getMessageId() {
+		return messageId;
+	}
+
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
 
 	public Timestamp getCreatedAt() {
