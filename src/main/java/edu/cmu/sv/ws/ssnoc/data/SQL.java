@@ -244,23 +244,25 @@ public class SQL {
 	 * Query to load all wall messages in the system.
 	 */
 	public static final String FIND_ALL_WALL_MESSAGES = "select message_id, author_id, target_id,"
-			+ " content, location_id, created_at "
+			+ " content, location_id, created_at"
 			+ " from "
 			+ SSN_MESSAGES
-			+ " where message_type=\"WALL\"" + " order by created_at DESC";
+			+ " where message_type=\'WALL\'" 
+			+ " order by created_at DESC";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
 	public static final String INSERT_CHAT_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"CHAT\", ?,CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"WALL\", ?,CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
 
 }
+
