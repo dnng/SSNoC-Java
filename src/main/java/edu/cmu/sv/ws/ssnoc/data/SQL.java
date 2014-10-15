@@ -328,7 +328,15 @@ public class SQL {
 	+ "on  u.user_id = m.user_id ";
 	
 	
-	public static final String FIND_PEER_CHAT_MESSAGES = "select * from SSN_MESSAGES";
+	public static final String FIND_PEER_CHAT_MESSAGES = "select m.created_at, m.location_id, m.message_type, m.content, m.target_id, m.author_id, m.message_id, sa.user_name as author, st.user_name as target "
+			+ "from SSN_MESSAGES m "
+			+ "left outer join SSN_USERS sa on m.author_id = sa.user_id "
+			+ "left outer join SSN_USERS st on m.target_id = st.user_id "
+			+ "where (sa.user_name = ? "
+			+ "and st.user_name = ?) "
+			+ "or (sa.user_name = ? "
+			+ "and st.user_name = ?) "
+			+ "order by m.created_at";
 	
 	// ****************************************************************
 	// All queries related to MEMORY_CRUMBS
