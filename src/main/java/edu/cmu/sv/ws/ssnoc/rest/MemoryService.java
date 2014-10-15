@@ -155,7 +155,7 @@ public class MemoryService extends BaseService {
 		Log.enter(timeWindowInHours);
 		List<MemoryCrumb> memoryCrumbs = null;
 		try {
-			List<MemoryCrumbPO> memoryCrumbPOs = DAOFactory.getInstance().getMemoryCrumbDAO().loadMemoryCrumbs();
+			List<MemoryCrumbPO> memoryCrumbPOs = DAOFactory.getInstance().getMemoryCrumbDAO().loadMemoryCrumbsInInterval(Long.parseLong(timeWindowInHours));
 
 			memoryCrumbs = new ArrayList<MemoryCrumb>();
 			for (MemoryCrumbPO po : memoryCrumbPOs) {

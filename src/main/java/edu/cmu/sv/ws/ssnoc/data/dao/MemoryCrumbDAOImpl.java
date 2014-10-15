@@ -131,15 +131,29 @@ public class MemoryCrumbDAOImpl extends BaseDAOImpl implements IMemoryCrumbDAO {
 	}
 
 	/**
-	 * This method will load all the memory crumbs in the
-	 * database in the specified interval.
+	 * This method will load all the memory crumbs in the database in the
+	 * specified interval.
 	 * 
 	 * @return - List of all memory crumbs in the specified interval
 	 */
 	@Override
 	public List<MemoryCrumbPO> loadMemoryCrumbsInInterval(long timeInterval) {
-		// TODO Auto-generated method stub
-		return null;
+		Log.enter();
+		long negativeTimeInterval = timeInterval * -1;
+
+		String query = SQL.FIND_ALL_MEMORY_CRUMBS_IN_INTERVAL;
+
+		List<MemoryCrumbPO> memoryCrumbs = new ArrayList<MemoryCrumbPO>();
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query);) {
+			stmt.setLong(1, negativeTimeInterval);
+			memoryCrumbs = processResults(stmt);
+		} catch (SQLException e) {
+			handleException(e);
+			Log.exit(memoryCrumbs);
+		}
+
+		return memoryCrumbs;
 	}
 
 }
