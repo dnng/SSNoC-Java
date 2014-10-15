@@ -17,36 +17,35 @@ import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 	@Override
-	public List<MessagePO> loadWallMessage() {
+	public List<MessagePO> loadWallMessages() {
 		Log.enter();
 		String query = SQL.FIND_ALL_WALL_MESSAGES;
-		List<MessagePO> message = new ArrayList<MessagePO>();
+		List<MessagePO> messages = new ArrayList<MessagePO>();
 			try (Connection conn = getConnection();
 			PreparedStatement stmt = conn.prepareStatement(query);) {
-			message = processResults(stmt);
+			messages = processResults(stmt);
 		} catch (SQLException e) {
 			handleException(e);
-		Log.exit(message);
+		Log.exit(messages);
 	}
 
-			return message;
+			return messages;
 	}
-	//
+	
 	@Override
-	public List<MessagePO> loadChatMessage() {
-		// TODO Auto-generated method stub
+	public List<MessagePO> loadChatMessages() {
 		Log.enter();
 		String query = SQL.FIND_ALL_CHAT_MESSAGES;
-		List<MessagePO> message = new ArrayList<MessagePO>();
+		List<MessagePO> messages = new ArrayList<MessagePO>();
 			try (Connection conn = getConnection();
 			PreparedStatement stmt = conn.prepareStatement(query);) {
-			message = processResults(stmt);
+			messages = processResults(stmt);
 		} catch (SQLException e) {
 			handleException(e);
-		Log.exit(message);
+		Log.exit(messages);
 	}
 
-			return message;
+			return messages;
 	}
 
 	private List<MessagePO> processResults(PreparedStatement stmt) {
@@ -56,22 +55,24 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			Log.warn("Inside processResults method with NULL statement object.");
 			return null;
 		}
-
+		
 		Log.debug("Executing stmt = " + stmt);
 		List<MessagePO> messages = new ArrayList<MessagePO>();
 		try (ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int colCount = rsmd.getColumnCount();
 				MessagePO po = new MessagePO();
-				po = new MessagePO();
-				po.setMessageId(rs.getLong(1));
-				po.setAuthorId(rs.getLong(2));
-				po.setAuthorName(rs.getString(3));
-				po.setTargetId(rs.getLong(4));
-				po.setTargetName(rs.getString(5));
-				po.setContent(rs.getString(6));
-				po.setLocationId(rs.getLong(7));
-				po.setLocation(rs.getString(8));
-				po.setCreatedAt(rs.getTimestamp(9));
+				if(colCount >=1) po.setMessageId(rs.getLong(1));
+				if(colCount >=2) po.setAuthorId(rs.getLong(2));
+				if(colCount >=3) po.setAuthorName(rs.getString(3));
+				if(colCount >=4) po.setTargetId(rs.getLong(4));
+				if(colCount >=5) po.setTargetName(rs.getString(5));
+				if(colCount >=6) po.setLocationId(rs.getLong(6));
+				if(colCount >=7) po.setLocation(rs.getString(7));
+				if(colCount >=8) po.setContent(rs.getString(8));
+				if(colCount >=9) po.setMessageType(rs.getString(9));
+				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));	
 
 				messages.add(po);
 			}
@@ -83,27 +84,9 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 		return messages;
 	}
-	//Chat Save//
 	
-	/*@Override
-	public MessagePO loadExistingMessage(long messageID) {
-		Log.enter();
+	//Chat Save//
 
-		
-
-		MessagePO messagePO = new MessagePO();
-		try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(SQL.FIND_MESSAGE_BY_ID)) {
-			stmt.setLong(1, messageID);
-			messagePO = processResult(stmt);
-				
-		} catch (SQLException e) {
-			handleException(e);
-			Log.exit(messagePO);
-		}
-
-		return messagePO;
-	}*/
 	public long saveChatMessage(MessagePO messagePO) {
 
 			Log.enter(messagePO);
@@ -118,7 +101,8 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				stmt.setLong(1, messagePO.getAuthorId());
 				stmt.setLong(2, messagePO.getTargetId());
 				stmt.setString(3, messagePO.getContent());
-				stmt.setLong(4, messagePO.getLocationId());
+				stmt.setString(4, "CHAT");
+				stmt.setLong(5, messagePO.getLocationId());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
@@ -138,11 +122,10 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			}
 			return messageId;
 		}
-	//Wall Save//	
 	
+	//Wall Save//
 	@Override
 	public long saveWallMessage(MessagePO messagePO) {
-		// TODO Auto-generated method stub
 			Log.enter(messagePO);
 			long messageId = 0;
 			if (messagePO == null) {
@@ -153,9 +136,10 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			try (Connection conn = getConnection();
 					PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_WALL_MESSAGE,  Statement.RETURN_GENERATED_KEYS)) {
 				stmt.setLong(1, messagePO.getAuthorId());
-				//stmt.setLong(2, messagePO.getTargetId());
-				stmt.setString(2, messagePO.getContent());
-				stmt.setLong(3, messagePO.getLocationId());
+				stmt.setLong(2, messagePO.getTargetId());
+				stmt.setString(3, messagePO.getContent());
+				stmt.setString(4, "WALL");
+				stmt.setLong(5, messagePO.getLocationId());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
@@ -176,13 +160,6 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			return messageId;
 		}
 		
-
-	@Override
-	public List<MessagePO> loadMessageByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public MessagePO loadMessageById(long messageId) {
 		Log.enter();
@@ -193,60 +170,19 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query);) {
 			stmt.setLong(1, messageId);
-			message = processMessageResult(stmt);
+			message = processResult(stmt);
 		} catch (SQLException e) {
 			handleException(e);
 			Log.exit(message);
 		}
 		return message;
 	}
-	
-	private MessagePO processMessageResult(PreparedStatement stmt) {
-		Log.enter(stmt);
-
-		if (stmt == null) {
-			Log.warn("Inside processResults method with NULL statement object.");
-			return null;
-		}
-
-		Log.debug("Executing stmt = " + stmt);
-		MessagePO po = new MessagePO();
-		try (ResultSet rs = stmt.executeQuery()) {
-			if (rs.next()) {
-							
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int colCount = rsmd.getColumnCount();	
-				
-					
-				if(colCount >=1) po.setMessageId(rs.getLong(1));
-				if(colCount >=2) po.setAuthorId(rs.getLong(2));
-				if(colCount >=3) po.setAuthorName(rs.getString(3));
-				if(colCount >=4) po.setTargetId(rs.getLong(4));
-				if(colCount >=6) po.setLocationId(rs.getLong(6));
-				if(colCount >=7) po.setLocation(rs.getString(7));
-				if(colCount >=9) po.setContent(rs.getString(8));
-				if(colCount >=10)po.setCreatedAt(rs.getTimestamp(9));
-			}
-		} catch (SQLException e) {
-			handleException(e);
-		} finally {
-			Log.exit(po);
-		}
-
-		return po;
-	}
-	
-	@Override
-	public List<MessagePO> loadMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+		
 	private MessagePO processResult(PreparedStatement stmt) {
 		Log.enter(stmt);
 
 		if (stmt == null) {
-			Log.warn("Inside processResults method with NULL statement object.");
+			Log.warn("Inside processResult method with NULL statement object.");
 			return null;
 		}
 
@@ -254,16 +190,19 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		MessagePO message = new MessagePO();
 		try (ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int colCount = rsmd.getColumnCount();
 				MessagePO po = new MessagePO();
-				po = new MessagePO();
-				
-				po.setMessageId(rs.getLong(1));
-				po.setAuthorId(rs.getLong(2));
-				po.setAuthorName(rs.getString(3));
-				po.setTargetId(rs.getLong(4));
-				po.setLocation(rs.getString(6));
-				po.setContent(rs.getString(7));
-				po.setCreatedAt(rs.getTimestamp(8));				
+				if(colCount >=1) po.setMessageId(rs.getLong(1));
+				if(colCount >=2) po.setAuthorId(rs.getLong(2));
+				if(colCount >=3) po.setAuthorName(rs.getString(3));
+				if(colCount >=4) po.setTargetId(rs.getLong(4));
+				if(colCount >=5) po.setTargetName(rs.getString(5));
+				if(colCount >=6) po.setLocationId(rs.getLong(6));
+				if(colCount >=7) po.setLocation(rs.getString(7));
+				if(colCount >=8) po.setContent(rs.getString(8));
+				if(colCount >=9) po.setMessageType(rs.getString(9));
+				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));				
 			}
 		} catch (SQLException e) {
 			handleException(e);
@@ -273,8 +212,6 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 		return message;
 	}
-
-
 
 }
 

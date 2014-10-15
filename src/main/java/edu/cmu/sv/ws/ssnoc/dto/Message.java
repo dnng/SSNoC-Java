@@ -2,70 +2,107 @@ package edu.cmu.sv.ws.ssnoc.dto;
 
 import java.sql.Timestamp;
 
+import com.google.gson.Gson;
+
 /**
  * This object contains message information that is responded as part of the REST
  * API request.
- * 
+ *
  */
 public class Message {
-	private long chatMessageId;
-	private long senderId;
-	private long receiverId;
+	private long messageId;
+	private long authorId;
+	private String author;
+	private long targetId;
+	private String target;
 	private String content;
+	private long locationId;
 	private String location;
-	private String message;
-	private Timestamp createdAt;
-	public long getChatMessageId() {
-		return chatMessageId;
+	private String messageType;
+	private Timestamp postedAt;
+
+	public long getMessageId() {
+		return messageId;
 	}
-	public void setChatMessageId(long chatMessageId) {
-		this.chatMessageId = chatMessageId;
+
+	public void setMessageId(long messageId) {
+		this.messageId = messageId;
 	}
-	public long getSenderId() {
-		return senderId;
+
+	public long getAuthorId() {
+		return authorId;
 	}
-	public void setSenderId(long senderId) {
-		this.senderId = senderId;
+
+	public void setAuthorId(long authorId) {
+		this.authorId = authorId;
 	}
-	public long getReceiverId() {
-		return receiverId;
+
+	public String getAuthor() {
+		return author;
 	}
-	public void setReceiverId(long receiverId) {
-		this.receiverId = receiverId;
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
+
+	public long getTargetId() {
+		return targetId;
+	}
+
+	public void setTargetId(long targetId) {
+		this.targetId = targetId;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public long getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(long locationId) {
+		this.locationId = locationId;
+	}
+
 	public String getLocation() {
 		return location;
 	}
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getMessage() {
-		return message;
+
+	public String getMessageType() {
+		return messageType;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+
+	public void setMessageType(String messageType) {
+		this.messageType = messageType;
 	}
-	public Timestamp getCreatedAt() {
-		return createdAt;
+
+	public Timestamp getPostedAt() {
+		return postedAt;
 	}
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+
+	public void setPostedAt(Timestamp postedAt) {
+		this.postedAt = postedAt;
 	}
-	public String getUserName() {
-		// TODO Auto-generated method stub
-		return null;
+
+	@Override
+	public String toString() {
+		return new Gson().toJson(this);
 	}
-	public String setUserName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
 }

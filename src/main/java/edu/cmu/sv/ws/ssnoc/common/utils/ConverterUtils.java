@@ -164,14 +164,13 @@ public class ConverterUtils {
 		return po;
 	}
 	
-	
 	/**
-	 * Convert MessagePO to User DTO object.
+	 * Convert MessagePO to message DTO object.
 	 * 
 	 * @param po
-	 *            - User PO object
+	 *            - message PO object
 	 * 
-	 * @return - User DTO Object
+	 * @return - message DTO Object
 	 */
 	public static final Message convert(MessagePO po) {
 		if (po == null) {
@@ -179,43 +178,44 @@ public class ConverterUtils {
 		}
 
 		Message dto = new Message();
-		//dto.setChatMessageId(po.getChatMessageId());
+		dto.setMessageId(po.getMessageId());
+		dto.setAuthorId(po.getAuthorId());
+		dto.setAuthor(po.getAuthorName());
+		dto.setTargetId(po.getTargetId());
+		dto.setTarget(po.getTargetName());
 		dto.setContent(po.getContent());
-		dto.setCreatedAt(po.getCreatedAt());
+		dto.setLocationId(po.getLocationId());
 		dto.setLocation(po.getLocation());
-		//dto.setReceiverId(po.getReceiverId());
-		//dto.setSenderId(po.getSenderId());
+		dto.setPostedAt(po.getCreatedAt());
 		
 		return dto;
 	}
-/*
-	*//**
-	 * Convert User DTO to UserPO object
+
+	/**
+	 * Convert message DTO to messagePO object
 	 * 
 	 * @param dto
-	 *            - User DTO object
+	 *            - Message DTO object
 	 * 
-	 * @return - UserPO object
-	 *//*
-	public static final UserPO convert(User dto) {
+	 * @return - MessagePO object
+	 */
+	public static final MessagePO convert(Message dto) {
 		if (dto == null) {
-			return null;
-		}
+			return null;}
 
-		UserPO po = new UserPO();
-		po.setUserName(dto.getUserName());
-		po.setPassword(dto.getPassword());
-		po.setLastStatus(dto.getLastStatus());
-		po.setLastStatusTime(dto.getLastStatusTime());
-		po.setLastLocation(dto.getLastLocation());
-		po.setCreatedAt(dto.getCreatedAt());
-		po.setModifiedAt(dto.getModifiedAt());
-
+		MessagePO po = new MessagePO();
+		po.setMessageId(dto.getMessageId());
+		po.setAuthorId(dto.getAuthorId());
+		po.setAuthorName(dto.getAuthor());
+		po.setTargetId(dto.getTargetId());
+		po.setTargetName(dto.getTarget());
+		po.setContent(dto.getContent());
+		po.setLocationId(dto.getLocationId());
+		po.setLocation(dto.getLocation());
+		po.setCreatedAt(dto.getPostedAt());
 		return po;
 	}
-	
-*/
-	
+
 	/**
 	 * Convert MemoryCrumbPO to MemoryCrumb DTO object.
 	 * 
@@ -264,3 +264,5 @@ public class ConverterUtils {
 		return po;
 	}
 }
+
+

@@ -202,9 +202,9 @@ public class SQL {
 	 */
 	public static final String CREATE_MESSAGES = "create table IF NOT EXISTS "
 			+ SSN_MESSAGES + " ( message_id IDENTITY PRIMARY KEY,"
-			+ " author_id BIGINT," + " target_id BIGINT,"
-			+ " content VARCHAR(1024)," + " message_type VARCHAR(10),"
-			+ " location_id BIGINT," + " created_at TIMESTAMP )";
+			+ " author_id BIGINT, target_id BIGINT,  location_id BIGINT,"
+			+ " content VARCHAR(1024), message_type VARCHAR(10),"
+			+ " created_at TIMESTAMP )";
 	
 	/**
 	 * Query to drop the MESSAGES table.
@@ -215,69 +215,97 @@ public class SQL {
 	/**
 	 * Query to load message by the specific message ID
 	 */
-
-	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.created_at "  
-	+ "from SSN_MESSAGES ssm "  
-	+ "left outer join SSN_USERS sa " 
-	+ "on ssm.author_id=sa.user_id " 
-	+ "left outer join SSN_USERS sb " 
-	+ "on ssm.target_id=sa.user_id " 
-	+ "left outer join SSN_LOCATION_CRUMBS slc on sa.last_location_id=slc.location_crumb_id " 
-	+ "where  ssm.message_id = ? " 
-	+ "order by ssm.created_at, sa.user_name DESC"; 
-
+	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.message_type, ssm.created_at "  
+	+ "from " 
+    + SSN_MESSAGES 
+    + " ssm "  
+	+ "left outer join "
+    + SSN_USERS 
+    + " sa on ssm.author_id=sa.user_id " 
+	+ "left outer join "
+    + SSN_USERS 
+    + " sb on ssm.target_id=sa.user_id " 
+	+ "left outer join "
+	+ SSN_LOCATION_CRUMBS 
+	+ " slc on sa.last_location_id=slc.location_crumb_id " 
+	+ "where ssm.message_id = ? " 
+	+ "order by ssm.created_at DESC"; 
 	
 	/**
 	 * Query to load all messages in the system.
 	 */
 	public static final String FIND_ALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
 			+ " sb.user_name, ssm.location_id, slc.location, "
-			+ " ssm.content, ssm.created_at "
+			+ " ssm.content, ssm.message_type, ssm.created_at "
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
-			+ " left outer join"
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sa on ssm.author_id=sa.user_id"
-			+ " left outer join"
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id"
-			+ " left outer join"
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
-			+ " slc on u.last_location_id=slc.last.location_id"
-			+ " order by ssm.created_at, sa.user_name DESC";
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " order by ssm.created_at DESC";
 
 	/**
 	 * Query to load all chat messages in the system.
 	 */
-	public static final String FIND_ALL_CHAT_MESSAGES = "select message_id, author_id, target_id,"
-			+ " content, location_id, created_at "
+	public static final String FIND_ALL_CHAT_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
+			+ " sb.user_name, ssm.location_id, slc.location, "
+			+ " ssm.content, ssm.message_type, ssm.created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ " where message_type=\"CHAT\"" + " order by created_at DESC";
+			+ " ssm "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'CHAT\'"
+			+ " order by ssm.created_at DESC";
 
 	/**
 	 * Query to load all wall messages in the system.
 	 */
-	public static final String FIND_ALL_WALL_MESSAGES = "select message_id, author_id, target_id,"
-			+ " content, location_id, created_at "
+	public static final String FIND_ALL_WALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
+			+ " sb.user_name, ssm.location_id, slc.location, "
+			+ " ssm.content, ssm.message_type, ssm.created_at "
 			+ " from "
 			+ SSN_MESSAGES
-			+ " where message_type=\"WALL\"" + " order by created_at DESC";
+			+ " ssm "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'WALL\'"
+			+ " order by ssm.created_at DESC";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
 	public static final String INSERT_CHAT_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"CHAT\", ?,CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"WALL\", ?,CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
 	/**
 	 * Query to fetch chat buddies
@@ -330,8 +358,16 @@ public class SQL {
 			+ SSN_MEMORY_CRUMBS
 			+ " order by created_at DESC";
 	
-	//TODO: SQL Query to get all memory crumbs in a specific time duration
-
+	/**
+     * Query to load all memory crumbs in the specified time interval.
+     */
+    public static final String FIND_ALL_MEMORY_CRUMBS_IN_INTERVAL = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
+            + " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
+            + " from "
+            + SSN_MEMORY_CRUMBS
+            + " where created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
+            + " order by created_at DESC";
+    
 	/**
 	 * Query to delete all memory crumbs in the system.
 	 */
@@ -347,3 +383,4 @@ public class SQL {
 			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
 }
+
