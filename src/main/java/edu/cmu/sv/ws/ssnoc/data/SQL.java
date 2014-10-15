@@ -310,7 +310,7 @@ public class SQL {
 	/**
 	 * Query to insert new private chat message
 	 */
-	public static final String INSERT_PRIVATE_CHAT_MESSAGE = "insert into"
+	public static final String INSERT_PRIVATE_CHAT_MESSAGE = "insert into "
 			+ "SSN_MESSAGES "
 			+ "(created_at, location_id, message_type, content, target_id, author_id) "
 			+ "values (CURRENT_TIMESTAMP(), ?, \'CHAT\', ?, ?, ?)";

@@ -140,7 +140,7 @@ public class MessageService extends BaseService {
 		Message resp = new Message();
 
 		MessagePO po = null;
-		if (sendingUserName != null && receivingUserName != null && message.getContent() != null && message.getPostedAt() != null)
+		if (sendingUserName != null && receivingUserName != null && message.getContent() != null)
 		{
 			po = sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
 		}

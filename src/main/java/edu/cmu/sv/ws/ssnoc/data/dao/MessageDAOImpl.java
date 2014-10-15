@@ -12,8 +12,6 @@ import java.util.List;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
-import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
-import edu.cmu.sv.ws.ssnoc.dto.Message;
 
 public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
@@ -225,8 +223,8 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				PreparedStatement stmt = conn.prepareStatement(query);) {
 			stmt.setString(1, userName1);
 			stmt.setString(2, userName2);
-			stmt.setString(1, userName2);
-			stmt.setString(1, userName1);
+			stmt.setString(3, userName2);
+			stmt.setString(4, userName1);
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					ResultSetMetaData rsmd = rs.getMetaData();
