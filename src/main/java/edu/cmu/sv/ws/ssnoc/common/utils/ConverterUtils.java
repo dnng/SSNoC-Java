@@ -263,31 +263,6 @@ public class ConverterUtils {
 
 		return po;
 	}
-	
-	/**
-	 * Convert Status Crumb to Message object.
-	 * 
-	 * @param sc
-	 *            - status crumb object
-	 * 
-	 * @return - message  Object
-	 */
-	public static final Message convertStatusToMessage(StatusCrumb sc) {
-		if (sc == null) {
-			return null;
-		}
-
-		Message msg = new Message();
-		msg.setMessageId(sc.getStatusCrumbId());
-		msg.setAuthorId(sc.getUserId());
-		msg.setAuthor(sc.getUserName());
-		msg.setContent(sc.getStatus());
-		msg.setLocationId(sc.getLocationCrumbId());
-		msg.setLocation(sc.getLocation());
-		msg.setPostedAt(sc.getCreatedAt());
-		
-		return msg;
-	}
 }
 
 

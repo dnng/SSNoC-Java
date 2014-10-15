@@ -9,7 +9,7 @@ import com.google.gson.Gson;
  * API request.
  *
  */
-public class Message implements Comparable<Message> {
+public class Message {
 	private long messageId;
 	private long authorId;
 	private String author;
@@ -19,7 +19,6 @@ public class Message implements Comparable<Message> {
 	private long locationId;
 	private String location;
 	private String messageType;
-	private String status;
 	private Timestamp postedAt;
 
 	public long getMessageId() {
@@ -94,14 +93,6 @@ public class Message implements Comparable<Message> {
 		this.messageType = messageType;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public Timestamp getPostedAt() {
 		return postedAt;
 	}
@@ -114,9 +105,4 @@ public class Message implements Comparable<Message> {
 	public String toString() {
 		return new Gson().toJson(this);
 	}
-	
-	@Override
-	public int compareTo(Message o) {
-	    return getPostedAt().compareTo(o.getPostedAt());
-	  }
 }
