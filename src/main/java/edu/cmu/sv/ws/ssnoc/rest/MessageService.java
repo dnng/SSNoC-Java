@@ -73,7 +73,7 @@ public class MessageService extends BaseService {
 			MessagePO mpo = new MessagePO();
 			mpo.setAuthorId(userId);
 			mpo.setLocationId(locationId);
-			mpo.setMessage(message.getMessage());
+			mpo.setContent(message.getMessage());
 			long messageId = DAOFactory.getInstance().getMessageDAO().saveWallMessage(mpo);
 
 			// Step 4: Update the user with the new message, location crumb id
@@ -110,7 +110,7 @@ public class MessageService extends BaseService {
 		List<Message> message = new ArrayList<Message>();
 		try {
 			List<MessagePO> messagePO = DAOFactory.getInstance()
-					.getMessageDAO().loadWallMessage();
+					.getMessageDAO().loadWallMessages();
 
 			if (messagePO != null) {
 				for (MessagePO po : messagePO) {

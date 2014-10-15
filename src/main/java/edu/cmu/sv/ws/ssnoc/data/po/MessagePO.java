@@ -17,11 +17,10 @@ public class MessagePO {
 	private String AuthorName;
 	private long TargetId;
 	private String TargetName;
-	private String content;
 	private long LocationId;
 	private String location;
-	private String message;
-	private String message_type;
+	private String content;
+	private String messageType;
 	private Timestamp createdAt;
 
 	public long getMessageId() {
@@ -88,20 +87,12 @@ public class MessagePO {
 		this.location = location;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getMessageType() {
+		return messageType;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getMessage_type() {
-		return message_type;
-	}
-
-	public void setMessage_type(String message_type) {
-		this.message_type = message_type;
+	public void setMessageType(String messageType) {
+		this.messageType = messageType;
 	}
 
 	public Timestamp getCreatedAt() {
@@ -116,7 +107,5 @@ public class MessagePO {
 	public String toString() {
 		return new Gson().toJson(this);
 	}
-
-
 
 }

@@ -51,7 +51,7 @@ public class MessagesService extends BaseService {
 		List<Message> message = new ArrayList<Message>();
 		try {
 			List<MessagePO> messagePO = DAOFactory.getInstance()
-					.getMessageDAO().loadWallMessage();
+					.getMessageDAO().loadWallMessages();
 
 			if (messagePO != null) {
 				for (MessagePO po : messagePO) {
