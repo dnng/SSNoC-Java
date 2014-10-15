@@ -44,8 +44,9 @@ public class MessagePO {
 		return AuthorName;
 	}
 
-	public void setAuthorName(String authorName) {
-		AuthorName = authorName;
+
+	public void setAuthorName(String string) {
+		AuthorName = string;
 	}
 
 	public long getTargetId() {

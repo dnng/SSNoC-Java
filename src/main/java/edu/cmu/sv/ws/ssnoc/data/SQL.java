@@ -12,6 +12,7 @@ public class SQL {
 	public static final String SSN_STATUS_CRUMBS = "SSN_STATUS_CRUMBS";
 	public static final String SSN_LOCATION_CRUMBS = "SSN_LOCATION_CRUMBS";
 	public static final String SSN_MESSAGES = "SSN_MESSAGES";
+	public static final String SSN_MEMORY_CRUMBS = "SSN_MEMORY_CRUMBS";
 
 	/**
 	 * Query to check if a given table exists in the H2 database.
@@ -212,6 +213,21 @@ public class SQL {
 			+ SSN_MESSAGES;
 
 	/**
+	 * Query to load message by the specific message ID
+	 */
+
+	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.created_at "  
+	+ "from SSN_MESSAGES ssm "  
+	+ "left outer join SSN_USERS sa " 
+	+ "on ssm.author_id=sa.user_id " 
+	+ "left outer join SSN_USERS sb " 
+	+ "on ssm.target_id=sa.user_id " 
+	+ "left outer join SSN_LOCATION_CRUMBS slc on sa.last_location_id=slc.location_crumb_id " 
+	+ "where  ssm.message_id = ? " 
+	+ "order by ssm.created_at, sa.user_name DESC"; 
+
+	
+	/**
 	 * Query to load all messages in the system.
 	 */
 	public static final String FIND_ALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
@@ -263,6 +279,54 @@ public class SQL {
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
+
+	
+	// ****************************************************************
+	// All queries related to MEMORY_CRUMBS
+	// ****************************************************************
+	/**
+	 * Query to create the MEMORY_CRUMBS table.
+	 */
+	public static final String CREATE_MEMORY_CRUMBS = "create table IF NOT EXISTS "
+			+ SSN_MEMORY_CRUMBS
+			+ " ( memory_crumb_id IDENTITY PRIMARY KEY,"
+			+ " used_volatile_memory BIGINT,"
+			+ " remaining_volatile_memory BIGINT,"
+			+ " used_persistent_memory BIGINT,"
+			+ " remaining_persistent_memory BIGINT,"
+			+ " online_users BIGINT,"
+			+ " created_at TIMESTAMP )";
+
+	/**
+	 * Query to drop the MEMORY_CRUMBS table.
+	 */
+	public static final String DROP_MEMORY_CRUMBS = "drop table if exists "
+			+ SSN_MEMORY_CRUMBS;
+
+	/**
+	 * Query to load all memory crumbs in the system.
+	 */
+	public static final String FIND_ALL_MEMORY_CRUMBS = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
+			+ " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
+			+ " from "
+			+ SSN_MEMORY_CRUMBS
+			+ " order by created_at DESC";
+	
+	//TODO: SQL Query to get all memory crumbs in a specific time duration
+
+	/**
+	 * Query to delete all memory crumbs in the system.
+	 */
+	public static final String DELETE_ALL_MEMORY_CRUMBS = "delete from "
+			+ SSN_MEMORY_CRUMBS;
+	
+	/**
+	 * Query to insert a row into the memory_crumbs table.
+	 */
+	public static final String INSERT_MEMORY_CRUMB = "insert into "
+			+ SSN_MEMORY_CRUMBS
+			+ " (used_volatile_memory, remaining_volatile_memory, used_persistent_memory, remaining_persistent_memory, " 
+			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
 }
 

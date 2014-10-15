@@ -58,5 +58,14 @@ public class DAOFactory {
 	public IMessageDAO getMessageDAO() {
 		return new MessageDAOImpl();
 	}
+	
+	/**
+	 * Method to get a new object implementing IMemoryCrumbDAO
+	 * 
+	 * @return - Object implementing IMemoryCrumbDAO
+	 */
+	public IMemoryCrumbDAO getMemoryCrumbDAO() {
+		return new MemoryCrumbDAOImpl();
+	}
 
 }

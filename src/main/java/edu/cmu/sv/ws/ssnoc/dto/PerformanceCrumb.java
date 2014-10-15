@@ -9,7 +9,7 @@ import com.google.gson.Gson;
  * API request.
  * 
  */
-public class PerformanceTest {
+public class PerformanceCrumb {
 	private long testDurationInSecs;
 	private Timestamp requestedAt;
 	private Timestamp startedAt;

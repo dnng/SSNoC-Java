@@ -18,15 +18,11 @@ import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.ILocationCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IMessageDAO;
-import edu.cmu.sv.ws.ssnoc.data.dao.IStatusCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
 import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
-import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
-import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
@@ -44,6 +40,7 @@ public class MessageService extends BaseService {
 	 * 
 	 * @return - An object of type Response with the message of the request
 	 */
+	
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -73,12 +70,11 @@ public class MessageService extends BaseService {
 
 			// Step 3: Insert a new wall message and get back the message
 			// id
-			IMessageDAO mDao = DAOFactory.getInstance().getMessageDAO();
 			MessagePO mpo = new MessagePO();
 			mpo.setAuthorId(userId);
 			mpo.setLocationId(locationId);
 			mpo.setMessage(message.getMessage());
-			long messageId = mDao.saveWallMessage(mpo);
+			long messageId = DAOFactory.getInstance().getMessageDAO().saveWallMessage(mpo);
 
 			// Step 4: Update the user with the new message, location crumb id
 			// and modified at time
@@ -127,31 +123,26 @@ public class MessageService extends BaseService {
 		} finally {
 			Log.exit(message);
 		}
-
 		return message;
 	}
-
-	/*
-	 * This method fetches all message information by the given message ID if
-	 * present
+	/**
+	 * This method fetches all message information by the given message ID if present
 	 * 
-	 * @param messageID - messageID to fetch
-	 * 
+	 * @param messageID
+	 *            - messageID to fetch
 	 * @return - An object of type Response with the status of the request
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "message")
-	public Message loadUser(@PathParam("messageID") Long messageID) {
+	public Message loadMessage(@PathParam("messageID") long messageID) {
 		Log.enter();
 
 		Message message = null;
 		try {
-			// MessagePO msgPO =
-			// DAOFactory.getInstance().getMessageDAO().loadExistingMessage(messageID);
-			MessagePO msgPO = new MessagePO();
-			// msgPO.setContent("blah!");
-			// msgPO.setLocation("somewhere");
+			IMessageDAO dao = DAOFactory.getInstance().getMessageDAO();
+			Log.enter(messageID);
+			MessagePO msgPO = dao.loadMessageById(messageID);
 			message = ConverterUtils.convert(msgPO);
 
 		} catch (Exception e) {
@@ -160,6 +151,7 @@ public class MessageService extends BaseService {
 			Log.exit(message);
 		}
 
-		return message;
+		return message;	
 	}
+
 }
