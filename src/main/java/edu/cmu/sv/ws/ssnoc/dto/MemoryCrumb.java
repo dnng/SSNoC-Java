@@ -10,59 +10,59 @@ import com.google.gson.Gson;
  * 
  */
 public class MemoryCrumb {
-	private long testDurationInSecs;
-	private Timestamp requestedAt;
-	private Timestamp startedAt;
-	private Timestamp endedAt;
-	private long getsPerSecond;
-	private long postsPerSecond;
-	
-	public long getTestDurationInSecs() {
-		return testDurationInSecs;
+	private long usedVolatileMemory;
+	private long remainingVolatileMemory;
+	private long usedPersistentMemory;
+	private long remainingPersistentMemory;
+	private long onlineUsers;
+	private Timestamp createdAt;
+
+	public long getUsedVolatileMemory() {
+		return usedVolatileMemory;
 	}
 
-	public void setTestDurationInSecs(long testDurationInSecs) {
-		this.testDurationInSecs = testDurationInSecs;
+	public void setUsedVolatileMemory(long usedVolatileMemory) {
+		this.usedVolatileMemory = usedVolatileMemory;
 	}
 
-	public Timestamp getRequestedAt() {
-		return requestedAt;
+	public long getRemainingVolatileMemory() {
+		return remainingVolatileMemory;
 	}
 
-	public void setRequestedAt(Timestamp requestedAt) {
-		this.requestedAt = requestedAt;
+	public void setRemainingVolatileMemory(long remainingVolatileMemory) {
+		this.remainingVolatileMemory = remainingVolatileMemory;
 	}
 
-	public Timestamp getStartedAt() {
-		return startedAt;
+	public long getUsedPersistentMemory() {
+		return usedPersistentMemory;
 	}
 
-	public void setStartedAt(Timestamp startedAt) {
-		this.startedAt = startedAt;
+	public void setUsedPersistentMemory(long usedPersistentMemory) {
+		this.usedPersistentMemory = usedPersistentMemory;
 	}
 
-	public Timestamp getEndedAt() {
-		return endedAt;
+	public long getRemainingPersistentMemory() {
+		return remainingPersistentMemory;
 	}
 
-	public void setEndedAt(Timestamp endedAt) {
-		this.endedAt = endedAt;
+	public void setRemainingPersistentMemory(long remainingPersistentMemory) {
+		this.remainingPersistentMemory = remainingPersistentMemory;
 	}
 
-	public long getGetsPerSecond() {
-		return getsPerSecond;
+	public long getOnlineUsers() {
+		return onlineUsers;
 	}
 
-	public void setGetsPerSecond(long getsPerSecond) {
-		this.getsPerSecond = getsPerSecond;
+	public void setOnlineUsers(long onlineUsers) {
+		this.onlineUsers = onlineUsers;
 	}
 
-	public long getPostsPerSecond() {
-		return postsPerSecond;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setPostsPerSecond(long postsPerSecond) {
-		this.postsPerSecond = postsPerSecond;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	@Override

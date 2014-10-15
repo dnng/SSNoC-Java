@@ -305,8 +305,8 @@ public class SQL {
 	/**
 	 * Query to load all memory crumbs in the system.
 	 */
-	public static final String FIND_ALL_MEMORY_CRUMBS = "select memory_crumb_id, used_volatile_memory, remaining_volative_memory, "
-			+ " used_persistent_memory, remaining_presistent_memory, online_users, created_at "
+	public static final String FIND_ALL_MEMORY_CRUMBS = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
+			+ " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
 			+ " from "
 			+ SSN_MEMORY_CRUMBS
 			+ " order by created_at DESC";
@@ -324,7 +324,7 @@ public class SQL {
 	 */
 	public static final String INSERT_MEMORY_CRUMB = "insert into "
 			+ SSN_MEMORY_CRUMBS
-			+ " (used_volatile_memory, remaining_volative_memory, used_persistent_memory, remaining_presistent_memory, " 
+			+ " (used_volatile_memory, remaining_volatile_memory, used_persistent_memory, remaining_persistent_memory, " 
 			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
 }

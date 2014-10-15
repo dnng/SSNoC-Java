@@ -1,12 +1,16 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
 import java.sql.SQLException;
+import java.util.Timer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.common.timer.MeasurementTimer;
+import edu.cmu.sv.ws.ssnoc.common.utils.MeasurementUtils;
+import edu.cmu.sv.ws.ssnoc.common.utils.PropertyUtils;
 import edu.cmu.sv.ws.ssnoc.data.util.DBUtils;
 
 public class SSNoCAppInitializer extends HttpServlet {
@@ -17,10 +21,10 @@ public class SSNoCAppInitializer extends HttpServlet {
 		// of this method. This includes initializing database etc.
 		try {
 			DBUtils.initializeDatabase();
+			//MeasurementUtils.measure(); //comment this out finally
 		} catch (SQLException e) {
 			Log.error("Oops :( We ran into an error when trying to intialize "
 					+ "database. Please check the trace for more details.", e);
 		}
 	}
-
 }

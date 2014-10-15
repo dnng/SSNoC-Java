@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 public class MemoryCrumbPO {
 	private long memoryCrumbId;
 	private long usedVolatileMemory;
-	private long remainingVolativeMemory;
+	private long remainingVolatileMemory;
 	private long usedPersistentMemory;
 	private long remainingPersistentMemory;
 	private long onlineUsers;
@@ -36,12 +36,12 @@ public class MemoryCrumbPO {
 		this.usedVolatileMemory = usedVolatileMemory;
 	}
 
-	public long getRemainingVolativeMemory() {
-		return remainingVolativeMemory;
+	public long getRemainingVolatileMemory() {
+		return remainingVolatileMemory;
 	}
 
-	public void setRemainingVolativeMemory(long remainingVolativeMemory) {
-		this.remainingVolativeMemory = remainingVolativeMemory;
+	public void setRemainingVolatileMemory(long remainingVolatileMemory) {
+		this.remainingVolatileMemory = remainingVolatileMemory;
 	}
 
 	public long getUsedPersistentMemory() {
