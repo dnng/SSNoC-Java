@@ -239,7 +239,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 					if(colCount >=7) po.setMessageId(rs.getLong(7));
 					if(colCount >=8) po.setAuthorName(rs.getString(8));
 					if(colCount >=9) po.setTargetName(rs.getString(9));
-					
+					peerChatMessages.add(po);
 				}
 			} catch (SQLException e) {
 				handleException(e);
