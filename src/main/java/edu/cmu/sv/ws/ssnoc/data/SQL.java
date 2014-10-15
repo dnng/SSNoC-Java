@@ -327,6 +327,9 @@ public class SQL {
 	+ ") m "
 	+ "on  u.user_id = m.user_id ";
 	
+	
+	public static final String FIND_PEER_CHAT_MESSAGES = "select * from SSN_MESSAGES";
+	
 	// ****************************************************************
 	// All queries related to MEMORY_CRUMBS
 	// ****************************************************************
