@@ -20,7 +20,7 @@ import edu.cmu.sv.ws.ssnoc.dto.User;
  * DAO implementation for saving User information in the H2 database.
  * 
  */
-public class UsergroupsDAOImpl extends BaseDAOImpl implements IUserDAO {
+public class UserGroupsDAOImpl extends BaseDAOImpl implements IUserDAO {
 	/**
 	 * This method will load users from the DB with specified account status. If
 	 * no status information (null) is provided, it will load all users.

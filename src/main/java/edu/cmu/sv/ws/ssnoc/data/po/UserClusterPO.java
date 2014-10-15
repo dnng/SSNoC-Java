@@ -11,7 +11,7 @@ import com.google.gson.Gson;
  * Information is saved in SSN_USERS table.
  * 
  */
-public class UserclusterPO {
+public class UserClusterPO {
 	private long userId;
 	private String userName;
 	private String password;

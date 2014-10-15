@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.eclipse.persistence.annotations.Array;
 
+import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * Interface specifying the contract that all implementations will implement to
  */
-public interface IUsergroupsDAO {
+public interface IUserGroupsDAO {
 	/**
 	 * This method will save the information of the user into the database.
 	 * 
@@ -53,6 +53,6 @@ public interface IUsergroupsDAO {
 	 */
 	List<UserPO> loadChatBuddies(String userName);
 	
-	list<UserclusterPO>loadUnconnectedUsers(Array userName);
+	List<UserClusterPO>loadUnconnectedUsers(Array userName);
 
 }
