@@ -1,6 +1,6 @@
 package edu.cmu.sv.ws.ssnoc.data.po;
 
-import java.sql.Timestamp;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -12,104 +12,16 @@ import com.google.gson.Gson;
  * 
  */
 public class UserClusterPO {
-	private long userId;
-	private String userName;
-	private String password;
-	private String salt;
-	private long lastStatusCrumbId;
-	private String lastStatus;
-	private long lastLocationCrumbId;
-	private String lastLocation;
-	private Timestamp lastStatusTime;
-	private Timestamp createdAt;
-	private Timestamp modifiedAt;
-
-	public long getUserId() {
-		return userId;
+	private List<String> userNames;
+	
+	public List<String> getUserNames() {
+		return userNames;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUserNames(List<String> userNames) {
+		this.userNames = userNames;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	public long getLastStatusCrumbId() {
-		return lastStatusCrumbId;
-	}
-
-	public void setLastStatusCrumbId(long lastStatusCrumbId) {
-		this.lastStatusCrumbId = lastStatusCrumbId;
-	}
-
-	public String getLastStatus() {
-		return lastStatus;
-	}
-
-	public void setLastStatus(String lastStatus) {
-		this.lastStatus = lastStatus;
-	}
-
-	public long getLastLocationCrumbId() {
-		return lastLocationCrumbId;
-	}
-
-	public void setLastLocationCrumbId(long lastLocationCrumbId) {
-		this.lastLocationCrumbId = lastLocationCrumbId;
-	}
-	public String getLastLocation() {
-		return lastLocation;
-	}
-
-	public void setLastLocation(String lastLocation) {
-		this.lastLocation = lastLocation;
-	}
-
-	public Timestamp getLastStatusTime() {
-		return lastStatusTime;
-	}
-
-	public void setLastStatusTime(Timestamp lastStatusTime) {
-		this.lastStatusTime = lastStatusTime;
-	}
-
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getModifiedAt() {
-		return modifiedAt;
-	}
-
-	public void setModifiedAt(Timestamp modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
 	@Override
 	public String toString() {
 		return new Gson().toJson(this);

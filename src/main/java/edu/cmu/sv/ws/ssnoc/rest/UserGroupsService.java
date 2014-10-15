@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -15,6 +14,7 @@ import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.User;
+import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
@@ -33,19 +33,19 @@ public class UserGroupsService extends BaseService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "usergroups")
 	@Path("/unconnected")
-	public List<User> loadChatBuddies(@PathParam("username") String userName) {
+	public List<UserGroup> loadUnconnectedClusters() {
 		Log.enter();
 		
-		List<User> users = null;
+		List<UserGroup> users = null;
 		try
 		{
-			List<UserPO> userPOs = DAOFactory.getInstance().getUserDAO().loadChatBuddies(userName);
-			
-			users = new ArrayList<User>();
-			for (UserPO po : userPOs) {
-				User dto = ConverterUtils.convert(po);
-				users.add(dto);
-			}
+//			List<UserPO> userPOs = DAOFactory.getInstance().getUserGroupsDAO().getClusters(); 
+//			
+//			users = new ArrayList<User>();
+//			for (UserPO po : userPOs) {
+//				User dto = ConverterUtils.convert(po);
+//				users.add(dto);
+//			}
 			
 			
 		} catch (Exception e) {
