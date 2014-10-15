@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -43,6 +44,38 @@ public class UsersService extends BaseService {
 			Log.exit(users);
 		}
 
+		return users;
+	}
+	
+	/**
+	 * This method loads up the users those have chatted with the specified user in the past
+	 * 
+	 * @return - array of all active users
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/{username}/chatbuddies")
+	public List<User> loadChatBuddies(@PathParam("username") String userName) {
+		Log.enter();
+		
+		List<User> users = null;
+		try
+		{
+			List<UserPO> userPOs = DAOFactory.getInstance().getUserDAO().loadChatBuddies(userName);
+			
+			users = new ArrayList<User>();
+			for (UserPO po : userPOs) {
+				User dto = ConverterUtils.convert(po);
+				users.add(dto);
+			}
+			
+			
+		} catch (Exception e) {
+			
+		} finally {
+			
+		}
+		
 		return users;
 	}
 }

@@ -85,7 +85,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 	}
 	//Chat Save//
 	
-	@Override
+	/*@Override
 	public MessagePO loadExistingMessage(long messageID) {
 		Log.enter();
 
@@ -103,7 +103,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		}
 
 		return messagePO;
-	}
+	}*/
 	public long saveChatMessage(MessagePO messagePO) {
 
 			Log.enter(messagePO);

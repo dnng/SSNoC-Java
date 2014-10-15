@@ -279,6 +279,25 @@ public class SQL {
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, \"WALL\", ?,CURRENT_TIMESTAMP())";
 
+	/**
+	 * Query to fetch chat buddies
+	 */
+	public static final String FETCH_CHAT_BUDDIES = "select u.user_id, user_name, created_at, modified_at, last_status_code_id "
+	+ "from SSN_USERS u "
+	+ "join "
+	+ "(select distinct target_id as user_id "
+	+ "from SSN_MESSAGES m1 " 
+	+ "join SSN_USERS u1 on m1.author_id = u1.user_id " 
+	+ "where u1.user_name = ? "
+	+ "and m1.message_type = \'CHAT\' "
+	+ "union "
+	+ "select distinct author_id as user_id "
+	+ "from SSN_MESSAGES m2 "
+	+ "join SSN_USERS u2 on m2.target_id = u2.user_id "
+	+ "where u2.user_name = ? "
+	+ "and m2.message_type = \'CHAT\' "
+	+ ") m "
+	+ "on  u.user_id = m.user_id ";
 	
 	// ****************************************************************
 	// All queries related to MEMORY_CRUMBS

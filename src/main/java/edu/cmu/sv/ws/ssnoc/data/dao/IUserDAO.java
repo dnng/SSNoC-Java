@@ -3,6 +3,7 @@ package edu.cmu.sv.ws.ssnoc.data.dao;
 import java.util.List;
 
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * Interface specifying the contract that all implementations will implement to
@@ -46,5 +47,10 @@ public interface IUserDAO {
 	 */
 	void update(UserPO userPO);
 	
+	/**
+	 * This method returns the Users the given @user has had a 'CHAT' conversation with before
+	 * @return - list of Users
+	 */
+	List<UserPO> loadChatBuddies(String userName);
 
 }

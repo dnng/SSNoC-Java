@@ -7,6 +7,7 @@ import org.apache.logging.log4j.message.Message;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
 //import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 //import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * Interface specifying the contract that all implementations will implement to
@@ -69,6 +70,5 @@ public interface IMessageDAO {
 	 * @return - message.
 	 */
 	MessagePO loadMessageById(long message_id);
-	MessagePO loadExistingMessage(long messageID);
-
+	//MessagePO loadExistingMessage(long messageID);
 }
