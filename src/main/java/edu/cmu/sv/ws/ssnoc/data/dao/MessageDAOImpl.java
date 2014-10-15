@@ -252,6 +252,36 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		}
 		return peerChatMessages;
 	}
+	
+	
+	public void savePrivateChatMessage(String senderName, String receiverName, MessagePO po) {
+		Log.enter(po);
+		if (po == null) {
+			Log.warn("Inside save private chat method with messagePO == NULL");
+			return;
+		}
+
+		
+		//"(created_at, location_id, message_type, content, target_id, author_id) "		+ "values (CURRENT_TIMESTAMP(), ?, \'CHAT\', ?, ?, ?)";
+		// fetch sender user Id	
+		long senderId =  DAOFactory.getInstance().getUserDAO().findByName(senderName).getUserId();
+		long receiverId = DAOFactory.getInstance().getUserDAO().findByName(receiverName).getUserId();
+		
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_PRIVATE_CHAT_MESSAGE)) {
+			stmt.setLong(1, po.getLocationId());
+			stmt.setString(2, po.getContent());
+			stmt.setLong(3, receiverId);
+			stmt.setLong(4, senderId);
+		
+			int rowCount = stmt.executeUpdate();
+			Log.trace("Statement executed, and " + rowCount + " rows inserted.");
+		} catch (SQLException e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
+	}
 
 }
 
