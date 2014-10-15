@@ -9,17 +9,12 @@ import javax.ws.rs.core.Response;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
-import edu.cmu.sv.ws.ssnoc.common.utils.SSNCipher;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.ILocationCrumbDAO;
-import edu.cmu.sv.ws.ssnoc.data.dao.IStatusCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
 import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
-import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.LocationCrumb;
-import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
