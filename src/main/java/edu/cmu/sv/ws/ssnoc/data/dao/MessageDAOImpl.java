@@ -225,6 +225,8 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				PreparedStatement stmt = conn.prepareStatement(query);) {
 			stmt.setString(1, userName1);
 			stmt.setString(2, userName2);
+			stmt.setString(1, userName2);
+			stmt.setString(1, userName1);
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					ResultSetMetaData rsmd = rs.getMetaData();
