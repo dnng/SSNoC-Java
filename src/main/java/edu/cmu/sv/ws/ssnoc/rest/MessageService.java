@@ -1,5 +1,7 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
+import java.sql.Timestamp;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+import edu.cmu.sv.ws.ssnoc.common.exceptions.UnauthorizedUserException;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
@@ -20,6 +23,7 @@ import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
+import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
@@ -118,5 +122,34 @@ public class MessageService extends BaseService {
 
 		return message;	
 	}
+	
+	/**
+	 * This method sends a chat message to another user
+	 */
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/{sendingUserName}/{receivingUserName}")
+	public Response postPrivateChatMessage(@PathParam("sendingUserName") String sendingUserName, 
+			@PathParam("receivingUserName") String receivingUserName,
+			Message message) {
+		Log.enter(sendingUserName, receivingUserName);
+		try {
+			if (sendingUserName != null && receivingUserName != null && message.getContent() != null && message.getPostedAt() != null)
+			{
+				boolean success = sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
+			}
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
 
+		return ok();
+	}
+	
+	private boolean sendPrivateMessage(String sendingUserName, String receivingUserName, String content, Timestamp postedAt, String location)	{
+		boolean status = false;
+		return status;
+	}
 }
