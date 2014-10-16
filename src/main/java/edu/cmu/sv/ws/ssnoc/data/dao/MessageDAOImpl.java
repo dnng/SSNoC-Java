@@ -12,8 +12,6 @@ import java.util.List;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
-import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
-import edu.cmu.sv.ws.ssnoc.dto.Message;
 
 public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
@@ -216,6 +214,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 	
 	public List<MessagePO> getAllChatMessagesForPeers(String userName1, String userName2) {
 		Log.enter();
+		// m.created_at, m.location_id, m.message_type, m.content, m.target_id, m.author_id, m.message_id, sa.user_name as author, st.user_name as target
 
 		String query = SQL.FIND_PEER_CHAT_MESSAGES;
 
@@ -224,12 +223,64 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				PreparedStatement stmt = conn.prepareStatement(query);) {
 			stmt.setString(1, userName1);
 			stmt.setString(2, userName2);
-			//message = processResult(stmt);
+			stmt.setString(3, userName2);
+			stmt.setString(4, userName1);
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int colCount = rsmd.getColumnCount();
+					MessagePO po = new MessagePO();
+					if(colCount >=1) po.setCreatedAt(rs.getTimestamp(1));
+					if(colCount >=2) po.setLocationId(rs.getLong(2));
+					if(colCount >=3) po.setMessageType(rs.getString(3));
+					if(colCount >=4) po.setContent(rs.getString(4));
+					if(colCount >=5) po.setTargetId(rs.getLong(5));
+					if(colCount >=6) po.setAuthorId(rs.getLong(6));
+					if(colCount >=7) po.setMessageId(rs.getLong(7));
+					if(colCount >=8) po.setAuthorName(rs.getString(8));
+					if(colCount >=9) po.setTargetName(rs.getString(9));
+					peerChatMessages.add(po);
+				}
+			} catch (SQLException e) {
+				handleException(e);
+			} finally {
+				Log.exit();
+			}
 		} catch (SQLException e) {
 			handleException(e);
 			Log.exit(peerChatMessages);
 		}
 		return peerChatMessages;
+	}
+	
+	
+	public void savePrivateChatMessage(String senderName, String receiverName, MessagePO po) {
+		Log.enter(po);
+		if (po == null) {
+			Log.warn("Inside save private chat method with messagePO == NULL");
+			return;
+		}
+
+		
+		//"(created_at, location_id, message_type, content, target_id, author_id) "		+ "values (CURRENT_TIMESTAMP(), ?, \'CHAT\', ?, ?, ?)";
+		// fetch sender user Id	
+		long senderId =  DAOFactory.getInstance().getUserDAO().findByName(senderName).getUserId();
+		long receiverId = DAOFactory.getInstance().getUserDAO().findByName(receiverName).getUserId();
+		
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_PRIVATE_CHAT_MESSAGE)) {
+			stmt.setLong(1, po.getLocationId());
+			stmt.setString(2, po.getContent());
+			stmt.setLong(3, receiverId);
+			stmt.setLong(4, senderId);
+		
+			int rowCount = stmt.executeUpdate();
+			Log.trace("Statement executed, and " + rowCount + " rows inserted.");
+		} catch (SQLException e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
 	}
 
 }

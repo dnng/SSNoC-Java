@@ -12,9 +12,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-import edu.cmu.sv.ws.ssnoc.common.exceptions.UnauthorizedUserException;
+import edu.cmu.sv.ws.ssnoc.common.exceptions.ValidationException;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
+import edu.cmu.sv.ws.ssnoc.common.utils.SSNCipher;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
 import edu.cmu.sv.ws.ssnoc.data.dao.ILocationCrumbDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IMessageDAO;
@@ -136,22 +137,35 @@ public class MessageService extends BaseService {
 			@PathParam("receivingUserName") String receivingUserName,
 			Message message) {
 		Log.enter(sendingUserName, receivingUserName);
+		Message resp = new Message();
+
+		MessagePO po = null;
+		if (sendingUserName != null && receivingUserName != null && message.getContent() != null)
+		{
+			po = sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
+		}
+
+		resp = ConverterUtils.convert(po);
+		return ok();
+	}
+	
+	private MessagePO sendPrivateMessage(String sendingUserName, String receivingUserName, String content, Timestamp postedAt, String location)	{
+		MessagePO po = null;
 		try {
-			if (sendingUserName != null && receivingUserName != null && message.getContent() != null && message.getPostedAt() != null)
-			{
-				boolean success = sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
-			}
+
+			po = new MessagePO();
+			po.setAuthorName(sendingUserName);
+			po.setContent(content);
+			po.setCreatedAt(postedAt);
+			po.setLocation(location);
+			po.setTargetName(receivingUserName);
+			DAOFactory.getInstance().getMessageDAO().savePrivateChatMessage(sendingUserName, receivingUserName, po);			
+			
 		} catch (Exception e) {
 			handleException(e);
 		} finally {
 			Log.exit();
 		}
-
-		return ok();
-	}
-	
-	private boolean sendPrivateMessage(String sendingUserName, String receivingUserName, String content, Timestamp postedAt, String location)	{
-		boolean status = false;
-		return status;
+		return po;
 	}
 }

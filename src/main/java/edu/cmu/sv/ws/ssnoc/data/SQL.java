@@ -304,7 +304,15 @@ public class SQL {
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
-
+	
+	/**
+	 * Query to insert new private chat message
+	 */
+	public static final String INSERT_PRIVATE_CHAT_MESSAGE = "insert into "
+			+ "SSN_MESSAGES "
+			+ "(created_at, location_id, message_type, content, target_id, author_id) "
+			+ "values (CURRENT_TIMESTAMP(), ?, \'CHAT\', ?, ?, ?)";
+			
 	/**
 	 * Query to fetch chat buddies
 	 */
@@ -324,7 +332,21 @@ public class SQL {
 			+ "and m2.message_type = \'CHAT\' "
 			+ ") m " + "on  u.user_id = m.user_id ";
 
-	public static final String FIND_PEER_CHAT_MESSAGES = "select * from SSN_MESSAGES";
+
+	/**
+	 * Query to fetch private chat messages exchanges between two users
+	 */
+	public static final String FIND_PEER_CHAT_MESSAGES = "select m.created_at, m.location_id, m.message_type, m.content, m.target_id, m.author_id, m.message_id, sa.user_name as author, st.user_name as target "
+			+ "from SSN_MESSAGES m "
+			+ "left outer join SSN_USERS sa on m.author_id = sa.user_id "
+			+ "left outer join SSN_USERS st on m.target_id = st.user_id "
+			+ "where (sa.user_name = ? "
+			+ "and st.user_name = ?) "
+			+ "or (sa.user_name = ? "
+			+ "and st.user_name = ?) "
+			+ "order by m.created_at DESC";
+	
+	
 
 	// ****************************************************************
 	// All queries related to MEMORY_CRUMBS

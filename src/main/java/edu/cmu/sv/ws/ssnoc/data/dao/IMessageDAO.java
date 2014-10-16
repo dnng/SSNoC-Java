@@ -68,5 +68,10 @@ public interface IMessageDAO {
 	 * 
 	 * @return - List of messages
 	 */
-	List<MessagePO> getAllChatMessagesForPeers(String userName1, String userName2); 
+	List<MessagePO> getAllChatMessagesForPeers(String userName1, String userName2);
+	
+	/**
+	 * save a new incoming chat message
+	 */
+	void savePrivateChatMessage(String senderName, String receiverName, MessagePO po);
 }

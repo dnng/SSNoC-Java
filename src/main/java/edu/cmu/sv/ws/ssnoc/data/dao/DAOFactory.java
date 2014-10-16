@@ -67,5 +67,14 @@ public class DAOFactory {
 	public IMemoryCrumbDAO getMemoryCrumbDAO() {
 		return new MemoryCrumbDAOImpl();
 	}
+	
+	/**
+	 * Method to get a new object implementing IUserGroupsDAO
+	 * 
+	 * @return - Object implementing IUserGroupsDAO
+	 */
+	public IUserGroupDAO getUserGroupsDAO() {
+		return new UserGroupDAOImpl();
+	}
 
 }
