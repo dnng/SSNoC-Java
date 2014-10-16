@@ -401,29 +401,10 @@ public class SQL {
 			+ " (used_volatile_memory, remaining_volatile_memory, used_persistent_memory, remaining_persistent_memory, "
 			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
-	// /=======Poorva
 
-	// get the user names of all the chat buddies of a user
-	// get the user names of all the chat buddies of a user for the last 'x'
-	// hours
-	// get a list of all the user names in the db
-	
-	public static final String FETCH_CHAT_BUDDIES_USERS = " Select Author,Author_id, Target, Target_id"
-			+ " from "
-			+ "(selct c.user_name Author, m.author_id from SSN_USERS c"
-			+ " join "
-			+ "(Select distinct Author_id from SSN_MESSAGES m"
-			+ " join  SSN_USER on m.author_id =c.user_id)"
-			+ "(selct u.user_name, m.target_idfrom SSN_USERS c"
-			+ " join "
-			+ " select c.user_name, c.user_idfrom SSN_USERS c"
-			+ " join "
-			+ "(Select distinct target_id from SSN_MESSAGES m"
-			+ " join"
-			+ "SSN_USER on m.author_id =c.user_id)";
 			
 // ----Social Network Analysis query-----//	
-	public static final String FETCH_CHAT_BUDDIES_USERS1 = "select a.Author_id, b.user_name author,"
+	public static final String FETCH_CHAT_BUDDIES_USERS = "select a.Author_id, b.user_name author,"
 			+ " a. target_id,c.user_name target"
 			+ "from SSN_MESSAGES a, SSN_USERS b, SSN_USERS c"
 			+ " where a.author_id = b.user_id" 
