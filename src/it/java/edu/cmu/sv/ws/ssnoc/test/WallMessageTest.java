@@ -54,7 +54,7 @@ public class WallMessageTest {
 		Message msg = new Message();
 		MessagesService msgsService = new MessagesService();
 		List<Message> messages = (List<Message>) msgsService.loadWallMessages();
-		assertFalse(messages.size() != 0);
+		assertTrue(messages.size() != 0);
 		for (Message m : messages) {
 			assertTrue(m instanceof Message);
 		}
