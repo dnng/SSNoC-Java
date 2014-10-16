@@ -24,6 +24,7 @@ import edu.cmu.sv.ws.ssnoc.data.po.LocationCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
 import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserclusterPO;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.User;
@@ -46,13 +47,13 @@ public class usergroupsService extends BaseService {
 	@XmlElementWrapper(name = "usergroups")
 	@Path("/unconnected")
 
-	public List<User> loadChatBuddies(@PathParam("username") String userName) {
+	public ArrayList<User> loadChatBuddiesUsers(@PathParam("username") String userName) {
 		Log.enter();
 		
-		List<User> users = null;
+		ArrayList<User> users = null;
 		try
 		{
-			List<UserPO> userPOs = DAOFactory.getInstance().getUserDAO().loadChatBuddies(userName);
+			ArrayList<UserclusterPO> userPOs = DAOFactory.getInstance().
 			
 			users = new ArrayList<User>();
 			for (UserPO po : userPOs) {
