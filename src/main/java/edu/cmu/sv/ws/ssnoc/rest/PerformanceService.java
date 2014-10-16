@@ -8,6 +8,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.data.util.ConnectionPoolFactory;
+import edu.cmu.sv.ws.ssnoc.data.util.DBUtils;
+import edu.cmu.sv.ws.ssnoc.data.util.IConnectionPool;
 import edu.cmu.sv.ws.ssnoc.dto.PerformanceCrumb;
 
 /**
@@ -33,12 +36,11 @@ public class PerformanceService extends BaseService {
 		PerformanceCrumb resp = new PerformanceCrumb();
 
 		try {
-			//Step 1: Create test DB, setup limits for tests?
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToTest();
 			
-			//Step 2: Switch database connection to test DB
-			
-			//Step 3: Note down request time and start time and 
-			
+			DBUtils.reinitializeDatabase();
 
 		} catch (Exception e) {
 			handleException(e);
@@ -64,11 +66,9 @@ public class PerformanceService extends BaseService {
 		PerformanceCrumb resp = new PerformanceCrumb();
 
 		try {
-			//Step 1: Create test DB, setup limits for tests?
-			
-			//Step 2: Switch database connection to test DB
-			
-			//Step 3: Note down request time and start time and 
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToLive(); 
 
 		} catch (Exception e) {
 			handleException(e);

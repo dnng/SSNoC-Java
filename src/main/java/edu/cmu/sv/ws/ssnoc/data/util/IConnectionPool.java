@@ -10,4 +10,6 @@ import java.sql.SQLException;
  */
 public interface IConnectionPool {
 	Connection getConnection() throws SQLException;
+	public void switchConnectionToTest();
+	public void switchConnectionToLive();
 }

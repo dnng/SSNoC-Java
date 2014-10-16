@@ -54,7 +54,7 @@ public class DBUtils {
 	 */
 	public static void reinitializeDatabase() throws SQLException {
 		dropTablesInDB();
-		createTablesInDB();
+		recreateTablesInDB();
 	}
 
 	/**
@@ -67,6 +67,38 @@ public class DBUtils {
 		if (DB_TABLES_EXIST) {
 			return;
 		}
+
+		final String CORE_TABLE_NAME = SQL.SSN_USERS;
+
+		try (Connection conn = getConnection();
+				Statement stmt = conn.createStatement();) {
+			if (!doesTableExistInDB(conn, CORE_TABLE_NAME)) {
+				Log.info("Creating tables in database ...");
+
+				for (String query : CREATE_TABLE_LST) {
+					Log.debug("Executing query: " + query);
+					boolean status = stmt.execute(query);
+					Log.debug("Query execution completed with status: "
+							+ status);
+				}
+
+				Log.info("Tables created successfully");
+			} else {
+				Log.info("Tables already exist in database. Not performing any action.");
+			}
+
+			DB_TABLES_EXIST = true;
+		}
+		Log.exit();
+	}
+	
+	/**
+	 * This method will create necessary tables in the database.
+	 * 
+	 * @throws SQLException
+	 */
+	protected static void recreateTablesInDB() throws SQLException {
+		Log.enter();
 
 		final String CORE_TABLE_NAME = SQL.SSN_USERS;
 
@@ -118,7 +150,8 @@ public class DBUtils {
 			} else {
 				Log.info("Tables do not exist in database. Not performing any action.");
 			}
-
+			
+			DB_TABLES_EXIST = false;
 		}
 		Log.exit();
 	}
