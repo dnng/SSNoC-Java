@@ -11,7 +11,8 @@ import javax.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
 
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.User;
@@ -50,9 +51,11 @@ public class WallMessageTest {
 
 	@Test
 	public void testGetAllMessagesFromPublicWall() {
-		List<Message> messages = new ArrayList<Message>();
-		List<Message> list = (List<Message>) new MessagesService();
-		List<Message> result = list;
-		assertThat(result, messages);		
+		Message msg = new Message();
+		MessagesService msgsService = new MessagesService();
+		List<Message> messages = (List<Message>) msgsService.loadWallMessages();
+		for (Message m : messages) {
+			assertTrue(m instanceof Message);
+		}
 	}
 }
