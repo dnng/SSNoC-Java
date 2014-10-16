@@ -1,14 +1,19 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
+import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
 
 /**
@@ -28,20 +33,29 @@ public class UserGroupsService extends BaseService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "usergroups")
 	@Path("/unconnected")
-	public List<UserGroup> loadUnconnectedClusters() {
+	public UserGroup loadUnconnectedClusters(@PathParam("timeWindowInMinutes") int timeWindowInMinutes) {
 		Log.enter();
 		
-		List<UserGroup> users = null;
+		UserGroup users = null;
 		try
 		{
-//			List<UserPO> userPOs = DAOFactory.getInstance().getUserGroupsDAO().getClusters(); 
-//			
-//			users = new ArrayList<User>();
-//			for (UserPO po : userPOs) {
-//				User dto = ConverterUtils.convert(po);
-//				users.add(dto);
-//			}
+			// confirm if timeWindow is to be relative to now. Using start, end times for now.
+			Timestamp fromTime = new Timestamp(2014, 10, 14, 16, 01, 51, 922), toTime = new Timestamp(2014, 10, 15, 16, 01, 51, 922);
 			
+			// fetch all users
+			List<UserPO> allUsers = DAOFactory.getInstance().getUserDAO().loadUsers();
+			
+			
+			// fetch the buddy map
+			List<UserClusterPO> userPOs = DAOFactory.getInstance().getUserGroupsDAO().loadUsergroups(fromTime, toTime);
+			
+			//prepare the complement graph
+			for (UserClusterPO po : userPOs) {
+				 
+			}
+
+			
+			// find cliques in the complement graph			
 			
 		} catch (Exception e) {
 			
@@ -51,5 +65,6 @@ public class UserGroupsService extends BaseService {
 		
 		return users;
 	}
+		
 	
 }

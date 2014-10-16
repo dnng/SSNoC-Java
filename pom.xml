@@ -101,6 +101,14 @@
 			<version>${gson.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- for clique processing in Java  -->
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>0.9.0</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.restfuse</groupId>
