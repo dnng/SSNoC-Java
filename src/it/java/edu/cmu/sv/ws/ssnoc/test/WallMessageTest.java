@@ -1,9 +1,9 @@
 package edu.cmu.sv.ws.ssnoc.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -11,8 +11,6 @@ import javax.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.hamcrest.core.Is.is;
 
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.User;
@@ -30,6 +28,9 @@ public class WallMessageTest {
 		
 		UserService userService = new UserService();
 		userService.addUser(user);
+		
+		Message msg = new Message();
+		
 	}
 
 	@After
@@ -53,6 +54,16 @@ public class WallMessageTest {
 	public void testGetAllMessagesFromPublicWall() {
 		Message msg = new Message();
 		MessagesService msgsService = new MessagesService();
+		MessageService msgService = new MessageService();
+		
+		//Add atleast 1 message
+		msg.setAuthor("foo");
+		Timestamp postedAt = new Timestamp(1234);
+		msg.setPostedAt(postedAt);
+		msg.setContent("test test lloyd owes a me a beer");
+		
+		Response response = msgService.addWallMessage("foo", msg);
+		
 		List<Message> messages = (List<Message>) msgsService.loadWallMessages();
 		assertTrue(messages.size() != 0);
 		for (Message m : messages) {
