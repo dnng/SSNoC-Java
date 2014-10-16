@@ -55,7 +55,7 @@ public class WallMessageTest {
 		Message msg = new Message();
 		MessagesService msgsService = new MessagesService();
 		MessageService msgService = new MessageService();
-		
+		System.out.println("t");
 		//Add atleast 1 message
 		msg.setAuthor("foo");
 		Timestamp postedAt = new Timestamp(1234);
