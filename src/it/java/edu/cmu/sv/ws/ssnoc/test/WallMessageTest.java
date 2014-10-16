@@ -3,16 +3,20 @@ package edu.cmu.sv.ws.ssnoc.test;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertThat;
 
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 import edu.cmu.sv.ws.ssnoc.rest.MessageService;
+import edu.cmu.sv.ws.ssnoc.rest.MessagesService;
 import edu.cmu.sv.ws.ssnoc.rest.UserService;
 
 public class WallMessageTest {
@@ -32,7 +36,7 @@ public class WallMessageTest {
 	}
 
 	@Test
-	public void test() {
+	public void testSendMessageToPublicWall() {
 		Message msg = new Message();
 		msg.setAuthor("foo");
 		Timestamp postedAt = new Timestamp(1234);
@@ -44,4 +48,11 @@ public class WallMessageTest {
 		assertEquals(((Message)response.getEntity()).getContent(), "test test lloyd owes a me a beer");
 	}
 
+	@Test
+	public void testGetAllMessagesFromPublicWall() {
+		List<Message> messages = new ArrayList<Message>();
+		List<Message> list = (List<Message>) new MessagesService();
+		List<Message> result = list;
+		assertThat(result, messages);		
+	}
 }

@@ -19,7 +19,7 @@ import com.eclipsesource.restfuse.annotation.HttpTest;
 public class UserServiceIT {
 	@Rule
 	public Destination destination = new Destination(this,
-			"http://localhost:4321/ssnoc/users");
+			"http://localhost:1234/ssnoc/users");
 
 	@Context
 	public Response response;
