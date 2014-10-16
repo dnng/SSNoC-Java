@@ -43,6 +43,7 @@ public class UserGroupsService extends BaseService {
 			//fetch all user names
 			List<String> allUserNames = dao.getAllUsers();
 			
+			//For each user name - get his buddies, and the cluster is everyone except those buddies. Rinse and repeat over all the users. 
 			for(String user : allUserNames)
 			{
 				List<String> buddies = (timeWindowInHours == 0) ? dao.loadUserBuddies(user) 
