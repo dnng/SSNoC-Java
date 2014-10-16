@@ -74,7 +74,7 @@ public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
 	public List<String> loadUserBuddies(String userName, long timeInHours) {
 		Log.enter();
 
-		String query = SQL.FETCH_CHAT_BUDDIES_SNA;
+		String query = SQL.FETCH_CHAT_BUDDIES_SNA_TIME;
 
 		List<String> userNames = new ArrayList<String>();
 		try (Connection conn = getConnection();
