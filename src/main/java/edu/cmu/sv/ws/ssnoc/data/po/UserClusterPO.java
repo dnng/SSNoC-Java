@@ -12,19 +12,48 @@ import com.google.gson.Gson;
  * 
  */
 public class UserClusterPO {
-	private List<String> userNames;
 	
-	public List<String> getUserNames() {
-		return userNames;
+	private List<String> Author;
+	private long AuthorId;
+	private List<String> target;
+	private long targetId;
+	
+	public List<String> getAuthor() {
+		return Author;
 	}
 
-	public void setUserNames(List<String> userNames) {
-		this.userNames = userNames;
+
+	public void setAuthor(List<String> author) {
+		Author = author;
 	}
 
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
+
+	public long getAuthorId() {
+		return AuthorId;
 	}
 
+
+	public void setAuthorId(long authorId) {
+		AuthorId = authorId;
+	}
+
+
+	public List<String> getTarget() {
+		return target;
+	}
+
+
+	public void setTarget(List<String> target) {
+		this.target = target;
+	}
+
+
+	public long getTargetId() {
+		return targetId;
+	}
+
+
+	public void setTargetId(long targetId) {
+		this.targetId = targetId;
+	}
 }

@@ -13,8 +13,9 @@ import org.eclipse.persistence.annotations.Array;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
+import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
-import edu.cmu.sv.ws.ssnoc.data.po.UserclusterPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
@@ -28,25 +29,25 @@ public class UsergroupsDAOImpl extends BaseDAOImpl implements IUsergroupsDAO {
 	 * 
 	 * @return - List of users
 	 */
-		private List<UserclusterPO> processUsergroups(PreparedStatement stmt) {
+		private List<UserClusterPO> processUsergroups(PreparedStatement stmt) {
 		Log.enter();
 		if (stmt == null) {
 			Log.warn("Inside processResults method with NULL statement object.");
 		return null;
 		}
 		Log.debug("Executing stmt = " + stmt);
-		List<UserclusterPO> userscluster = new ArrayList<UserclusterPO>();
+		List<UserClusterPO> userscluster = new ArrayList<UserClusterPO>();
 		try (ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
-				UserclusterPO po = new UserclusterPO();
+				UserClusterPO po = new UserClusterPO();
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int colCount = rsmd.getColumnCount();
-				po = new UserclusterPO();
-				if(colCount >=1) po.setAuthor(rs.getString(1));
-				if(colCount >=2) po.setAuthorId(rs.getLong(2));
-				if(colCount >=3) po.setTarget(rs.getString(3));
-				if(colCount >=4) po.setTargetId(rs.getLong(4));
-				userscluster.add(po);
+				po = new UserClusterPO();
+//				if(colCount >=1) po.setAuthor(rs.getString(1));
+//				if(colCount >=2) po.setAuthorId(rs.getLong(2));
+//				if(colCount >=3) po.setTarget(rs.getString(3));
+//				if(colCount >=4) po.setTargetId(rs.getLong(4));
+			userscluster.add(po);
 			}
 			} catch (SQLException e) {
 			handleException(e);
@@ -56,12 +57,12 @@ public class UsergroupsDAOImpl extends BaseDAOImpl implements IUsergroupsDAO {
 			return userscluster;
 		}
 
-	public List<UserclusterPO> loadUsergroups() {
+	public List<UserClusterPO> loadUsergroups() {
 		Log.enter();
 		
 	String query = SQL.FETCH_CHAT_BUDDIES_USERS;
 		
-	List<UserclusterPO> userclusters = new ArrayList<UserclusterPO>();
+	List<UserClusterPO> userclusters = new ArrayList<UserClusterPO>();
      	try (Connection conn = getConnection();
      			PreparedStatement stmt = conn.prepareStatement(query);)  {
      		userclusters= processUsergroups(stmt);			
