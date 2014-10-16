@@ -29,7 +29,7 @@ public class WallMessageTest {
 		UserService userService = new UserService();
 		userService.addUser(user);
 		
-		Message msg = new Message();
+		//Message msg = new Message();
 		
 	}
 
