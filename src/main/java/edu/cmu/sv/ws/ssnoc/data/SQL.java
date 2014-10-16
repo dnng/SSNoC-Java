@@ -37,9 +37,8 @@ public class SQL {
 	/**
 	 * Query to drop the USERS table.
 	 */
-	public static final String DROP_USERS = "drop table if exists "
-			+ SSN_USERS;
-	
+	public static final String DROP_USERS = "drop table if exists " + SSN_USERS;
+
 	/**
 	 * Query to load all users in the system.
 	 */
@@ -112,7 +111,7 @@ public class SQL {
 			+ " user_id BIGINT,"
 			+ " status VARCHAR(10), location_crumb_id BIGINT, "
 			+ " created_at TIMESTAMP )";
-	
+
 	/**
 	 * Query to drop the STATUS_CRUMBS table.
 	 */
@@ -162,7 +161,7 @@ public class SQL {
 			+ " ( location_crumb_id IDENTITY PRIMARY KEY,"
 			+ " user_id BIGINT,"
 			+ " location VARCHAR(50)," + " created_at TIMESTAMP )";
-	
+
 	/**
 	 * Query to drop the LOCATION_CRUMBS table.
 	 */
@@ -205,7 +204,7 @@ public class SQL {
 			+ " author_id BIGINT, target_id BIGINT,  location_id BIGINT,"
 			+ " content VARCHAR(1024), message_type VARCHAR(10),"
 			+ " created_at TIMESTAMP )";
-	
+
 	/**
 	 * Query to drop the MESSAGES table.
 	 */
@@ -215,22 +214,21 @@ public class SQL {
 	/**
 	 * Query to load message by the specific message ID
 	 */
-	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.message_type, ssm.created_at "  
-	+ "from " 
-    + SSN_MESSAGES 
-    + " ssm "  
-	+ "left outer join "
-    + SSN_USERS 
-    + " sa on ssm.author_id=sa.user_id " 
-	+ "left outer join "
-    + SSN_USERS 
-    + " sb on ssm.target_id=sa.user_id " 
-	+ "left outer join "
-	+ SSN_LOCATION_CRUMBS 
-	+ " slc on sa.last_location_id=slc.location_crumb_id " 
-	+ "where ssm.message_id = ? " 
-	+ "order by ssm.created_at DESC"; 
-	
+	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.message_type, ssm.created_at "
+			+ "from "
+			+ SSN_MESSAGES
+			+ " ssm "
+			+ "left outer join "
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id "
+			+ "left outer join "
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sa.user_id "
+			+ "left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on sa.last_location_id=slc.location_crumb_id "
+			+ "where ssm.message_id = ? " + "order by ssm.created_at DESC";
+
 	/**
 	 * Query to load all messages in the system.
 	 */
@@ -319,22 +317,22 @@ public class SQL {
 	 * Query to fetch chat buddies
 	 */
 	public static final String FETCH_CHAT_BUDDIES = "select u.user_id, user_name, created_at, modified_at, last_status_code_id "
-	+ "from SSN_USERS u "
-	+ "join "
-	+ "(select distinct target_id as user_id "
-	+ "from SSN_MESSAGES m1 " 
-	+ "join SSN_USERS u1 on m1.author_id = u1.user_id " 
-	+ "where u1.user_name = ? "
-	+ "and m1.message_type = \'CHAT\' "
-	+ "union "
-	+ "select distinct author_id as user_id "
-	+ "from SSN_MESSAGES m2 "
-	+ "join SSN_USERS u2 on m2.target_id = u2.user_id "
-	+ "where u2.user_name = ? "
-	+ "and m2.message_type = \'CHAT\' "
-	+ ") m "
-	+ "on  u.user_id = m.user_id ";
-	
+			+ "from SSN_USERS u "
+			+ "join "
+			+ "(select distinct target_id as user_id "
+			+ "from SSN_MESSAGES m1 "
+			+ "join SSN_USERS u1 on m1.author_id = u1.user_id "
+			+ "where u1.user_name = ? "
+			+ "and m1.message_type = \'CHAT\' "
+			+ "union "
+			+ "select distinct author_id as user_id "
+			+ "from SSN_MESSAGES m2 "
+			+ "join SSN_USERS u2 on m2.target_id = u2.user_id "
+			+ "where u2.user_name = ? "
+			+ "and m2.message_type = \'CHAT\' "
+			+ ") m " + "on  u.user_id = m.user_id ";
+
+
 	/**
 	 * Query to fetch private chat messages exchanges between two users
 	 */
@@ -349,6 +347,7 @@ public class SQL {
 			+ "order by m.created_at DESC";
 	
 	
+
 	// ****************************************************************
 	// All queries related to MEMORY_CRUMBS
 	// ****************************************************************
@@ -376,33 +375,32 @@ public class SQL {
 	 */
 	public static final String FIND_ALL_MEMORY_CRUMBS = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
 			+ " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
+			+ " from " + SSN_MEMORY_CRUMBS + " order by created_at DESC";
+
+	/**
+	 * Query to load all memory crumbs in the specified time interval.
+	 */
+	public static final String FIND_ALL_MEMORY_CRUMBS_IN_INTERVAL = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
+			+ " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
 			+ " from "
 			+ SSN_MEMORY_CRUMBS
+			+ " where created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
 			+ " order by created_at DESC";
-	
-	/**
-     * Query to load all memory crumbs in the specified time interval.
-     */
-    public static final String FIND_ALL_MEMORY_CRUMBS_IN_INTERVAL = "select memory_crumb_id, used_volatile_memory, remaining_volatile_memory, "
-            + " used_persistent_memory, remaining_persistent_memory, online_users, created_at "
-            + " from "
-            + SSN_MEMORY_CRUMBS
-            + " where created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
-            + " order by created_at DESC";
-    
+
 	/**
 	 * Query to delete all memory crumbs in the system.
 	 */
 	public static final String DELETE_ALL_MEMORY_CRUMBS = "delete from "
 			+ SSN_MEMORY_CRUMBS;
-	
+
 	/**
 	 * Query to insert a row into the memory_crumbs table.
 	 */
 	public static final String INSERT_MEMORY_CRUMB = "insert into "
 			+ SSN_MEMORY_CRUMBS
-			+ " (used_volatile_memory, remaining_volatile_memory, used_persistent_memory, remaining_persistent_memory, " 
+			+ " (used_volatile_memory, remaining_volatile_memory, used_persistent_memory, remaining_persistent_memory, "
 			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
+
 
 	// ----Social Network Analysis query-----//	
 	public static final String FETCH_CHAT_BUDDIES_USERS = "select a.Author_id, b.user_name author, "

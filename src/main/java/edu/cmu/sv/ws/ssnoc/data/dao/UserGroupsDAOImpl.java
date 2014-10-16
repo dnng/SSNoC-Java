@@ -1,27 +1,22 @@
 package edu.cmu.sv.ws.ssnoc.data.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
 import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * DAO implementation for saving User information in the H2 database.
- * 
+ *
  */
-public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
+public class UserGroupsDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
 	/**
 	 * This method will load users from the DB with specified account status. If
 	 * no status information (null) is provided, it will load all users.
-	 * 
+	 *
 	 * @return - List of users
 	 */
 	private List<UserClusterPO> processUsergroups(PreparedStatement stmt) {
@@ -56,7 +51,7 @@ public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
 		return userscluster;
 	}
 
-	public List<UserClusterPO> loadUsergroups(Timestamp fromTime, Timestamp toTime) {
+	public List<UserClusterPO> loadUsergroups() {
 		Log.enter();
 
 		String query = SQL.FETCH_CHAT_BUDDIES_USERS;
@@ -64,8 +59,6 @@ public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
 		List<UserClusterPO> userClusters = new ArrayList<UserClusterPO>();
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query);) {
-			stmt.setTimestamp(1,  fromTime);
-			stmt.setTimestamp(2,  toTime);
 			userClusters = processUsergroups(stmt);
 		} catch (SQLException e) {
 			handleException(e);
