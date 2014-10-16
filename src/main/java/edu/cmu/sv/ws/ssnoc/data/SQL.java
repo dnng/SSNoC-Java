@@ -410,5 +410,54 @@ public class SQL {
 			+ "and a.target_id=c.user_id "
 			+ "and a.created_at >= ? "
 			+ "and a.created_at <= ? ";
+	
+	
+	/**
+	 * Query to fetch chat buddies for social network analysis
+	 */
+	public static final String FETCH_CHAT_BUDDIES_SNA = "select user_name "
+			+ "from SSN_USERS u "
+			+ "join "
+			+ "(select distinct target_id as user_id "
+			+ "from SSN_MESSAGES m1 "
+			+ "join SSN_USERS u1 on m1.author_id = u1.user_id "
+			+ "where u1.user_name = ? "
+			+ "and m1.message_type = \'CHAT\' "
+			+ "union "
+			+ "select distinct author_id as user_id "
+			+ "from SSN_MESSAGES m2 "
+			+ "join SSN_USERS u2 on m2.target_id = u2.user_id "
+			+ "where u2.user_name = ? "
+			+ "and m2.message_type = \'CHAT\' "
+			+ ") m " + "on  u.user_id = m.user_id ";
+	
+	/**
+	 * Query to fetch chat buddies for social network analysis
+	 */
+	public static final String FETCH_CHAT_BUDDIES_SNA_TIME = "select user_name "
+			+ "from SSN_USERS u "
+			+ "join "
+			+ "(select distinct target_id as user_id "
+			+ "from SSN_MESSAGES m1 "
+			+ "join SSN_USERS u1 on m1.author_id = u1.user_id "
+			+ "where u1.user_name = ? "
+			+ "and m1.message_type = \'CHAT\' "
+			+ "and m1.created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
+			+ "union "
+			+ "select distinct author_id as user_id "
+			+ "from SSN_MESSAGES m2 "
+			+ "join SSN_USERS u2 on m2.target_id = u2.user_id "
+			+ "where u2.user_name = ? "
+			+ "and m2.message_type = \'CHAT\' "
+			+ "and m2.created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
+			+ ") m " + "on  u.user_id = m.user_id ";
+	
+	/**
+	 * Query to load all users in the system.
+	 */
+	public static final String FIND_ALL_USER_NAMES = "select user_name "
+			+ " from "
+			+ SSN_USERS
+			+ " order by user_name";
 }
 

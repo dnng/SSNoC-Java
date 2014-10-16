@@ -1,6 +1,7 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -12,7 +13,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
-import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserGroupPO;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
 
@@ -32,11 +33,11 @@ public class UserGroupsService extends BaseService {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "usergroups")
-	@Path("/unconnected")
-	public UserGroup loadUnconnectedClusters(@PathParam("timeWindowInMinutes") int timeWindowInMinutes) {
+	@Path("/unconnected/{timeWindowInHours}")
+	public List<UserGroup> loadUnconnectedClusters(@PathParam("timeWindowInHours") int timeWindowInHours) {
 		Log.enter();
 		
-		UserGroup users = null;
+		List<UserGroup> userGroups = new ArrayList<UserGroup>();
 		try
 		{
 			// confirm if timeWindow is to be relative to now. Using start, end times for now.
@@ -47,10 +48,10 @@ public class UserGroupsService extends BaseService {
 			
 			
 			// fetch the buddy map
-			List<UserClusterPO> userPOs = DAOFactory.getInstance().getUserGroupsDAO().loadUsergroups(fromTime, toTime);
+			List<UserGroupPO> userPOs = DAOFactory.getInstance().getUserGroupsDAO().loadUserGroups(timeWindowInHours);
 			
 			//prepare the complement graph
-			for (UserClusterPO po : userPOs) {
+			for (UserGroupPO po : userPOs) {
 				 
 			}
 
@@ -63,7 +64,7 @@ public class UserGroupsService extends BaseService {
 			
 		}
 		
-		return users;
+		return userGroups;
 	}
 		
 	

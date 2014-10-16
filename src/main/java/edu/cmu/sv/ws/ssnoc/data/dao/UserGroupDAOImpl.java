@@ -5,72 +5,118 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
-import edu.cmu.sv.ws.ssnoc.data.po.UserClusterPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserGroupPO;
 
 /**
  * DAO implementation for saving User information in the H2 database.
  * 
  */
 public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
-	/**
-	 * This method will load users from the DB with specified account status. If
-	 * no status information (null) is provided, it will load all users.
-	 * 
-	 * @return - List of users
-	 */
-	private List<UserClusterPO> processUsergroups(PreparedStatement stmt) {
+	
+	private List<String> processUserNames(PreparedStatement stmt) {
 		Log.enter();
 		if (stmt == null) {
 			Log.warn("Inside processResults method with NULL statement object.");
 			return null;
 		}
 		Log.debug("Executing stmt = " + stmt);
-		List<UserClusterPO> userscluster = new ArrayList<UserClusterPO>();
+		List<String> userNames = new ArrayList<String>();
 		try (ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
-				UserClusterPO po = new UserClusterPO();
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int colCount = rsmd.getColumnCount();
-				po = new UserClusterPO();
 				if (colCount >= 1)
-					po.setAuthor(rs.getString(1));
-				if (colCount >= 2)
-					po.setAuthorId(rs.getLong(2));
-				if (colCount >= 3)
-					po.setTarget(rs.getString(3));
-				if (colCount >= 4)
-					po.setTargetId(rs.getLong(4));
-				userscluster.add(po);
+					userNames.add(rs.getString(1));
 			}
 		} catch (SQLException e) {
 			handleException(e);
 		} finally {
-			Log.exit(userscluster);
+			Log.exit(userNames);
 		}
-		return userscluster;
+		return userNames;
 	}
 
-	public List<UserClusterPO> loadUsergroups(Timestamp fromTime, Timestamp toTime) {
+	
+
+	@Override
+	public List<String> loadUserBuddies(String userName) {
 		Log.enter();
 
-		String query = SQL.FETCH_CHAT_BUDDIES_USERS;
+		String query = SQL.FETCH_CHAT_BUDDIES_SNA;
 
-		List<UserClusterPO> userClusters = new ArrayList<UserClusterPO>();
+		List<String> userNames = new ArrayList<String>();
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query);) {
-			stmt.setTimestamp(1,  fromTime);
-			stmt.setTimestamp(2,  toTime);
-			userClusters = processUsergroups(stmt);
+			stmt.setString(1,  userName);
+			stmt.setString(2,  userName);
+			userNames = processUserNames(stmt);
 		} catch (SQLException e) {
 			handleException(e);
-			Log.exit(userClusters);
+			Log.exit(userNames);
 		}
-		return userClusters;
+		
+		HashSet uniqueUserNames = new HashSet();
+		uniqueUserNames.addAll(userNames);
+		userNames.clear();
+		userNames.addAll(uniqueUserNames);
+		Collections.sort(userNames);
+		
+		return userNames;
 	}
+
+	@Override
+	public List<String> loadUserBuddies(String userName, long timeInHours) {
+		Log.enter();
+
+		String query = SQL.FETCH_CHAT_BUDDIES_SNA;
+
+		List<String> userNames = new ArrayList<String>();
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query);) {
+			stmt.setString(1,  userName);
+			stmt.setLong(2, timeInHours * -1 );
+			stmt.setString(3,  userName);
+			stmt.setLong(4, timeInHours * -1 );
+			userNames = processUserNames(stmt);
+		} catch (SQLException e) {
+			handleException(e);
+			Log.exit(userNames);
+		}
+		return userNames;
+	}
+
+	@Override
+	public List<String> getAllUsers() {
+		Log.enter();
+
+		String query = SQL.FIND_ALL_USER_NAMES;
+
+		List<String> userNames = new ArrayList<String>();
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query);) {
+			userNames = processUserNames(stmt);
+		} catch (SQLException e) {
+			handleException(e);
+			Log.exit(userNames);
+		}
+		return userNames;
+	}
+
+	@Override
+	public List<UserGroupPO> loadUserGroups() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<UserGroupPO> loadUserGroups(long fromTimeInHours) {
+		return null;
+	}
+
 }
