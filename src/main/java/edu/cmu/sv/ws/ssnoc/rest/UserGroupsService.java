@@ -1,6 +1,5 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +12,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
-import edu.cmu.sv.ws.ssnoc.data.po.UserGroupPO;
-import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.data.dao.IUserGroupDAO;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
 
 /**
@@ -40,23 +38,28 @@ public class UserGroupsService extends BaseService {
 		List<UserGroup> userGroups = new ArrayList<UserGroup>();
 		try
 		{
-			// confirm if timeWindow is to be relative to now. Using start, end times for now.
-			Timestamp fromTime = new Timestamp(2014, 10, 14, 16, 01, 51, 922), toTime = new Timestamp(2014, 10, 15, 16, 01, 51, 922);
+			IUserGroupDAO dao = DAOFactory.getInstance().getUserGroupsDAO();
 			
-			// fetch all users
-			List<UserPO> allUsers = DAOFactory.getInstance().getUserDAO().loadUsers();
+			//fetch all user names
+			List<String> allUserNames = dao.getAllUsers();
 			
-			
-			// fetch the buddy map
-			List<UserGroupPO> userPOs = DAOFactory.getInstance().getUserGroupsDAO().loadUserGroups(timeWindowInHours);
-			
-			//prepare the complement graph
-			for (UserGroupPO po : userPOs) {
-				 
-			}
-
-			
-			// find cliques in the complement graph			
+			for(String user : allUserNames)
+			{
+				List<String> buddies = (timeWindowInHours == 0) ? dao.loadUserBuddies(user) 
+						: dao.loadUserBuddies(user, timeWindowInHours);
+				
+				//Super complex algorithm goes here!
+				List<String> temp = new ArrayList<String>(allUserNames);
+				temp.removeAll(buddies);
+				
+				if(temp.size() > 0)
+				{
+					UserGroup aUserGroup = new UserGroup();
+					aUserGroup.setUserNames(temp);
+					
+					userGroups.add(aUserGroup);
+				}
+			}		
 			
 		} catch (Exception e) {
 			

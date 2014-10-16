@@ -12,7 +12,6 @@ import java.util.List;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
-import edu.cmu.sv.ws.ssnoc.data.po.UserGroupPO;
 
 /**
  * DAO implementation for saving User information in the H2 database.
@@ -62,7 +61,7 @@ public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
 			Log.exit(userNames);
 		}
 		
-		HashSet uniqueUserNames = new HashSet();
+		HashSet<String> uniqueUserNames = new HashSet<String>();
 		uniqueUserNames.addAll(userNames);
 		userNames.clear();
 		userNames.addAll(uniqueUserNames);
@@ -107,16 +106,6 @@ public class UserGroupDAOImpl extends BaseDAOImpl implements IUserGroupDAO {
 			Log.exit(userNames);
 		}
 		return userNames;
-	}
-
-	@Override
-	public List<UserGroupPO> loadUserGroups() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<UserGroupPO> loadUserGroups(long fromTimeInHours) {
-		return null;
 	}
 
 }
