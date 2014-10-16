@@ -404,5 +404,13 @@ public class SQL {
 			+ " (used_volatile_memory, remaining_volatile_memory, used_persistent_memory, remaining_persistent_memory, " 
 			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
+	// ----Social Network Analysis query-----//	
+	public static final String FETCH_CHAT_BUDDIES_USERS = "select a.Author_id, b.user_name author, "
+			+ " a. target_id,c.user_name target "
+			+ "from SSN_MESSAGES a, SSN_USERS b, SSN_USERS c "
+			+ " where a.author_id = b.user_id " 
+			+ "and a.target_id=c.user_id "
+			+ "and a.created_at >= ? "
+			+ "and a.created_at <= ? ";
 }
 
