@@ -122,7 +122,11 @@ public class MessageService extends BaseService {
 			Log.exit(message);
 		}
 
-		return message;
+		if (message == null) {
+			return null;
+		} else {
+			return message;
+		}
 	}
 
 	/**
