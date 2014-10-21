@@ -26,7 +26,7 @@ import edu.cmu.sv.ws.ssnoc.dto.Message;
 /**
  * This class contains the implementation of the RESTful API calls made with
  * respect to a message.
- * 
+ *
  */
 
 @Path("/message")
@@ -34,9 +34,9 @@ public class MessageService extends BaseService {
 
 	/*
 	 * This method posts a new message on wall
-	 * 
+	 *
 	 * @param message - An object of type Message
-	 * 
+	 *
 	 * @return - An object of type Response with the message of the request
 	 */
 	@POST
@@ -56,7 +56,11 @@ public class MessageService extends BaseService {
 			UserPO existingUser = uDao.findByName(userName);
 			long userId = 0;
 			if (existingUser != null)
+			{
 				userId = existingUser.getUserId();
+			} else {
+				return null;
+			}
 
 			//TODO: If no location is passed in, then skip this step
 			// Step 2: Insert a new location and get back the location id
@@ -84,17 +88,17 @@ public class MessageService extends BaseService {
 			// Step 5: send a response back
 			resp = ConverterUtils.convert(mpo);
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit();
 		}
 
-		return created(resp);
+		return this.created(resp);
 	}
-	
+
 	/**
 	 * This method fetches all message information by the given message ID if present
-	 * 
+	 *
 	 * @param messageID
 	 *            - messageID to fetch
 	 * @return - An object of type Response with the status of the request
@@ -113,24 +117,24 @@ public class MessageService extends BaseService {
 			message = ConverterUtils.convert(msgPO);
 
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(message);
 		}
 
-		return message;	
+		return message;
 	}
-	
+
 	/**
 	 * This method sends a chat message to another user
-	 * 
+	 *
 	 * @return a success status if message created
 	 */
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/{sendingUserName}/{receivingUserName}")
-	public Response postPrivateChatMessage(@PathParam("sendingUserName") String sendingUserName, 
+	public Response postPrivateChatMessage(@PathParam("sendingUserName") String sendingUserName,
 			@PathParam("receivingUserName") String receivingUserName,
 			Message message) {
 		Log.enter(sendingUserName, receivingUserName);
@@ -139,13 +143,19 @@ public class MessageService extends BaseService {
 		MessagePO po = null;
 		if (sendingUserName != null && receivingUserName != null && message.getContent() != null)
 		{
-			po = sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
+			po = this.sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
+		} else {
+			return null;
 		}
 
 		resp = ConverterUtils.convert(po);
-		return ok();
+		if (resp == null) {
+			return null;
+		} else {
+			return this.ok();
+		}
 	}
-	
+
 	private MessagePO sendPrivateMessage(String sendingUserName, String receivingUserName, String content, Timestamp postedAt, String location)	{
 		MessagePO po = null;
 		try {
@@ -156,10 +166,10 @@ public class MessageService extends BaseService {
 			po.setCreatedAt(postedAt);
 			po.setLocation(location);
 			po.setTargetName(receivingUserName);
-			DAOFactory.getInstance().getMessageDAO().savePrivateChatMessage(sendingUserName, receivingUserName, po);			
-			
+			DAOFactory.getInstance().getMessageDAO().savePrivateChatMessage(sendingUserName, receivingUserName, po);
+
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit();
 		}
