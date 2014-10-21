@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -14,9 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.cmu.sv.ws.ssnoc.dto.Message;
+import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 import edu.cmu.sv.ws.ssnoc.rest.MessageService;
 import edu.cmu.sv.ws.ssnoc.rest.MessagesService;
+import edu.cmu.sv.ws.ssnoc.rest.StatusService;
 import edu.cmu.sv.ws.ssnoc.rest.UserService;
 
 public class WallMessageTest {
@@ -119,5 +122,40 @@ public class WallMessageTest {
 
 		Response resp = msgService.postPrivateChatMessage(user1.getUserName(), user2.getUserName(), msg);
 		assertTrue(resp instanceof Response);
+	}
+
+	@Test
+	public void testloadWallAndStatusMessages() {
+		StatusService statSrv = new StatusService();
+		StatusCrumb statCrmb1 = new StatusCrumb();
+
+		statCrmb1.setStatus("warning");
+		statCrmb1.setLocation("Mountain View");
+		statCrmb1.setUserName("foo");
+
+		statSrv.addStatusCrumb(statCrmb1);
+
+		StatusCrumb statCrmb2 = new StatusCrumb();
+		statCrmb2.setStatus("ok");
+		statCrmb2.setLocation("Mars");
+		statCrmb2.setUserName("bar");
+
+		statSrv.addStatusCrumb(statCrmb2);
+
+		MessagesService msgsSrv = new MessagesService();
+		List<Message> messages = new ArrayList<Message>();
+
+		messages = msgsSrv.loadWallAndStatusMessages();
+
+		assertTrue(messages instanceof List<?>);
+	}
+
+	@Test
+	public void testgetAllChatMessagesForPeers() {
+		MessagesService msgsSrv = new MessagesService();
+		List<Message> msgBetweenUsers = new ArrayList<Message>();
+
+		msgBetweenUsers =  msgsSrv.getAllChatMessagesForPeers(user1.getUserName(), user2.getUserName());
+		assertTrue(msgBetweenUsers instanceof List<?>);
 	}
 }
