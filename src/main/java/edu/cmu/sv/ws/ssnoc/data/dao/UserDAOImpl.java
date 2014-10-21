@@ -12,7 +12,6 @@ import java.util.List;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
 import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
-import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * DAO implementation for saving User information in the H2 database.
@@ -203,32 +202,6 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 		}		
 
 		return buddies;
-	}
-	
-	
-	private long processUserID(PreparedStatement stmt) {
-		Log.enter(stmt);
-
-		long userId = 0;
-		
-		if (stmt == null) {
-			Log.warn("Inside processResults method with NULL statement object.");
-			return userId;
-		}
-
-		Log.debug("Executing stmt = " + stmt);
-		
-		try (ResultSet rs = stmt.executeQuery()) {
-			if (rs.next()) {
-				userId = rs.getLong(1);
-			}
-		} catch (SQLException e) {
-			handleException(e);
-		} finally {
-			Log.exit(userId);
-		}
-
-		return userId;
 	}
 	
 	private List<UserPO> processChatBuddies(PreparedStatement stmt) {

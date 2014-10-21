@@ -2,10 +2,7 @@ package edu.cmu.sv.ws.ssnoc.data.dao;
 
 import java.util.List;
 
-import javax.ws.rs.PathParam;
-
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
-import edu.cmu.sv.ws.ssnoc.dto.Message;
 
 /**
  * Interface specifying the contract that all implementations will implement to
