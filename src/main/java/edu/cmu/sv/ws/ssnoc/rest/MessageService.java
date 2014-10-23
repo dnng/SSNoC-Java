@@ -59,7 +59,7 @@ public class MessageService extends BaseService {
 			{
 				userId = existingUser.getUserId();
 			} else {
-				return null;
+				userId = 0;
 			}
 
 			//TODO: If no location is passed in, then skip this step
@@ -122,11 +122,8 @@ public class MessageService extends BaseService {
 			Log.exit(message);
 		}
 
-		if (message == null) {
-			return null;
-		} else {
-			return message;
-		}
+		
+		return message;
 	}
 
 	/**
@@ -153,11 +150,7 @@ public class MessageService extends BaseService {
 		}
 
 		resp = ConverterUtils.convert(po);
-		if (resp == null) {
-			return null;
-		} else {
-			return this.ok();
-		}
+		return this.created(resp);
 	}
 
 	private MessagePO sendPrivateMessage(String sendingUserName, String receivingUserName, String content, Timestamp postedAt, String location)	{
@@ -177,6 +170,7 @@ public class MessageService extends BaseService {
 		} finally {
 			Log.exit();
 		}
+		//TODO: This should send a created response if i'm not wrong. must get back the message first and send it to this.created(resp);
 		return po;
 	}
 }

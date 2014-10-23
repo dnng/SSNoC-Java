@@ -210,6 +210,13 @@ public class SQL {
 	 */
 	public static final String DROP_MESSAGES = "drop table if exists "
 			+ SSN_MESSAGES;
+	
+	
+	/**
+	 * Query to truncate the MESSAGES table.
+	 */
+	public static final String TRUNCATE_MESSAGES = "truncate table "
+			+ SSN_MESSAGES;
 
 	/**
 	 * Query to load message by the specific message ID

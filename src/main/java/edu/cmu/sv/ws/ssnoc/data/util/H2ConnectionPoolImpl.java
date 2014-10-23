@@ -101,4 +101,8 @@ public class H2ConnectionPoolImpl implements IConnectionPool {
 		ds = new HikariDataSource(config);
 		ds.setMaximumPoolSize(PropertyUtils.DB_CONNECTION_POOL_SIZE);	
 	}
+	
+	public boolean isTest() {
+		return ds.getDataSourceProperties().getProperty("URL").contains("test");
+	}
 }

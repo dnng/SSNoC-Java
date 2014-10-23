@@ -283,5 +283,18 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		}
 	}
 
+	@Override
+	public void truncateMessages() {
+		Log.enter();
+		try (Connection conn = getConnection();
+			PreparedStatement stmt = conn.prepareStatement(SQL.TRUNCATE_MESSAGES)) {
+			Log.trace("Truncate Statement executed");
+		} catch (SQLException e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
+	}
+
 }
 

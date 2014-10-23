@@ -1,6 +1,7 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -8,6 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
+import edu.cmu.sv.ws.ssnoc.data.dao.IMessageDAO;
 import edu.cmu.sv.ws.ssnoc.data.util.ConnectionPoolFactory;
 import edu.cmu.sv.ws.ssnoc.data.util.DBUtils;
 import edu.cmu.sv.ws.ssnoc.data.util.IConnectionPool;
@@ -78,6 +81,32 @@ public class PerformanceService extends BaseService {
 
 		return created(resp);
 	}
+	
+	/**
+	 * This method deletes all the existing posts when the post count reaches 1000
+	 * 
+	 * 
+	 * @return - An object of type Response with the status of the request
+	 */
+	@DELETE
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response deleteTestPosts() {
+		Log.enter();
+		PerformanceCrumb resp = new PerformanceCrumb();
 
+		try {
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			if(cp.isTest()) {
+				IMessageDAO dao = DAOFactory.getInstance().getMessageDAO();
+				dao.truncateMessages();
+			}
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit();
+		}
 
+		return created(resp);
+	}
 }

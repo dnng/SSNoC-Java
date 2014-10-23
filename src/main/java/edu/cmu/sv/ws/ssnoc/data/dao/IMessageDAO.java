@@ -71,4 +71,9 @@ public interface IMessageDAO {
 	 * save a new incoming chat message
 	 */
 	void savePrivateChatMessage(String senderName, String receiverName, MessagePO po);
+	
+	/**
+	 * delete all messages in the messages table 
+	 */
+	void truncateMessages();
 }
