@@ -146,7 +146,7 @@ public class WallMessageTest {
 		MessagesService msgsSrv = new MessagesService();
 		List<Message> messages = new ArrayList<Message>();
 
-		messages = msgsSrv.loadWallAndStatusMessages();
+		messages = msgsSrv.loadAllMessages();
 
 		assertTrue(messages instanceof List<?>);
 	}

@@ -69,7 +69,7 @@ public class MessagesService extends BaseService {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "messages")
 	@Path("/wallstatus")
-	public List<Message> loadWallAndStatusMessages() {
+	public List<Message> loadAllMessages() {
 		Log.enter();
 
 		// Get Wall Messages
@@ -151,7 +151,37 @@ public class MessagesService extends BaseService {
 
 		return messages;
 	}
-
-
 	
+	/**
+	 * This method loads all message in the system.
+	 * 
+	 * @return - List of all messages.
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@XmlElementWrapper(name = "messages")
+	@Path("/announcement")
+	public List<Message> loadAnnouncementMessages() {
+		Log.enter();
+
+		List<Message> messages = new ArrayList<Message>();
+		try {
+			List<MessagePO> messagePO = DAOFactory.getInstance()
+					.getMessageDAO().loadAnnouncementMessages();
+
+			if (messagePO != null) {
+				for (MessagePO po : messagePO) {
+					Message dto = ConverterUtils.convert(po);
+					messages.add(dto);
+				}
+			}
+		} catch (Exception e) {
+			handleException(e);
+		} finally {
+			Log.exit(messages);
+		}
+
+		return messages;
+	}
+
 }

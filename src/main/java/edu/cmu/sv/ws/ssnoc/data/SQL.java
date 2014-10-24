@@ -202,7 +202,7 @@ public class SQL {
 	public static final String CREATE_MESSAGES = "create table IF NOT EXISTS "
 			+ SSN_MESSAGES + " ( message_id IDENTITY PRIMARY KEY,"
 			+ " author_id BIGINT, target_id BIGINT,  location_id BIGINT,"
-			+ " content VARCHAR(1024), message_type VARCHAR(10),"
+			+ " content VARCHAR(1024), message_type VARCHAR(64),"
 			+ " created_at TIMESTAMP )";
 
 	/**
@@ -297,6 +297,27 @@ public class SQL {
 			+ " slc on ssm.location_id=slc.location_crumb_id"
 			+ " where ssm.message_type=\'WALL\'"
 			+ " order by ssm.created_at DESC";
+	
+	/**
+	 * Query to load all announcements  in the system.
+	 */
+	public static final String FIND_ALL_ANNOUNCEMENT_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
+			+ " sb.user_name, ssm.location_id, slc.location, "
+			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " from "
+			+ SSN_MESSAGES
+			+ " ssm "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'ANNOUNCEMENT\'"
+			+ " order by ssm.created_at DESC";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
@@ -306,11 +327,19 @@ public class SQL {
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
 
 	/**
-	 * Query to insert a new chat message into the chat_messages table.
+	 * Query to insert a new wall message into the messages table.
 	 */
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
+	
+	/**
+	 * Query to insert a new chat message into the chat_messages table.
+	 */
+	public static final String INSERT_ANNOUNCEMENT_MESSAGE = "insert into "
+			+ SSN_MESSAGES
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
+	
 	
 	/**
 	 * Query to insert new private chat message

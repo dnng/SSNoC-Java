@@ -14,7 +14,7 @@ public interface IMessageDAO {
 	 * This method will save the information of the wall message into the database.
 	 *
 	 * @param MessagePO
-	 *            - Status Crumb information to be saved.
+	 *            - Message information to be saved.
 	 */
 	long saveWallMessage(MessagePO messagePO);
 
@@ -22,26 +22,41 @@ public interface IMessageDAO {
 	 * This method will save the information of the chat message into the database.
 	 *
 	 * @param MessagePO
-	 *            - Status Crumb information to be saved.
+	 *            - Message information to be saved.
 	 */
 	long saveChatMessage(MessagePO messagePO);
 
 	/**
-	 * This method will load all wall message in the
+	 * This method will save the information of the announcement into the database.
+	 *
+	 * @param MessagePO
+	 *            - Message information to be saved.
+	 */
+	long saveAnnouncementMessage(MessagePO messagePO);
+
+	/**
+	 * This method will load all wall messages in the
 	 * database.
 	 *
 	 * @return - List of all  wall messages.
 	 */
 	List<MessagePO> loadWallMessages();
 
-
 	/**
-	 * This method will load all chat message in the
+	 * This method will load all chat messages in the
 	 * database.
 	 *
 	 * @return - List of all  chat messages.
 	 */
 	List<MessagePO> loadChatMessages();
+	
+	/**
+	 * This method will load all announcement messages in the
+	 * database.
+	 *
+	 * @return - List of all  announcement messages.
+	 */
+	List<MessagePO> loadAnnouncementMessages();
 
 	/**
 	 * This method will load a particular message by it's id.
@@ -51,9 +66,7 @@ public interface IMessageDAO {
 	 *
 	 * @return - messagePO.
 	 */
-
 	MessagePO loadMessageById(long messageId);
-
 
 	/**
 	 * load chat messages exchanged between two users
