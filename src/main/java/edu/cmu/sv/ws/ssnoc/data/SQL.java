@@ -230,7 +230,7 @@ public class SQL {
 			+ " sa on ssm.author_id=sa.user_id "
 			+ "left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id "
+			+ " sb on ssm.target_id=sb.user_id "
 			+ "left outer join "
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on sa.last_location_id=slc.location_crumb_id "
@@ -250,7 +250,7 @@ public class SQL {
 			+ " sa on ssm.author_id=sa.user_id "
 			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id "
+			+ " sb on ssm.target_id=sb.user_id "
 			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on ssm.location_id=slc.location_crumb_id"
@@ -270,7 +270,7 @@ public class SQL {
 			+ " sa on ssm.author_id=sa.user_id "
 			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id "
+			+ " sb on ssm.target_id=sb.user_id "
 			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on ssm.location_id=slc.location_crumb_id"
@@ -291,7 +291,7 @@ public class SQL {
 			+ " sa on ssm.author_id=sa.user_id "
 			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id "
+			+ " sb on ssm.target_id=sb.user_id "
 			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on ssm.location_id=slc.location_crumb_id"
@@ -312,7 +312,7 @@ public class SQL {
 			+ " sa on ssm.author_id=sa.user_id "
 			+ " left outer join "
 			+ SSN_USERS
-			+ " sb on ssm.target_id=sa.user_id "
+			+ " sb on ssm.target_id=sb.user_id "
 			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on ssm.location_id=slc.location_crumb_id"
