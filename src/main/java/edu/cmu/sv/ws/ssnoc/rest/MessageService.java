@@ -218,7 +218,7 @@ public class MessageService extends BaseService {
 			mpo.setAuthorId(userId);
 			mpo.setLocationId(locationId);
 			mpo.setContent(message.getContent());
-			long messageId = DAOFactory.getInstance().getMessageDAO().saveWallMessage(mpo);
+			long messageId = DAOFactory.getInstance().getMessageDAO().saveAnnouncementMessage(mpo);
 
 			// Step 4: Update the user with the new message, location crumb id
 			// and modified at time
