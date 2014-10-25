@@ -345,6 +345,19 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 			}
 			return messageId;
 		}
+	
+	public void cleanUpAllMessages() {
+
+	String query = SQL.CLEAN_UP_MSGS;
+
+	try (Connection conn = getConnection();
+			PreparedStatement stmt = conn.prepareStatement(query);) {
+		boolean  rs = stmt.execute();
+		System.out.println(rs);
+	} catch (SQLException e) {
+		handleException(e);
+	}
+}
 
 }
 

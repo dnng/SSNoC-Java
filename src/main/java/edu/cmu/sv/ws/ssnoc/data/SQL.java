@@ -495,5 +495,11 @@ public class SQL {
 			+ " from "
 			+ SSN_USERS
 			+ " order by user_name";
+	
+	 /**
+	  * Clean up all the previous messages
+	  */
+	public static final String CLEAN_UP_MSGS = "TRUNCATE TABLE SSN_MESSAGES;";
+	
 }
 
