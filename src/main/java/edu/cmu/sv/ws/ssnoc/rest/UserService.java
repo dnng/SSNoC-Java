@@ -26,7 +26,7 @@ import edu.cmu.sv.ws.ssnoc.dto.User;
 /**
  * This class contains the implementation of the RESTful API calls made with
  * respect to users.
- * 
+ *
  */
 
 @Path("/user")
@@ -34,7 +34,7 @@ public class UserService extends BaseService {
 	/**
 	 * This method checks the validity of the user name and if it is valid, adds
 	 * it to the database
-	 * 
+	 *
 	 * @param user
 	 *            - An object of type User
 	 * @return - An object of type Response with the status of the request
@@ -56,14 +56,14 @@ public class UserService extends BaseService {
 			// an existing userName, notify that to the user.
 			if (existingUser != null) {
 				Log.trace("User name provided already exists. Validating if it is same password ...");
-				if (!validateUserPassword(user.getPassword(), existingUser)) {
+				if (!this.validateUserPassword(user.getPassword(), existingUser)) {
 					Log.warn("Password is different for the existing user name.");
 					throw new ValidationException("User name already taken");
 				} else {
 					Log.debug("Yay!! Password is same for the existing user name.");
 
 					resp.setUserName(existingUser.getUserName());
-					return ok(resp);
+					return this.ok(resp);
 				}
 			}
 
@@ -73,20 +73,20 @@ public class UserService extends BaseService {
 			dao.save(po);
 			resp = ConverterUtils.convert(po);
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit();
 		}
 
-		return created(resp);
+		return this.created(resp);
 	}
 
 	/**
 	 * This method is used to login a user.
-	 * 
+	 *
 	 * @param user
 	 *            - User information to login
-	 * 
+	 *
 	 * @return - Status 200 when successful login. Else other status.
 	 */
 	@POST
@@ -98,29 +98,29 @@ public class UserService extends BaseService {
 		Log.enter(userName, user);
 
 		try {
-			UserPO po = loadExistingUser(userName);
-			if (!validateUserPassword(user.getPassword(), po)) {
+			UserPO po = this.loadExistingUser(userName);
+			if (!this.validateUserPassword(user.getPassword(), po)) {
 				throw new UnauthorizedUserException(userName);
 			}
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit();
 		}
 
-		return ok();
+		return this.ok();
 	}
 
 	/**
 	 * This method will validate the user's password based on what information
 	 * is sent from the UI, versus the information retrieved for that user from
 	 * the database.
-	 * 
+	 *
 	 * @param password
 	 *            - Encrypted Password
 	 * @param po
 	 *            - User info from DB
-	 * 
+	 *
 	 * @return - Flag specifying YES or NO
 	 */
 	private boolean validateUserPassword(String password, UserPO po) {
@@ -142,10 +142,10 @@ public class UserService extends BaseService {
 
 	/**
 	 * All all information related to a particular userName.
-	 * 
+	 *
 	 * @param userName
 	 *            - User Name
-	 * 
+	 *
 	 * @return - Details of the User
 	 */
 	@GET
@@ -156,15 +156,73 @@ public class UserService extends BaseService {
 
 		User user = null;
 		try {
-			UserPO po = loadExistingUser(userName);
+			UserPO po = this.loadExistingUser(userName);
 			user = ConverterUtils.convert(po);
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(user);
 		}
 
 		return user;
+	}
+
+	/**
+	 * Manages a user profile
+	 *
+	 *
+	 * @param user
+	 * 				- An object of the user type
+	 *
+	 * @return - 201 if username is updated; 200 if username is not updated
+	 */
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/{userName}")
+	public Response updateUserRecord(User user) {
+		Log.enter(user.getUserName());
+		User resp = new User();
+		IUserDAO dao = DAOFactory.getInstance().getUserDAO();
+		UserPO existingUser = new UserPO();
+		boolean userUpdated = false;
+
+		try {
+			existingUser = dao.findByName(user.getUserName());
+			if (existingUser != null) {
+				if (existingUser.getAccountStatus() != user.getAccountStatus()) {
+					existingUser.setAccountStatus(user.getAccountStatus());
+					userUpdated = true;
+				}
+				if (existingUser.getPrivilegeLevel() != user.getPrivilegeLevel()) {
+					existingUser.setPrivilegeLevel(user.getPrivilegeLevel());
+					userUpdated = true;
+				}
+				if (existingUser.getUserName() != user.getUserName()) {
+					existingUser.setUserName(user.getUserName());
+					userUpdated = true;
+				}
+				if (existingUser.getPassword() != user.getPassword()) {
+					existingUser.setPassword(user.getPassword());
+					existingUser = SSNCipher.encryptPassword(existingUser);
+					userUpdated = true;
+				}
+			} else {
+				Log.debug("UserName not found");
+				resp = null;
+			}
+		} catch (Exception e) {
+			this.handleException(e);
+		} finally {
+			Log.exit();
+		}
+		if (userUpdated) {
+			dao.update(existingUser);
+			resp = ConverterUtils.convert(existingUser);
+			return this.created(resp);
+		} else {
+			return this.ok();
+		}
 	}
 
 }

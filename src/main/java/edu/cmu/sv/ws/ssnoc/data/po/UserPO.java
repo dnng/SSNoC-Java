@@ -1,6 +1,8 @@
 package edu.cmu.sv.ws.ssnoc.data.po;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -9,9 +11,13 @@ import com.google.gson.Gson;
  * This contains information like the user's name, his role, his account status
  * and the password information entered by the user when signing up. <br/>
  * Information is saved in SSN_USERS table.
- * 
+ *
  */
 public class UserPO {
+	List<String> userRoles = Arrays.asList("Administrator", "Coordinator", "Monitor", "Citizen");
+	List<String> accountStates = Arrays.asList("active", "inactive");
+	private String accountStatus;
+	private String privilegeLevel;
 	private long userId;
 	private String userName;
 	private String password;
@@ -23,6 +29,30 @@ public class UserPO {
 	private Timestamp lastStatusTime;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
+
+	public String getPrivilegeLevel() {
+		return privilegeLevel;
+	}
+
+	public void setPrivilegeLevel(String privilegeLevel) {
+		if (userRoles.contains(privilegeLevel)) {
+			this.privilegeLevel = privilegeLevel;
+		} else {
+			this.privilegeLevel = null;
+		}
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(String accountStatus) {
+		if (accountStates.contains(accountStatus)) {
+			this.accountStatus = accountStatus;
+		} else {
+			this.accountStatus  = null;
+		}
+	}
 
 	public long getUserId() {
 		return userId;

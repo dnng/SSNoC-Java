@@ -4,7 +4,7 @@ package edu.cmu.sv.ws.ssnoc.data;
  * This class contains all the SQL related code that is used by the project.
  * Note that queries are grouped by their purpose and table associations for
  * easy maintenance.
- * 
+ *
  */
 public class SQL {
 
@@ -27,12 +27,17 @@ public class SQL {
 	/**
 	 * Query to create the USERS table.
 	 */
-	public static final String CREATE_USERS = "create table IF NOT EXISTS "
-			+ SSN_USERS + " ( user_id IDENTITY PRIMARY KEY,"
-			+ " user_name VARCHAR(100)," + " password VARCHAR(512),"
+	public static final String CREATE_USERS = "create table IF NOT EXISTS " + SSN_USERS
+			+ " ( user_id IDENTITY PRIMARY KEY,"
+			+ " user_name VARCHAR(100),"
+			+ " password VARCHAR(512),"
 			+ " salt VARCHAR(512),"
-			+ " last_status_code_id BIGINT, last_location_id BIGINT, "
-			+ " created_at TIMESTAMP," + " modified_at TIMESTAMP )";
+			+ " privilege VARCHAR(100),"
+			+ " role VARCHAR(100),"
+			+ " last_status_code_id BIGINT,"
+			+ " last_location_id BIGINT,"
+			+ " created_at TIMESTAMP,"
+			+ " modified_at TIMESTAMP )";
 
 	/**
 	 * Query to drop the USERS table.
@@ -88,7 +93,11 @@ public class SQL {
 	 */
 	public static final String UPDATE_USER_BY_ID = "update "
 			+ SSN_USERS
-			+ " set last_status_code_id = ?, last_location_id = ?, modified_at = CURRENT_TIMESTAMP()"
+			+ " set last_status_code_id = ?,"
+			+ " last_location_id = ?,"
+			+ " privilege = ?,"
+			+ " role = ?,"
+			+ " modified_at = CURRENT_TIMESTAMP()"
 			+ " where user_id = ?";
 
 	/**
@@ -210,8 +219,8 @@ public class SQL {
 	 */
 	public static final String DROP_MESSAGES = "drop table if exists "
 			+ SSN_MESSAGES;
-	
-	
+
+
 	/**
 	 * Query to truncate the MESSAGES table.
 	 */
@@ -297,7 +306,7 @@ public class SQL {
 			+ " slc on ssm.location_id=slc.location_crumb_id"
 			+ " where ssm.message_type=\'WALL\'"
 			+ " order by ssm.created_at DESC";
-	
+
 	/**
 	 * Query to load all announcements  in the system.
 	 */
@@ -332,15 +341,15 @@ public class SQL {
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
-	
+
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
 	public static final String INSERT_ANNOUNCEMENT_MESSAGE = "insert into "
 			+ SSN_MESSAGES
 			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
-	
-	
+
+
 	/**
 	 * Query to insert new private chat message
 	 */
@@ -348,7 +357,7 @@ public class SQL {
 			+ "SSN_MESSAGES "
 			+ "(created_at, location_id, message_type, content, target_id, author_id) "
 			+ "values (CURRENT_TIMESTAMP(), ?, \'CHAT\', ?, ?, ?)";
-			
+
 	/**
 	 * Query to fetch chat buddies
 	 */
@@ -381,8 +390,8 @@ public class SQL {
 			+ "or (sa.user_name = ? "
 			+ "and st.user_name = ?) "
 			+ "order by m.created_at DESC";
-	
-	
+
+
 
 	// ****************************************************************
 	// All queries related to MEMORY_CRUMBS
@@ -438,16 +447,16 @@ public class SQL {
 			+ " online_users, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
 
 
-	// ----Social Network Analysis query-----//	
+	// ----Social Network Analysis query-----//
 	public static final String FETCH_CHAT_BUDDIES_USERS = "select a.Author_id, b.user_name author, "
 			+ " a. target_id,c.user_name target "
 			+ "from SSN_MESSAGES a, SSN_USERS b, SSN_USERS c "
-			+ " where a.author_id = b.user_id " 
+			+ " where a.author_id = b.user_id "
 			+ "and a.target_id=c.user_id "
 			+ "and a.created_at >= ? "
 			+ "and a.created_at <= ? ";
-	
-	
+
+
 	/**
 	 * Query to fetch chat buddies for social network analysis
 	 */
@@ -466,7 +475,7 @@ public class SQL {
 			+ "where u2.user_name = ? "
 			+ "and m2.message_type = \'CHAT\' "
 			+ ") m " + "on  u.user_id = m.user_id ";
-	
+
 	/**
 	 * Query to fetch chat buddies for social network analysis
 	 */
@@ -487,7 +496,7 @@ public class SQL {
 			+ "and m2.message_type = \'CHAT\' "
 			+ "and m2.created_at between DATEADD(hh, ?, current_timestamp()) and current_timestamp()"
 			+ ") m " + "on  u.user_id = m.user_id ";
-	
+
 	/**
 	 * Query to load all users in the system.
 	 */

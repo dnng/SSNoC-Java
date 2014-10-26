@@ -1,15 +1,21 @@
 package edu.cmu.sv.ws.ssnoc.dto;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.gson.Gson;
 
 /**
  * This object contains user information that is responded as part of the REST
  * API request.
- * 
+ *
  */
 public class User {
+	List<String> userRoles = Arrays.asList("Administrator", "Coordinator", "Monitor", "Citizen");
+	List<String> accountStates = Arrays.asList("active", "inactive");
+	private String accountStatus;
+	private String privilegeLevel;
 	private String userName;
 	private String password;
 	private long lastStatusCrumbId;
@@ -19,7 +25,30 @@ public class User {
 	private Timestamp lastStatusTime;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
-	
+
+	public String getPrivilegeLevel() {
+		return privilegeLevel;
+	}
+
+	public void setPrivilegeLevel(String privilegeLevel) {
+		if (userRoles.contains(privilegeLevel)) {
+			this.privilegeLevel = privilegeLevel;
+		} else {
+			this.privilegeLevel = null;
+		}
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(String accountStatus) {
+		if (accountStates.contains(accountStatus)) {
+			this.accountStatus = accountStatus;
+		} else {
+			this.accountStatus  = null;
+		}
+	}
 	public String getUserName() {
 		return userName;
 	}

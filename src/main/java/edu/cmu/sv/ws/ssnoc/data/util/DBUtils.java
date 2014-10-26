@@ -14,7 +14,7 @@ import edu.cmu.sv.ws.ssnoc.data.SQL;
 /**
  * This is a utility class to provide common functions to access and handle
  * Database operations.
- * 
+ *
  */
 public class DBUtils {
 	private static boolean DB_TABLES_EXIST = false;
@@ -28,7 +28,7 @@ public class DBUtils {
 		CREATE_TABLE_LST.add(SQL.CREATE_LOCATION_CRUMBS);
 		CREATE_TABLE_LST.add(SQL.CREATE_MESSAGES);
 		CREATE_TABLE_LST.add(SQL.CREATE_MEMORY_CRUMBS);
-		
+
 		DROP_TABLE_LST = new ArrayList<String>();
 		DROP_TABLE_LST.add(SQL.DROP_USERS);
 		DROP_TABLE_LST.add(SQL.DROP_STATUS_CRUMBS);
@@ -39,17 +39,17 @@ public class DBUtils {
 
 	/**
 	 * This method will initialize the database.
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	public static void initializeDatabase() throws SQLException {
-		//dropTablesInDB(); // Please uncomment this for testing
+		// dropTablesInDB(); // Please uncomment this for testing
 		createTablesInDB();
 	}
-	
+
 	/**
 	 * This method will initialize the database.
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	public static void reinitializeDatabase() throws SQLException {
@@ -59,7 +59,7 @@ public class DBUtils {
 
 	/**
 	 * This method will create necessary tables in the database.
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	protected static void createTablesInDB() throws SQLException {
@@ -91,10 +91,10 @@ public class DBUtils {
 		}
 		Log.exit();
 	}
-	
+
 	/**
 	 * This method will create necessary tables in the database.
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	protected static void recreateTablesInDB() throws SQLException {
@@ -123,10 +123,10 @@ public class DBUtils {
 		}
 		Log.exit();
 	}
-	
+
 	/**
 	 * This method will drop all tables in the database.
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	protected static void dropTablesInDB() throws SQLException {
@@ -150,7 +150,7 @@ public class DBUtils {
 			} else {
 				Log.info("Tables do not exist in database. Not performing any action.");
 			}
-			
+
 			DB_TABLES_EXIST = false;
 		}
 		Log.exit();
@@ -158,14 +158,14 @@ public class DBUtils {
 
 	/**
 	 * This method will check if the table exists in the database.
-	 * 
+	 *
 	 * @param conn
 	 *            - Connection to the database
 	 * @param tableName
 	 *            - Table name to check.
-	 * 
+	 *
 	 * @return - Flag whether the table exists or not.
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	public static boolean doesTableExistInDB(Connection conn, String tableName)
@@ -207,9 +207,9 @@ public class DBUtils {
 	/**
 	 * This method returns a database connection from the Hikari CP Connection
 	 * Pool
-	 * 
+	 *
 	 * @return - Connection to the H2 database
-	 * 
+	 *
 	 * @throws SQLException
 	 */
 	public static final Connection getConnection() throws SQLException {
