@@ -1,28 +1,23 @@
 package edu.cmu.sv.ws.ssnoc.test;
 
-import static org.junit.Assert.assertEquals;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import javax.ws.rs.core.Response;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import edu.cmu.sv.ws.ssnoc.data.SQL;
+import edu.cmu.sv.ws.ssnoc.data.dao.MessageDAOImpl;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
-import edu.cmu.sv.ws.ssnoc.data.dao.MessageDAOImpl;
 import edu.cmu.sv.ws.ssnoc.rest.MessageService;
 import edu.cmu.sv.ws.ssnoc.rest.UserGroupsService;
 import edu.cmu.sv.ws.ssnoc.rest.UserService;
-import edu.cmu.sv.ws.ssnoc.data.SQL;
 
 public class UserGroupsServiceTest {
 

@@ -66,6 +66,8 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 				if(colCount >=6) po.setLastStatus(rs.getString(6));
 				if(colCount >=7) po.setLastStatusTime(rs.getTimestamp(7));
 				if(colCount >=9) po.setLastLocation(rs.getString(9));
+				if(colCount >=10) po.setPrivilegeLevel(rs.getString(10));
+				if(colCount >=11) po.setAccountStatus(rs.getString(11));
 				users.add(po);
 			}
 		} catch (SQLException e) {
@@ -136,9 +138,8 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 			stmt.setString(1, userPO.getUserName());
 			stmt.setString(2, userPO.getPassword());
 			stmt.setString(3, userPO.getSalt());
-			// string #4 is TIMESTAMP on SQL string!
+			stmt.setString(4, userPO.getPrivilegeLevel());
 			stmt.setString(5, userPO.getAccountStatus());
-			stmt.setLong(6, userPO.getUserId());
 
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows inserted.");
@@ -171,9 +172,7 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 			stmt.setLong(2, userPO.getLastLocationCrumbId());
 			stmt.setString(3, userPO.getPrivilegeLevel());
 			stmt.setString(4, userPO.getAccountStatus());
-			// statement #5 is CURRENT_TIMESTAMP on SQL string!
-			stmt.setLong(6, userPO.getUserId());
-
+			stmt.setLong(5, userPO.getUserId());
 
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows updated.");

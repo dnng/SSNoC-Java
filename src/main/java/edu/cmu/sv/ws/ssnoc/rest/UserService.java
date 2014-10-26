@@ -180,38 +180,38 @@ public class UserService extends BaseService {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/{userName}")
-	public Response updateUserRecord(User user, User newUserInfo) {
-		Log.enter(user.getUserName());
+	public Response updateUserRecord(@PathParam("userName") String userName, User userInfo) {
+		Log.enter(userName, userInfo);
 		User resp = new User();
 		IUserDAO dao = DAOFactory.getInstance().getUserDAO();
 		UserPO existingUser = new UserPO();
 		boolean userUpdated = false;
 
 		try {
-			existingUser = dao.findByName(user.getUserName());
+			existingUser = dao.findByName(userName);
 			if (existingUser != null) {
-				if (existingUser.getAccountStatus() != newUserInfo.getAccountStatus() &&
-						newUserInfo.getAccountStatus() != "" &&
-						newUserInfo.getAccountStatus() != null) {
-					existingUser.setAccountStatus(newUserInfo.getAccountStatus());
+				if (existingUser.getAccountStatus() != userInfo.getAccountStatus() &&
+						userInfo.getAccountStatus() != "" &&
+						userInfo.getAccountStatus() != null) {
+					existingUser.setAccountStatus(userInfo.getAccountStatus());
 					userUpdated = true;
 				}
-				if (existingUser.getPrivilegeLevel() != newUserInfo.getPrivilegeLevel() &&
-						newUserInfo.getPrivilegeLevel() != ""&&
-						newUserInfo.getPrivilegeLevel() != null) {
-					existingUser.setPrivilegeLevel(newUserInfo.getPrivilegeLevel());
+				if (existingUser.getPrivilegeLevel() != userInfo.getPrivilegeLevel() &&
+						userInfo.getPrivilegeLevel() != ""&&
+						userInfo.getPrivilegeLevel() != null) {
+					existingUser.setPrivilegeLevel(userInfo.getPrivilegeLevel());
 					userUpdated = true;
 				}
-				if (existingUser.getUserName() != newUserInfo.getUserName() &&
-						newUserInfo.getUserName() != "" &&
-						newUserInfo.getUserName() != null) {
-					existingUser.setUserName(newUserInfo.getUserName());
+				if (existingUser.getUserName() != userInfo.getUserName() &&
+						userInfo.getUserName() != "" &&
+						userInfo.getUserName() != null) {
+					existingUser.setUserName(userInfo.getUserName());
 					userUpdated = true;
 				}
-				if (existingUser.getPassword() != newUserInfo.getPassword() &&
-						newUserInfo.getPassword() != "" &&
-						newUserInfo.getPassword() != null) {
-					existingUser.setPassword(newUserInfo.getPassword());
+				if (existingUser.getPassword() != userInfo.getPassword() &&
+						userInfo.getPassword() != "" &&
+						userInfo.getPassword() != null) {
+					existingUser.setPassword(userInfo.getPassword());
 					existingUser = SSNCipher.encryptPassword(existingUser);
 					userUpdated = true;
 				}

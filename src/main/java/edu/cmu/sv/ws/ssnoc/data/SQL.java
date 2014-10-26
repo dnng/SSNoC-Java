@@ -34,10 +34,10 @@ public class SQL {
 			+ " salt VARCHAR(512),"
 			+ " last_status_code_id BIGINT,"
 			+ " last_location_id BIGINT,"
+			+ " privilege_level VARCHAR(100),"
+			+ " account_status VARCHAR(100),"
 			+ " created_at TIMESTAMP,"
-			+ " modified_at TIMESTAMP,"
-			+ " privilege VARCHAR(100),"
-			+ " role VARCHAR(100))";
+			+ " modified_at TIMESTAMP)";
 
 	/**
 	 * Query to drop the USERS table.
@@ -48,7 +48,8 @@ public class SQL {
 	 * Query to load all users in the system.
 	 */
 	public static final String FIND_ALL_USERS = "select u.user_id, u.user_name, u.password,"
-			+ " u.salt, u.last_status_code_id, ssc.status, ssc.created_at, u.last_location_id, slc.location, u.created_at, u.modified_at "
+			+ " u.salt, u.last_status_code_id, ssc.status, ssc.created_at, u.last_location_id,"
+			+ " slc.location, u.privilege_level, u.account_status, u.created_at, u.modified_at "
 			+ " from "
 			+ SSN_USERS
 			+ " u "
@@ -64,9 +65,19 @@ public class SQL {
 	 * Query to find a user details depending on his name. Note that this query
 	 * does a case insensitive search with the user name.
 	 */
-	public static final String FIND_USER_BY_NAME = "select user_id, user_name, password,"
-			+ " salt, last_status_code_id, last_location_id, created_at, modified_at "
-			+ " from " + SSN_USERS + " where UPPER(user_name) = UPPER(?)";
+	public static final String FIND_USER_BY_NAME = "select u.user_id, u.user_name, u.password,"
+			+ " u.salt, u.last_status_code_id, ssc.status, ssc.created_at, u.last_location_id,"
+			+ " slc.location, u.privilege_level, u.account_status, u.created_at, u.modified_at "
+			+ " from "
+			+ SSN_USERS
+			+ " u "
+			+ " left outer join "
+			+ SSN_STATUS_CRUMBS
+			+ " ssc on u.last_status_code_id = ssc.status_crumb_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on u.last_location_id = slc.location_crumb_id "
+			+ " where UPPER(u.user_name) = UPPER(?)"; 
 
 	/**
 	 * Query to find a user id depending on his name. Note that this query does
@@ -86,7 +97,7 @@ public class SQL {
 	 */
 	public static final String INSERT_USER = "insert into "
 			+ SSN_USERS
-			+ " (user_name, password, salt, created_at, privilege, role ) values (?, ?, ?, CURRENT_TIMESTAMP(), ?, ? )";
+			+ " (user_name, password, salt, privilege_level, account_status, created_at ) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP() )";
 
 	/**
 	 * Query to update a row in the users table.
@@ -95,8 +106,8 @@ public class SQL {
 			+ SSN_USERS
 			+ " set last_status_code_id = ?,"
 			+ " last_location_id = ?,"
-			+ " privilege = ?,"
-			+ " role = ?,"
+			+ " privilege_level = ?,"
+			+ " account_status = ?,"
 			+ " modified_at = CURRENT_TIMESTAMP()"
 			+ " where user_id = ?";
 

@@ -9,7 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
+import edu.cmu.sv.ws.ssnoc.common.utils.PropertyUtils;
+import edu.cmu.sv.ws.ssnoc.common.utils.SSNCipher;
 import edu.cmu.sv.ws.ssnoc.data.SQL;
+import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
+import edu.cmu.sv.ws.ssnoc.data.dao.IStatusCrumbDAO;
+import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
+import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
+import edu.cmu.sv.ws.ssnoc.dto.User;
 
 /**
  * This is a utility class to provide common functions to access and handle
@@ -43,7 +52,7 @@ public class DBUtils {
 	 * @throws SQLException
 	 */
 	public static void initializeDatabase() throws SQLException {
-		// dropTablesInDB(); // Please uncomment this for testing
+		dropTablesInDB(); // Please uncomment this for testing
 		createTablesInDB();
 	}
 
@@ -83,6 +92,9 @@ public class DBUtils {
 				}
 
 				Log.info("Tables created successfully");
+
+				createAdminUser();
+				Log.info("Admin user created successfully");
 			} else {
 				Log.info("Tables already exist in database. Not performing any action.");
 			}
@@ -115,6 +127,10 @@ public class DBUtils {
 				}
 
 				Log.info("Tables created successfully");
+				
+				createAdminUser();
+				Log.info("Admin user created successfully");
+				
 			} else {
 				Log.info("Tables already exist in database. Not performing any action.");
 			}
@@ -202,6 +218,48 @@ public class DBUtils {
 		Log.exit(tableExists);
 
 		return tableExists;
+	}
+	
+	/**
+	 * This method will create the primary admin user in the database.
+	 *
+	 * @throws SQLException
+	 */
+	protected static void createAdminUser() {
+		Log.enter();
+		
+		User adminUser = new User();
+		adminUser.setUserName(PropertyUtils.ADMIN_USER_NAME);
+		adminUser.setPassword(PropertyUtils.ADMIN_PASSWORD);
+		adminUser.setPrivilegeLevel(PropertyUtils.ADMIN_PRIVILEGE_LEVEL);
+		adminUser.setAccountStatus(PropertyUtils.ADMIN_ACCOUNT_STATUS);
+		adminUser.setLastStatus(PropertyUtils.ADMIN_LAST_STATUS);
+		
+		
+		//Create the Admin User
+		IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
+		UserPO po = ConverterUtils.convert(adminUser);
+		po = SSNCipher.encryptPassword(po);
+		uDao.save(po);
+		
+		//Get the created Admin Users user id
+		UserPO createdAdminUser = uDao.findByName(adminUser.getUserName());
+		long userId = createdAdminUser.getUserId();
+		
+		//Set the status of the Admin User
+		IStatusCrumbDAO scDao = DAOFactory.getInstance().getStatusCrumbDAO();
+		StatusCrumbPO scpo = new StatusCrumbPO();
+		scpo.setUserId(userId);
+		scpo.setStatus(adminUser.getLastStatus());
+		long statusId = scDao.save(scpo);
+		
+		//Step 4: Update the admin user with the new status id
+		UserPO upo = new UserPO();
+		upo.setUserId(userId);
+		upo.setLastStatusCrumbId(statusId);
+		uDao.update(upo);
+		
+		Log.exit();
 	}
 
 	/**

@@ -86,6 +86,32 @@ public class PropertyUtils {
 	 * Admin code that will be provided by a user, to authenticate as an admin.
 	 */
 	public static String ADMIN_CODE;
+	
+	/**
+	 * Admin User Name that will be provided by a user, to authenticate as an admin.
+	 */
+	public static String ADMIN_USER_NAME;
+	
+	/**
+	 * Admin Password that will be provided by a user, to authenticate as an admin.
+	 */
+	public static String ADMIN_PASSWORD;
+	
+	/**
+	 * Admin Privilege Level.
+	 */
+	public static String ADMIN_PRIVILEGE_LEVEL;
+	
+	/**
+	 * Admin Account Status 
+	 */
+	public static String ADMIN_ACCOUNT_STATUS;
+	
+	/**
+	 * Admin Last Status 
+	 */
+	public static String ADMIN_LAST_STATUS;
+	
 
 	static {
 		Log.trace("Loading properties files ...");
@@ -110,6 +136,11 @@ public class PropertyUtils {
 				MEMORY_REPORTING_PERIOD = Integer.parseInt(prop.getProperty("memReportingPeriod"));
 				MEASURE_MEMORY = Boolean.parseBoolean(prop.getProperty("measureMemory"));
 				ADMIN_CODE = prop.getProperty("adminCode");
+				ADMIN_USER_NAME = prop.getProperty("adminUserName");
+				ADMIN_PASSWORD = prop.getProperty("adminPassword");
+				ADMIN_PRIVILEGE_LEVEL = prop.getProperty("adminPrivilegeLevel");
+				ADMIN_ACCOUNT_STATUS = prop.getProperty("adminAccountStatus");
+				ADMIN_LAST_STATUS = prop.getProperty("adminLastStatus");
 
 				// Load the list of invalid names into a Set
 				String invalidNames = prop.getProperty("invalidNames");
@@ -192,6 +223,31 @@ public class PropertyUtils {
 		if (ADMIN_CODE == null) {
 			Log.warn("Initializing ADMIN_CODE to system default values ...");
 			ADMIN_CODE = "5830";
+		}
+		
+		if (ADMIN_USER_NAME == null) {
+			Log.warn("Initializing ADMIN_USER_NAME to system default values ...");
+			ADMIN_USER_NAME = "SSNAdmin";
+		}
+		
+		if (ADMIN_PASSWORD == null) {
+			Log.warn("Initializing ADMIN_PASSWORD to system default values ...");
+			ADMIN_PASSWORD = "admin";
+		}
+		
+		if (ADMIN_PRIVILEGE_LEVEL == null) {
+			Log.warn("Initializing ADMIN_PRIVILEGE_LEVEL to system default values ...");
+			ADMIN_PRIVILEGE_LEVEL = "Administrator";
+		}
+		
+		if (ADMIN_ACCOUNT_STATUS == null) {
+			Log.warn("Initializing ADMIN_ACCOUNT_STATUS to system default values ...");
+			ADMIN_ACCOUNT_STATUS = "Active";
+		}
+		
+		if (ADMIN_LAST_STATUS == null) {
+			Log.warn("Initializing ADMIN_LAST_STATUS to system default values ...");
+			ADMIN_LAST_STATUS = "OK";
 		}
 	}
 }

@@ -2,10 +2,8 @@ package edu.cmu.sv.ws.ssnoc.rest;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -18,12 +16,10 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.BronKerboschCliqueFinder;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.Pseudograph;
 import org.jgrapht.graph.SimpleGraph;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
-import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
 import edu.cmu.sv.ws.ssnoc.data.dao.IUserGroupDAO;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
 

@@ -70,7 +70,7 @@ public class UserServiceIT {
 		User newUser1Name = new User();
 		newUser1Name.setUserName("dinosaur");
 		UserService usrSrv = new UserService();
-		javax.ws.rs.core.Response resp = usrSrv.updateUserRecord(user1, newUser1Name);
+		javax.ws.rs.core.Response resp = usrSrv.updateUserRecord(user1.getUserName(), newUser1Name);
 		String userNameAfterUpdate = user1.getUserName();
 		assertTrue(userNameAfterUpdate, resp instanceof javax.ws.rs.core.Response);
 	}

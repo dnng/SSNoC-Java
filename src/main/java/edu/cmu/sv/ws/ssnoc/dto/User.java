@@ -1,8 +1,6 @@
 package edu.cmu.sv.ws.ssnoc.dto;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -12,10 +10,6 @@ import com.google.gson.Gson;
  *
  */
 public class User {
-	List<String> userRoles = Arrays.asList("Administrator", "Coordinator", "Monitor", "Citizen");
-	List<String> accountStates = Arrays.asList("active", "inactive");
-	private String accountStatus;
-	private String privilegeLevel;
 	private String userName;
 	private String password;
 	private long lastStatusCrumbId;
@@ -23,32 +17,11 @@ public class User {
 	private long lastLocationCrumbId;
 	private String lastLocation;
 	private Timestamp lastStatusTime;
+	private String privilegeLevel;
+	private String accountStatus;
 	private Timestamp createdAt;
 	private Timestamp modifiedAt;
 
-	public String getPrivilegeLevel() {
-		return privilegeLevel;
-	}
-
-	public void setPrivilegeLevel(String privilegeLevel) {
-		if (userRoles.contains(privilegeLevel)) {
-			this.privilegeLevel = privilegeLevel;
-		} else {
-			this.privilegeLevel = null;
-		}
-	}
-
-	public String getAccountStatus() {
-		return accountStatus;
-	}
-
-	public void setAccountStatus(String accountStatus) {
-		if (accountStates.contains(accountStatus)) {
-			this.accountStatus = accountStatus;
-		} else {
-			this.accountStatus  = null;
-		}
-	}
 	public String getUserName() {
 		return userName;
 	}
@@ -102,6 +75,22 @@ public class User {
 
 	public void setLastStatusTime(Timestamp lastStatusTime) {
 		this.lastStatusTime = lastStatusTime;
+	}
+
+	public String getPrivilegeLevel() {
+		return privilegeLevel;
+	}
+
+	public void setPrivilegeLevel(String privilegeLevel) {
+		this.privilegeLevel = privilegeLevel;
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 
 	public Timestamp getCreatedAt() {
