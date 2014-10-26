@@ -32,12 +32,12 @@ public class SQL {
 			+ " user_name VARCHAR(100),"
 			+ " password VARCHAR(512),"
 			+ " salt VARCHAR(512),"
-			+ " privilege VARCHAR(100),"
-			+ " role VARCHAR(100),"
 			+ " last_status_code_id BIGINT,"
 			+ " last_location_id BIGINT,"
 			+ " created_at TIMESTAMP,"
-			+ " modified_at TIMESTAMP )";
+			+ " modified_at TIMESTAMP,"
+			+ " privilege VARCHAR(100),"
+			+ " role VARCHAR(100))";
 
 	/**
 	 * Query to drop the USERS table.
@@ -86,7 +86,7 @@ public class SQL {
 	 */
 	public static final String INSERT_USER = "insert into "
 			+ SSN_USERS
-			+ " (user_name, password, salt, created_at) values (?, ?, ?, CURRENT_TIMESTAMP() )";
+			+ " (user_name, password, salt, created_at, privilege, role ) values (?, ?, ?, CURRENT_TIMESTAMP(), ?, ? )";
 
 	/**
 	 * Query to update a row in the users table.
