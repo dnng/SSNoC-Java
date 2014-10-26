@@ -136,6 +136,9 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 			stmt.setString(1, userPO.getUserName());
 			stmt.setString(2, userPO.getPassword());
 			stmt.setString(3, userPO.getSalt());
+			// string #4 is TIMESTAMP on SQL string!
+			stmt.setString(5, userPO.getAccountStatus());
+			stmt.setLong(6, userPO.getUserId());
 
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows inserted.");
@@ -168,7 +171,8 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 			stmt.setLong(2, userPO.getLastLocationCrumbId());
 			stmt.setString(3, userPO.getPrivilegeLevel());
 			stmt.setString(4, userPO.getAccountStatus());
-			stmt.setLong(5, userPO.getUserId());
+			// statement #5 is CURRENT_TIMESTAMP on SQL string!
+			stmt.setLong(6, userPO.getUserId());
 
 
 			int rowCount = stmt.executeUpdate();
