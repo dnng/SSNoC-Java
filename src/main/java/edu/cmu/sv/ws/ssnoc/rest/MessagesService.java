@@ -15,22 +15,24 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
 import edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory;
+import edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO;
 import edu.cmu.sv.ws.ssnoc.data.po.MessagePO;
 import edu.cmu.sv.ws.ssnoc.data.po.StatusCrumbPO;
+import edu.cmu.sv.ws.ssnoc.data.po.UserPO;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 
 /**
  * This class contains the implementation of the RESTful API calls made with
  * respect to a message.
- * 
+ *
  */
 
 @Path("/messages")
 public class MessagesService extends BaseService {
 	/**
 	 * This method loads all message in the system.
-	 * 
+	 *
 	 * @return - List of all messages.
 	 */
 	@GET
@@ -52,17 +54,47 @@ public class MessagesService extends BaseService {
 				}
 			}
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(messages);
 		}
 
 		return messages;
 	}
-	
+
+	/**
+	 * This method loads all visible message in the system.
+	 *
+	 * @return - List of all messages.
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@XmlElementWrapper(name = "messages")
+	@Path("/wall/visible")
+	public List<Message> loadVisibleWallMessages() {
+		Log.enter();
+		IUserDAO dao = DAOFactory.getInstance().getUserDAO();
+		UserPO existingUser = new UserPO();
+		List<Message> messages = new ArrayList<Message>();
+
+		messages = this.loadWallMessages();
+
+		if (messages != null) {
+			for (Message m : messages) {
+				String authorName = m.getAuthor();
+				existingUser = dao.findByName(authorName);
+				if (existingUser.getAccountStatus() != "active") {
+					messages.remove(m);
+				}
+
+			}
+		}
+		return messages;
+	}
+
 	/**
 	 * This method loads all message in the system.
-	 * 
+	 *
 	 * @return - List of all messages.
 	 */
 	@GET
@@ -85,7 +117,7 @@ public class MessagesService extends BaseService {
 				}
 			}
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(messages);
 		}
@@ -102,7 +134,7 @@ public class MessagesService extends BaseService {
 				statusCrumbs.add(dto);
 			}
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(statusCrumbs);
 		}
@@ -117,11 +149,11 @@ public class MessagesService extends BaseService {
 
 		return messages;
 	}
-	
-	
+
+
 	/**
 	 * This method fetches chat messages sent between two users
-	 * 
+	 *
 	 * @return - list of messages
 	 */
 	@GET
@@ -144,17 +176,17 @@ public class MessagesService extends BaseService {
 				}
 			}
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(messages);
 		}
 
 		return messages;
 	}
-	
+
 	/**
 	 * This method loads all message in the system.
-	 * 
+	 *
 	 * @return - List of all messages.
 	 */
 	@GET
@@ -176,7 +208,7 @@ public class MessagesService extends BaseService {
 				}
 			}
 		} catch (Exception e) {
-			handleException(e);
+			this.handleException(e);
 		} finally {
 			Log.exit(messages);
 		}
