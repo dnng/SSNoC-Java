@@ -77,7 +77,7 @@ public class SQL {
 			+ " left outer join "
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on u.last_location_id = slc.location_crumb_id "
-			+ " where UPPER(u.user_name) = UPPER(?)"; 
+			+ " where UPPER(u.user_name) = UPPER(?)";
 
 	/**
 	 * Query to find a user id depending on his name. Note that this query does
@@ -108,6 +108,7 @@ public class SQL {
 			+ " last_location_id = ?,"
 			+ " privilege_level = ?,"
 			+ " account_status = ?,"
+			+ " user_name = ?,"
 			+ " modified_at = CURRENT_TIMESTAMP()"
 			+ " where user_id = ?";
 
@@ -515,11 +516,11 @@ public class SQL {
 			+ " from "
 			+ SSN_USERS
 			+ " order by user_name";
-	
+
 	 /**
 	  * Clean up all the previous messages
 	  */
 	public static final String CLEAN_UP_MSGS = "TRUNCATE TABLE SSN_MESSAGES;";
-	
+
 }
 

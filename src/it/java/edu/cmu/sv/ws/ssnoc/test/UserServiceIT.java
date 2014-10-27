@@ -71,7 +71,10 @@ public class UserServiceIT {
 		newUser1Name.setUserName("dinosaur");
 		UserService usrSrv = new UserService();
 		javax.ws.rs.core.Response resp = usrSrv.updateUserRecord(user1.getUserName(), newUser1Name);
-		String userNameAfterUpdate = user1.getUserName();
-		assertTrue(userNameAfterUpdate, resp instanceof javax.ws.rs.core.Response);
+		User retreivedUser = usrSrv.loadUser("dinosaur");
+		System.out.println(retreivedUser.getUserName());
+		// String userNameAfterUpdate = user1.getUserName();
+		assertTrue(retreivedUser.getUserName(), resp instanceof javax.ws.rs.core.Response);
+		// System.out.println(userNameAfterUpdate);
 	}
 }

@@ -172,7 +172,8 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 			stmt.setLong(2, userPO.getLastLocationCrumbId());
 			stmt.setString(3, userPO.getPrivilegeLevel());
 			stmt.setString(4, userPO.getAccountStatus());
-			stmt.setLong(5, userPO.getUserId());
+			stmt.setString(5, userPO.getUserName());
+			stmt.setLong(6, userPO.getUserId());
 
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows updated.");
