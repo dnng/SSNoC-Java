@@ -80,10 +80,8 @@ public class MessageService extends BaseService {
 
 			// Step 4: Update the user with the new message, location crumb id
 			// and modified at time
-			UserPO upo = new UserPO();
-			upo.setUserId(userId);
-			upo.setLastLocationCrumbId(locationId);
-			uDao.update(upo);
+			existingUser.setLastLocationCrumbId(locationId);
+			uDao.update(existingUser);
 
 			// Step 5: send a response back
 			resp = ConverterUtils.convert(mpo);
@@ -222,10 +220,8 @@ public class MessageService extends BaseService {
 
 			// Step 4: Update the user with the new message, location crumb id
 			// and modified at time
-			UserPO upo = new UserPO();
-			upo.setUserId(userId);
-			upo.setLastLocationCrumbId(locationId);
-			uDao.update(upo);
+			existingUser.setLastLocationCrumbId(locationId);
+			uDao.update(existingUser);
 
 			// Step 5: send a response back
 			resp = ConverterUtils.convert(mpo);

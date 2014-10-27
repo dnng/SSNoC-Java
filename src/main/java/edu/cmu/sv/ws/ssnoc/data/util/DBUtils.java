@@ -254,10 +254,8 @@ public class DBUtils {
 		long statusId = scDao.save(scpo);
 		
 		//Step 4: Update the admin user with the new status id
-		UserPO upo = new UserPO();
-		upo.setUserId(userId);
-		upo.setLastStatusCrumbId(statusId);
-		uDao.update(upo);
+		createdAdminUser.setLastStatusCrumbId(statusId);
+		uDao.update(createdAdminUser);
 		
 		Log.exit();
 	}

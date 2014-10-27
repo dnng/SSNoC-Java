@@ -67,11 +67,9 @@ public class StatusService extends BaseService {
 			long statusId = scDao.save(scpo);
 			
 			//Step 4: Update the user with the new status id, location crumb id and modified at time
-			UserPO upo = new UserPO();
-			upo.setUserId(userId);
-			upo.setLastStatusCrumbId(statusId);
-			upo.setLastLocationCrumbId(locationId);
-			uDao.update(upo);
+			existingUser.setLastStatusCrumbId(statusId);
+			existingUser.setLastLocationCrumbId(locationId);
+			uDao.update(existingUser);
 			
 			//Step 5: send a response back
 			resp = ConverterUtils.convert(scpo);

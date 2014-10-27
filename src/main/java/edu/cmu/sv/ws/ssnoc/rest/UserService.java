@@ -72,8 +72,8 @@ public class UserService extends BaseService {
 			po = SSNCipher.encryptPassword(po);
 			
 			//Set default privilegeLevel and accountStatus
-			if(po.getPrivilegeLevel().isEmpty()) po.setPrivilegeLevel("Citizen");
-			if(po.getAccountStatus().isEmpty()) po.setAccountStatus("Active");
+			if(po.getPrivilegeLevel() == null) po.setPrivilegeLevel("Citizen");
+			if(po.getAccountStatus() == null) po.setAccountStatus("Active");
 
 			dao.save(po);
 			resp = ConverterUtils.convert(po);
