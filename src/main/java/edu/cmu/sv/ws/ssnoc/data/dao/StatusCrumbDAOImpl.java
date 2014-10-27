@@ -116,14 +116,56 @@ public class StatusCrumbDAOImpl extends BaseDAOImpl implements IStatusCrumbDAO {
 
 	@Override
 	public List<StatusCrumbPO> loadStatusCrumbsByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+		Log.enter(userName);
+
+		if (userName == null) {
+			Log.warn("Inside loadStatusCrumbsByUserName method with NULL userName.");
+			return null;
+		}
+		List<StatusCrumbPO> statusCrumbs = new ArrayList<StatusCrumbPO>();
+		try (Connection conn = this.getConnection();
+				PreparedStatement stmt = conn
+						.prepareStatement(SQL.FIND_STATUS_CRUMBS_BY_USER_NAME)) {
+			stmt.setString(1, userName.toUpperCase());
+
+			statusCrumbs = processResults(stmt);
+		} catch (SQLException e) {
+			this.handleException(e);
+			Log.exit(statusCrumbs);
+		}
+
+		return statusCrumbs;
 	}
 
 	@Override
 	public StatusCrumbPO loadStatusCrumbById(int statusCrumbId) {
-		// TODO Auto-generated method stub
-		return null;
+		Log.enter(statusCrumbId);
+
+		if (statusCrumbId == 0) {
+			Log.warn("Inside loadStatusCrumbById method with 0 statusCrumbId.");
+			return null;
+		}
+		
+		List<StatusCrumbPO> statusCrumbs = new ArrayList<StatusCrumbPO>();
+		StatusCrumbPO po = null;
+		try (Connection conn = this.getConnection();
+				PreparedStatement stmt = conn
+						.prepareStatement(SQL.FIND_STATUS_CRUMB_BY_ID)) {
+			stmt.setLong(1, statusCrumbId);
+
+			statusCrumbs = processResults(stmt);
+			
+			if (statusCrumbs.size() == 0) {
+				Log.debug("No status crumbs exist with id = " + statusCrumbId);
+			} else {
+				po = statusCrumbs.get(0);
+			}
+		} catch (SQLException e) {
+			this.handleException(e);
+			Log.exit(statusCrumbs);
+		}
+
+		return po;
 	}
 
 }

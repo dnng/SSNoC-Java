@@ -4,6 +4,7 @@ import javax.crypto.SecretKey;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -69,6 +70,10 @@ public class UserService extends BaseService {
 
 			UserPO po = ConverterUtils.convert(user);
 			po = SSNCipher.encryptPassword(po);
+			
+			//Set default privilegeLevel and accountStatus
+			if(po.getPrivilegeLevel().isEmpty()) po.setPrivilegeLevel("Citizen");
+			if(po.getAccountStatus().isEmpty()) po.setAccountStatus("Active");
 
 			dao.save(po);
 			resp = ConverterUtils.convert(po);
@@ -168,7 +173,7 @@ public class UserService extends BaseService {
 	}
 
 	/**
-	 * Manages a user profile
+	 * Updates a user profile
 	 *
 	 *
 	 * @param user
@@ -176,7 +181,7 @@ public class UserService extends BaseService {
 	 *
 	 * @return - 201 if username is updated; 200 if username is not updated
 	 */
-	@POST
+	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/{userName}")
@@ -208,6 +213,7 @@ public class UserService extends BaseService {
 					existingUser.setUserName(userInfo.getUserName());
 					userUpdated = true;
 				}
+				//TODO: This needs to be tested because we are checking a hashed password with an unhashed new password
 				if (existingUser.getPassword() != userInfo.getPassword() &&
 						userInfo.getPassword() != "" &&
 						userInfo.getPassword() != null) {

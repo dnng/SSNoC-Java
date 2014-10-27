@@ -134,14 +134,14 @@ public class WallMessageTest {
 		statCrmb1.setLocation("Mountain View");
 		statCrmb1.setUserName("foo");
 
-		statSrv.addStatusCrumb(statCrmb1);
+		statSrv.addStatusCrumb(statCrmb1.getUserName(), statCrmb1);
 
 		StatusCrumb statCrmb2 = new StatusCrumb();
 		statCrmb2.setStatus("ok");
 		statCrmb2.setLocation("Mars");
 		statCrmb2.setUserName("bar");
 
-		statSrv.addStatusCrumb(statCrmb2);
+		statSrv.addStatusCrumb(statCrmb2.getUserName(), statCrmb2);
 
 		MessagesService msgsSrv = new MessagesService();
 		List<Message> messages = new ArrayList<Message>();

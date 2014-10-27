@@ -28,7 +28,6 @@ public class StatusCrumbsService extends BaseService {
 	@Path("/{userName}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "statuscrumbs")
-	
 	public List<StatusCrumb> loadStatusCrumbsByUserName(@PathParam("userName") String userName) {
 		Log.enter();
 

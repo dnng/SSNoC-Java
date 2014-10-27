@@ -109,6 +109,8 @@ public class SQL {
 			+ " privilege_level = ?,"
 			+ " account_status = ?,"
 			+ " user_name = ?,"
+			+ " password = ?,"
+			+ " salt = ?,"
 			+ " modified_at = CURRENT_TIMESTAMP()"
 			+ " where user_id = ?";
 
@@ -154,6 +156,41 @@ public class SQL {
 			+ SSN_LOCATION_CRUMBS
 			+ " slc on ssc.location_crumb_id = slc.location_crumb_id "
 			+ "order by created_at DESC";
+	
+	/**
+	 * Query to find all status crumbs for a user in the system.
+	 */
+	public static final String FIND_STATUS_CRUMBS_BY_USER_NAME = "select ssc.status_crumb_id, ssc.user_id, u.user_name, ssc.status, ssc.location_crumb_id, slc.location, "
+			+ " ssc.created_at "
+			+ " from "
+			+ SSN_STATUS_CRUMBS
+			+ " ssc "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " u on ssc.user_id = u.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssc.location_crumb_id = slc.location_crumb_id "
+			+ " where UPPER(u.user_name) = UPPER(?) "
+			+ " order by ssc.created_at DESC";
+	
+	/**
+	 * Query to find status crumbs by status crumb id
+	 */
+	public static final String FIND_STATUS_CRUMB_BY_ID = "select ssc.status_crumb_id, ssc.user_id, u.user_name, ssc.status, ssc.location_crumb_id, slc.location, "
+			+ " ssc.created_at "
+			+ " from "
+			+ SSN_STATUS_CRUMBS
+			+ " ssc "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " u on ssc.user_id = u.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssc.location_crumb_id = slc.location_crumb_id "
+			+ " where ssc.status_crumb_id = ? "
+			+ " order by ssc.created_at DESC";
+
 
 	/**
 	 * Query to find a status_crumb depending on the user_id.

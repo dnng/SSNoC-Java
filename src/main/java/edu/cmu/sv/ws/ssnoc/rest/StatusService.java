@@ -1,8 +1,10 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,9 +38,9 @@ public class StatusService extends BaseService {
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Path("/new")
-	public Response addStatusCrumb(StatusCrumb statusCrumb) {
-		Log.enter(statusCrumb);
+	@Path("/{userName}")
+	public Response addStatusCrumb(@PathParam("userName") String userName, StatusCrumb statusCrumb) {
+		Log.enter(userName, statusCrumb);
 		StatusCrumb resp = new StatusCrumb();
 
 		try {
@@ -80,6 +82,34 @@ public class StatusService extends BaseService {
 		}
 
 		return created(resp);
+	}
+	
+	/**
+	 * All all information related to a particular status crumb .
+	 *
+	 * @param statusCrumbId
+	 *
+	 * @return - Details of the Status Crumb
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/{statusCrumbId}")
+	public StatusCrumb loadStatusCrumb(@PathParam("statusCrumbId") int statusCrumbId) {
+		Log.enter(statusCrumbId);
+
+		StatusCrumb statusCrumb = null;
+		try {
+			IStatusCrumbDAO scDao = DAOFactory.getInstance().getStatusCrumbDAO();
+			StatusCrumbPO scpo = scDao.loadStatusCrumbById(statusCrumbId);
+			
+			statusCrumb = ConverterUtils.convert(scpo);
+		} catch (Exception e) {
+			this.handleException(e);
+		} finally {
+			Log.exit(statusCrumb);
+		}
+
+		return statusCrumb;
 	}
 
 }
