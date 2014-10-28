@@ -216,4 +216,33 @@ public class MessagesService extends BaseService {
 		return messages;
 	}
 
+	/**
+	 * This method loads all visible messages in the system.
+	 *
+	 * @return - List of all visible messages.
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@XmlElementWrapper(name = "messages")
+	@Path("/announcement/visible")
+	public List<Message> loadVisibleAnnouncementMessages() {
+		Log.enter();
+		List<Message> messages = this.loadAnnouncementMessages();
+		try {
+			if (messages != null) {
+				for (Message m : messages) {
+					if (m.getStatus() != "visible") {
+						messages.remove(m);
+					}
+				}
+			}
+		} catch (Exception e) {
+			Log.error("Could not load visible messages");
+			this.handleException(e);
+		} finally {
+			Log.exit(messages);
+		}
+		return messages;
+	}
+
 }

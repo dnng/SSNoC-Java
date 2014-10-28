@@ -46,7 +46,8 @@ public class UsersService extends BaseService {
 	}
 
 	/**
-	 * This method loads up the users those have chatted with the specified user in the past
+	 * This method loads up the users those have chatted with the specified user
+	 * in the past
 	 *
 	 * @return - array of all active users
 	 */
@@ -83,11 +84,12 @@ public class UsersService extends BaseService {
 	public List<User> loadActiveUsers() {
 		Log.enter();
 		List<User> users = this.loadUsers();
-		try
-		{
-			for (User u : users) {
-				if (u.getAccountStatus() != "active") {
-					users.remove(u);
+		try {
+			if (users != null) {
+				for (User u : users) {
+					if (u.getAccountStatus() != "active") {
+						users.remove(u);
+					}
 				}
 			}
 		} catch (Exception e) {
