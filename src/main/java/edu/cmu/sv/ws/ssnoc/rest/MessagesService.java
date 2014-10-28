@@ -44,8 +44,7 @@ public class MessagesService extends BaseService {
 
 		List<Message> messages = new ArrayList<Message>();
 		try {
-			List<MessagePO> messagePO = DAOFactory.getInstance()
-					.getMessageDAO().loadWallMessages();
+			List<MessagePO> messagePO = DAOFactory.getInstance().getMessageDAO().loadWallMessages();
 
 			if (messagePO != null) {
 				for (MessagePO po : messagePO) {
@@ -107,8 +106,7 @@ public class MessagesService extends BaseService {
 		// Get Wall Messages
 		List<Message> messages = new ArrayList<Message>();
 		try {
-			List<MessagePO> messagePO = DAOFactory.getInstance()
-					.getMessageDAO().loadWallMessages();
+			List<MessagePO> messagePO = DAOFactory.getInstance().getMessageDAO().loadWallMessages();
 
 			if (messagePO != null) {
 				for (MessagePO po : messagePO) {
@@ -125,8 +123,7 @@ public class MessagesService extends BaseService {
 		// Get Status Messages
 		List<StatusCrumb> statusCrumbs = null;
 		try {
-			List<StatusCrumbPO> statusCrumbPOs = DAOFactory.getInstance()
-					.getStatusCrumbDAO().loadStatusCrumbs();
+			List<StatusCrumbPO> statusCrumbPOs = DAOFactory.getInstance().getStatusCrumbDAO().loadStatusCrumbs();
 
 			statusCrumbs = new ArrayList<StatusCrumb>();
 			for (StatusCrumbPO po : statusCrumbPOs) {
@@ -150,7 +147,6 @@ public class MessagesService extends BaseService {
 		return messages;
 	}
 
-
 	/**
 	 * This method fetches chat messages sent between two users
 	 *
@@ -164,18 +160,48 @@ public class MessagesService extends BaseService {
 		Log.enter(userName1, userName2);
 		List<Message> messages = null;
 		try {
-			if (userName1 != null && userName2 != null)
-			{
+			if (userName1 != null && userName2 != null) {
 				List<MessagePO> peerMessages = DAOFactory.getInstance().getMessageDAO().getAllChatMessagesForPeers(userName1, userName2);
 				if (peerMessages != null) {
 					messages = new ArrayList<Message>();
-					for (MessagePO po: peerMessages) {
+					for (MessagePO po : peerMessages) {
 						Message dto = ConverterUtils.convert(po);
 						messages.add(dto);
 					}
 				}
 			}
 		} catch (Exception e) {
+			this.handleException(e);
+		} finally {
+			Log.exit(messages);
+		}
+
+		return messages;
+	}
+
+	/**
+	 * This method fetches only visible chat messages sent between two users
+	 *
+	 * @return - list of visible chat messages
+	 */
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/{userName1}/{userName2}/visible")
+	public List<Message> getAllVisibleChatMessagesForPeers(
+			@PathParam("userName1") String userName1, @PathParam("userName2") String userName2) {
+		Log.enter(userName1, userName2);
+		List<Message> messages = this.getAllChatMessagesForPeers(userName1, userName2);
+		try {
+			if (messages != null) {
+				for (Message m : messages) {
+					if (m.getStatus() != "visible") {
+						messages.remove(m);
+					}
+				}
+			}
+		} catch (Exception e) {
+			Log.error("Could not load list of visible chat messages");
 			this.handleException(e);
 		} finally {
 			Log.exit(messages);
@@ -198,8 +224,7 @@ public class MessagesService extends BaseService {
 
 		List<Message> messages = new ArrayList<Message>();
 		try {
-			List<MessagePO> messagePO = DAOFactory.getInstance()
-					.getMessageDAO().loadAnnouncementMessages();
+			List<MessagePO> messagePO = DAOFactory.getInstance().getMessageDAO().loadAnnouncementMessages();
 
 			if (messagePO != null) {
 				for (MessagePO po : messagePO) {
