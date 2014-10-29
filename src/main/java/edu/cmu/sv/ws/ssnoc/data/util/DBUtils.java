@@ -52,7 +52,7 @@ public class DBUtils {
 	 * @throws SQLException
 	 */
 	public static void initializeDatabase() throws SQLException {
-		dropTablesInDB(); // Please uncomment this for testing
+		//dropTablesInDB(); // Please uncomment this for testing
 		createTablesInDB();
 	}
 

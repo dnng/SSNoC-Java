@@ -235,10 +235,11 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		List<MessagePO> peerChatMessages = new ArrayList<MessagePO>();
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query);) {
-			stmt.setString(1, userName1);
-			stmt.setString(2, userName2);
+			stmt.setString(1, "CHAT");
+			stmt.setString(2, userName1);
 			stmt.setString(3, userName2);
-			stmt.setString(4, userName1);
+			stmt.setString(4, userName2);
+			stmt.setString(5, userName1);
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					ResultSetMetaData rsmd = rs.getMetaData();
