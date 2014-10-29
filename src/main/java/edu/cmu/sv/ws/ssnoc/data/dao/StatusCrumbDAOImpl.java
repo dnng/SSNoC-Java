@@ -26,7 +26,7 @@ public class StatusCrumbDAOImpl extends BaseDAOImpl implements IStatusCrumbDAO {
 	public List<StatusCrumbPO> loadStatusCrumbs() {
 		Log.enter();
 
-		String query = SQL.FIND_ALL_STATUS_CRUMBS;
+		String query = SQL.FIND_ALL_ACTIVE_STATUS_CRUMBS;
 
 		List<StatusCrumbPO> statusCrumbs = new ArrayList<StatusCrumbPO>();
 		try (Connection conn = getConnection();

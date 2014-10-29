@@ -87,7 +87,7 @@ public class UsersService extends BaseService {
 		try {
 			if (users != null) {
 				for (User u : users) {
-					if (u.getAccountStatus() != "active") {
+					if (u.getAccountStatus() != "Active") {
 						users.remove(u);
 					}
 				}

@@ -18,7 +18,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 	@Override
 	public List<MessagePO> loadWallMessages() {
 		Log.enter();
-		String query = SQL.FIND_ALL_WALL_MESSAGES;
+		String query = SQL.FIND_ALL_ACTIVE_WALL_MESSAGES;
 		List<MessagePO> messages = new ArrayList<MessagePO>();
 			try (Connection conn = getConnection();
 			PreparedStatement stmt = conn.prepareStatement(query);) {
@@ -50,7 +50,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 	@Override
 	public List<MessagePO> loadAnnouncementMessages() {
 		Log.enter();
-		String query = SQL.FIND_ALL_ANNOUNCEMENT_MESSAGES;
+		String query = SQL.FIND_ALL_ACTIVE_ANNOUNCEMENT_MESSAGES;
 		List<MessagePO> messages = new ArrayList<MessagePO>();
 			try (Connection conn = getConnection();
 			PreparedStatement stmt = conn.prepareStatement(query);) {
@@ -348,17 +348,16 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		}
 	
 	public void cleanUpAllMessages() {
-
-	String query = SQL.CLEAN_UP_MSGS;
-
-	try (Connection conn = getConnection();
-			PreparedStatement stmt = conn.prepareStatement(query);) {
-		boolean  rs = stmt.execute();
-		System.out.println(rs);
-	} catch (SQLException e) {
-		handleException(e);
+		String query = SQL.CLEAN_UP_MSGS;
+	
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(query);) {
+			boolean  rs = stmt.execute();
+			System.out.println(rs);
+		} catch (SQLException e) {
+			handleException(e);
+		}
 	}
-}
 
 }
 

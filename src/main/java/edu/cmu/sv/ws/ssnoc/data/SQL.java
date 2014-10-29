@@ -158,6 +158,23 @@ public class SQL {
 			+ "order by created_at DESC";
 	
 	/**
+	 * Query to load all status crumbs in the system.
+	 */
+	public static final String FIND_ALL_ACTIVE_STATUS_CRUMBS = "select ssc.status_crumb_id, ssc.user_id, u.user_name, ssc.status, ssc.location_crumb_id, slc.location, "
+			+ " ssc.created_at "
+			+ " from "
+			+ SSN_STATUS_CRUMBS
+			+ " ssc "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " u on ssc.user_id = u.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssc.location_crumb_id = slc.location_crumb_id "
+			+ " where u.account_status=\'Active\'"
+			+ " order by created_at DESC";
+	
+	/**
 	 * Query to find all status crumbs for a user in the system.
 	 */
 	public static final String FIND_STATUS_CRUMBS_BY_USER_NAME = "select ssc.status_crumb_id, ssc.user_id, u.user_name, ssc.status, ssc.location_crumb_id, slc.location, "
@@ -355,6 +372,28 @@ public class SQL {
 			+ " slc on ssm.location_id=slc.location_crumb_id"
 			+ " where ssm.message_type=\'WALL\'"
 			+ " order by ssm.created_at DESC";
+	
+	/**
+	 * Query to load all wall messages in the system.
+	 */
+	public static final String FIND_ALL_ACTIVE_WALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
+			+ " sb.user_name, ssm.location_id, slc.location, "
+			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " from "
+			+ SSN_MESSAGES
+			+ " ssm "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sb.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'WALL\'"
+			+ " and sa.account_status = \'Active\'"
+			+ " order by ssm.created_at DESC";
 
 	/**
 	 * Query to load all announcements  in the system.
@@ -377,6 +416,28 @@ public class SQL {
 			+ " where ssm.message_type=\'ANNOUNCEMENT\'"
 			+ " order by ssm.created_at DESC";
 
+	/**
+	 * Query to load all announcements  in the system.
+	 */
+	public static final String FIND_ALL_ACTIVE_ANNOUNCEMENT_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
+			+ " sb.user_name, ssm.location_id, slc.location, "
+			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " from "
+			+ SSN_MESSAGES
+			+ " ssm "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sa on ssm.author_id=sa.user_id "
+			+ " left outer join "
+			+ SSN_USERS
+			+ " sb on ssm.target_id=sb.user_id "
+			+ " left outer join "
+			+ SSN_LOCATION_CRUMBS
+			+ " slc on ssm.location_id=slc.location_crumb_id"
+			+ " where ssm.message_type=\'ANNOUNCEMENT\'"
+			+ " and sa.account_status=\'Active\'"
+			+ " order by ssm.created_at DESC";
+	
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
 	 */
