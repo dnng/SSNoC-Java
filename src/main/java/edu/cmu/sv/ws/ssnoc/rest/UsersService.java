@@ -1,6 +1,7 @@
 package edu.cmu.sv.ws.ssnoc.rest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -84,11 +85,13 @@ public class UsersService extends BaseService {
 	public List<User> loadActiveUsers() {
 		Log.enter();
 		List<User> users = this.loadUsers();
+		List<User> response = new ArrayList<User>(users);
 		try {
-			if (users != null) {
-				for (User u : users) {
-					if (u.getAccountStatus() != "Active") {
-						users.remove(u);
+			if (response != null) {
+				for (Iterator<User> it = response.iterator(); it.hasNext(); ) {
+					User u = it.next();
+					if (!u.getAccountStatus().equals("Active")) {
+						it.remove();
 					}
 				}
 			}
@@ -98,6 +101,6 @@ public class UsersService extends BaseService {
 		} finally {
 			Log.exit();
 		}
-		return users;
+		return response;
 	}
 }
