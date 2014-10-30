@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <interface id="1" language="java" name="edu.cmu.sv.ws.ssnoc.data.dao.IUserDAO" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/data/dao/IUserDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="152" width="240" x="877" y="1123"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="edu.cmu.sv.ws.ssnoc.data.dao.UserDAOImpl" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/data/dao/UserDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="206" width="333" x="877" y="877"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="edu.cmu.sv.ws.ssnoc.data.po.UserPO" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/data/po/UserPO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="800" width="220" x="1181" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="edu.cmu.sv.ws.ssnoc.rest.UserService" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/rest/UserService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="170" width="283" x="44" y="877"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="edu.cmu.sv.ws.ssnoc.rest.UsersService" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/rest/UsersService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="134" width="223" x="367" y="877"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="edu.cmu.sv.ws.ssnoc.rest.BaseService" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/rest/BaseService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="170" width="206" x="44" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="edu.cmu.sv.ws.ssnoc.dto.User" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/dto/User.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="692" width="220" x="617" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils" 
+    project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/common/utils/ConverterUtils.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="278" width="296" x="1441" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="edu.cmu.sv.ws.ssnoc.data.dao.DAOFactory" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/data/dao/DAOFactory.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="206" width="277" x="290" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="edu.cmu.sv.ws.ssnoc.data.dao.BaseDAOImpl" project="fse-F14-SB5-SSNoC-Java-REST" 
+    file="/fse-F14-SB5-SSNoC-Java-REST/src/main/java/edu/cmu/sv/ws/ssnoc/data/dao/BaseDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="152" width="264" x="877" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="11">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="12" name="instance"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="16">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
