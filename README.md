@@ -16,7 +16,7 @@ Dependencies
 Steps to compile
 ----------------
 
-mvn clean compile
-mvn package
-mvn jetty:run
+- mvn clean compile
+- mvn package
+- mvn jetty:run
 
