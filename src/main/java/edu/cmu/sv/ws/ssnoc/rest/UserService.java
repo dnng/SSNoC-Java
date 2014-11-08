@@ -195,28 +195,28 @@ public class UserService extends BaseService {
 		try {
 			existingUser = dao.findByName(userName);
 			if (existingUser != null) {
-				if (existingUser.getAccountStatus() != userInfo.getAccountStatus() &&
-						userInfo.getAccountStatus() != "" &&
-						userInfo.getAccountStatus() != null) {
+				if (userInfo.getAccountStatus() != null &&
+						!userInfo.getAccountStatus().isEmpty() &&
+						!existingUser.getAccountStatus().equals(userInfo.getAccountStatus()) ) {
 					existingUser.setAccountStatus(userInfo.getAccountStatus());
 					userUpdated = true;
 				}
-				if (existingUser.getPrivilegeLevel() != userInfo.getPrivilegeLevel() &&
-						userInfo.getPrivilegeLevel() != ""&&
-						userInfo.getPrivilegeLevel() != null) {
+				if (userInfo.getPrivilegeLevel() != null &&
+						!userInfo.getPrivilegeLevel().isEmpty() &&
+						!existingUser.getPrivilegeLevel().equals(userInfo.getPrivilegeLevel()) ) {
 					existingUser.setPrivilegeLevel(userInfo.getPrivilegeLevel());
 					userUpdated = true;
 				}
-				if (existingUser.getUserName() != userInfo.getUserName() &&
-						userInfo.getUserName() != "" &&
-						userInfo.getUserName() != null) {
+				if (userInfo.getUserName() != null &&
+						!userInfo.getUserName().isEmpty() &&
+						!existingUser.getUserName().equals(userInfo.getUserName()) ) {
 					existingUser.setUserName(userInfo.getUserName());
 					userUpdated = true;
 				}
 				//TODO: This needs to be tested because we are checking a hashed password with an unhashed new password
-				if (existingUser.getPassword() != userInfo.getPassword() &&
-						userInfo.getPassword() != "" &&
-						userInfo.getPassword() != null) {
+				if (userInfo.getPassword() != null &&
+						!userInfo.getPassword().isEmpty() &&
+						!existingUser.getPassword().equals(userInfo.getPassword()) ) {
 					existingUser.setPassword(userInfo.getPassword());
 					existingUser = SSNCipher.encryptPassword(existingUser);
 					userUpdated = true;
