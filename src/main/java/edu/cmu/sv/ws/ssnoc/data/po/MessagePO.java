@@ -12,56 +12,56 @@ import com.google.gson.Gson;
  * 
  */
 public class MessagePO {
-	private long MessageId;
-	private long AuthorId;
-	private String AuthorName;
-	private long TargetId;
-	private String TargetName;
-	private long LocationId;
+	private long messageId;
+	private long authorId;
+	private String authorName;
+	private long targetId;
+	private String targetName;
+	private long locationId;
 	private String location;
 	private String content;
 	private String messageType;
 	private Timestamp createdAt;
 
 	public long getMessageId() {
-		return MessageId;
+		return messageId;
 	}
 
 	public void setMessageId(long messageId) {
-		MessageId = messageId;
+		this.messageId = messageId;
 	}
 
 	public long getAuthorId() {
-		return AuthorId;
+		return authorId;
 	}
 
 	public void setAuthorId(long authorId) {
-		this.AuthorId = authorId;
+		this.authorId = authorId;
 	}
 
 	public String getAuthorName() {
-		return AuthorName;
+		return authorName;
 	}
 
 
-	public void setAuthorName(String string) {
-		AuthorName = string;
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
 	}
 
 	public long getTargetId() {
-		return TargetId;
+		return targetId;
 	}
 
 	public void setTargetId(long targetId) {
-		this.TargetId = targetId;
+		this.targetId = targetId;
 	}
 
 	public String getTargetName() {
-		return TargetName;
+		return targetName;
 	}
 
 	public void setTargetName(String targetName) {
-		TargetName = targetName;
+		this.targetName = targetName;
 	}
 
 	public String getContent() {
@@ -73,10 +73,10 @@ public class MessagePO {
 	}
 
 	public long getLocationId() {
-		return LocationId;
+		return locationId;
 	}
 	public void setLocationId(long LocationId) {
-		this.TargetId = LocationId;
+		this.targetId = LocationId;
 	}
 
 	public String getLocation() {
