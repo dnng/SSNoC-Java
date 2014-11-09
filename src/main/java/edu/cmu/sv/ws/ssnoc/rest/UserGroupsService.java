@@ -86,7 +86,7 @@ public class UserGroupsService extends BaseService {
 				Log.info("Graph; ", stringGraph);
 			}
 		} catch (Exception e) {
-			handleException (e);
+			handleException(e);
 		} finally {
 			Log.exit(userGroups);
 		}

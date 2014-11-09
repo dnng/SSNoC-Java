@@ -12,100 +12,100 @@ import com.google.gson.Gson;
  * 
  */
 public class MessagePO {
-	private long messageId;
-	private long authorId;
-	private String authorName;
-	private long targetId;
-	private String targetName;
-	private long locationId;
-	private String location;
-	private String content;
-	private String messageType;
-	private Timestamp createdAt;
+     private long messageId;
+     private long authorId;
+     private String authorName;
+     private long targetId;
+     private String targetName;
+     private long locationId;
+     private String location;
+     private String content;
+     private String messageType;
+     private Timestamp createdAt;
 
-	public long getMessageId() {
-		return messageId;
-	}
+     public long getMessageId() {
+          return messageId;
+     }
 
-	public void setMessageId(long messageId) {
-		this.messageId = messageId;
-	}
+     public void setMessageId(long messageId) {
+          messageId = messageId;
+     }
 
-	public long getAuthorId() {
-		return authorId;
-	}
+     public long getauthorId() {
+          return authorId;
+     }
 
-	public void setAuthorId(long authorId) {
-		this.authorId = authorId;
-	}
+     public void setauthorId(long authorId) {
+          this.authorId = authorId;
+     }
 
-	public String getAuthorName() {
-		return authorName;
-	}
+     public String getauthorName() {
+          return authorName;
+     }
 
 
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
-	}
+     public void setauthorName(String string) {
+          authorName = string;
+     }
 
-	public long getTargetId() {
-		return targetId;
-	}
+     public long gettargetId() {
+          return targetId;
+     }
 
-	public void setTargetId(long targetId) {
-		this.targetId = targetId;
-	}
+     public void settargetId(long targetId) {
+          this.targetId = targetId;
+     }
 
-	public String getTargetName() {
-		return targetName;
-	}
+     public String gettargetName() {
+          return targetName;
+     }
 
-	public void setTargetName(String targetName) {
-		this.targetName = targetName;
-	}
+     public void settargetName(String targetName) {
+          targetName = targetName;
+     }
 
-	public String getContent() {
-		return content;
-	}
+     public String getContent() {
+          return content;
+     }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+     public void setContent(String content) {
+          this.content = content;
+     }
 
-	public long getLocationId() {
-		return locationId;
-	}
-	public void setLocationId(long LocationId) {
-		this.targetId = LocationId;
-	}
+     public long getlocationId() {
+          return locationId;
+     }
+     public void setlocationId(long locationId) {
+          this.locationId = locationId;
+     }
 
-	public String getLocation() {
-		return location;
-	}
+     public String getLocation() {
+          return location;
+     }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+     public void setLocation(String location) {
+          this.location = location;
+     }
 
-	public String getMessageType() {
-		return messageType;
-	}
+     public String getmessageType() {
+          return messageType;
+     }
 
-	public void setMessageType(String messageType) {
-		this.messageType = messageType;
-	}
+     public void setmessageType(String messageType) {
+          this.messageType = messageType;
+     }
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
+     public Timestamp getCreatedAt() {
+          return createdAt;
+     }
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
+     public void setCreatedAt(Timestamp createdAt) {
+          this.createdAt = createdAt;
+     }
 
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
+     @Override
+     public String toString() {
+          return new Gson().toJson(this);
+     }
 
 }

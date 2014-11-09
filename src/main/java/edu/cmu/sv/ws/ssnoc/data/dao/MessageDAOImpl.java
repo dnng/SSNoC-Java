@@ -78,14 +78,14 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				int colCount = rsmd.getColumnCount();
 				MessagePO po = new MessagePO();
 				if(colCount >=1) po.setMessageId(rs.getLong(1));
-				if(colCount >=2) po.setAuthorId(rs.getLong(2));
-				if(colCount >=3) po.setAuthorName(rs.getString(3));
-				if(colCount >=4) po.setTargetId(rs.getLong(4));
-				if(colCount >=5) po.setTargetName(rs.getString(5));
-				if(colCount >=6) po.setLocationId(rs.getLong(6));
+				if(colCount >=2) po.setauthorId(rs.getLong(2));
+				if(colCount >=3) po.setauthorName(rs.getString(3));
+				if(colCount >=4) po.settargetId(rs.getLong(4));
+				if(colCount >=5) po.settargetName(rs.getString(5));
+				if(colCount >=6) po.setlocationId(rs.getLong(6));
 				if(colCount >=7) po.setLocation(rs.getString(7));
 				if(colCount >=8) po.setContent(rs.getString(8));
-				if(colCount >=9) po.setMessageType(rs.getString(9));
+				if(colCount >=9) po.setmessageType(rs.getString(9));
 				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));	
 
 				messages.add(po);
@@ -111,11 +111,12 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 			try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_CHAT_MESSAGE,  Statement.RETURN_GENERATED_KEYS)) {
-				stmt.setLong(1, messagePO.getAuthorId());
-				stmt.setLong(2, messagePO.getTargetId());
+				stmt.setLong(1, messagePO.getauthorId());
+				stmt.setLong(2, messagePO.gettargetId());
 				stmt.setString(3, messagePO.getContent());
 				stmt.setString(4, "CHAT");
-				stmt.setLong(5, messagePO.getLocationId());
+				stmt.setLong(5, messagePO.getlocationId());
+				stmt.setTimestamp(6, messagePO.getCreatedAt());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
@@ -148,11 +149,11 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 			try (Connection conn = getConnection();
 					PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_WALL_MESSAGE,  Statement.RETURN_GENERATED_KEYS)) {
-				stmt.setLong(1, messagePO.getAuthorId());
-				stmt.setLong(2, messagePO.getTargetId());
+				stmt.setLong(1, messagePO.getauthorId());
+				stmt.setLong(2, messagePO.gettargetId());
 				stmt.setString(3, messagePO.getContent());
 				stmt.setString(4, "WALL");
-				stmt.setLong(5, messagePO.getLocationId());
+				stmt.setLong(5, messagePO.getlocationId());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
@@ -207,14 +208,14 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				int colCount = rsmd.getColumnCount();
 				MessagePO po = new MessagePO();
 				if(colCount >=1) po.setMessageId(rs.getLong(1));
-				if(colCount >=2) po.setAuthorId(rs.getLong(2));
-				if(colCount >=3) po.setAuthorName(rs.getString(3));
-				if(colCount >=4) po.setTargetId(rs.getLong(4));
-				if(colCount >=5) po.setTargetName(rs.getString(5));
-				if(colCount >=6) po.setLocationId(rs.getLong(6));
+				if(colCount >=2) po.setauthorId(rs.getLong(2));
+				if(colCount >=3) po.setauthorName(rs.getString(3));
+				if(colCount >=4) po.settargetId(rs.getLong(4));
+				if(colCount >=5) po.settargetName(rs.getString(5));
+				if(colCount >=6) po.setlocationId(rs.getLong(6));
 				if(colCount >=7) po.setLocation(rs.getString(7));
 				if(colCount >=8) po.setContent(rs.getString(8));
-				if(colCount >=9) po.setMessageType(rs.getString(9));
+				if(colCount >=9) po.setmessageType(rs.getString(9));
 				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));				
 			}
 		} catch (SQLException e) {
@@ -246,14 +247,14 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 					int colCount = rsmd.getColumnCount();
 					MessagePO po = new MessagePO();
 					if(colCount >=1) po.setCreatedAt(rs.getTimestamp(1));
-					if(colCount >=2) po.setLocationId(rs.getLong(2));
-					if(colCount >=3) po.setMessageType(rs.getString(3));
+					if(colCount >=2) po.setlocationId(rs.getLong(2));
+					if(colCount >=3) po.setmessageType(rs.getString(3));
 					if(colCount >=4) po.setContent(rs.getString(4));
-					if(colCount >=5) po.setTargetId(rs.getLong(5));
-					if(colCount >=6) po.setAuthorId(rs.getLong(6));
+					if(colCount >=5) po.settargetId(rs.getLong(5));
+					if(colCount >=6) po.setauthorId(rs.getLong(6));
 					if(colCount >=7) po.setMessageId(rs.getLong(7));
-					if(colCount >=8) po.setAuthorName(rs.getString(8));
-					if(colCount >=9) po.setTargetName(rs.getString(9));
+					if(colCount >=8) po.setauthorName(rs.getString(8));
+					if(colCount >=9) po.settargetName(rs.getString(9));
 					peerChatMessages.add(po);
 				}
 			} catch (SQLException e) {
@@ -284,10 +285,11 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_PRIVATE_CHAT_MESSAGE)) {
-			stmt.setLong(1, po.getLocationId());
-			stmt.setString(2, po.getContent());
-			stmt.setLong(3, receiverId);
-			stmt.setLong(4, senderId);
+			stmt.setTimestamp(1, po.getCreatedAt());
+		    stmt.setLong(2, po.getlocationId());
+			stmt.setString(3, po.getContent());
+			stmt.setLong(4, receiverId);
+			stmt.setLong(5, senderId);
 		
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows inserted.");
@@ -322,11 +324,11 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 			try (Connection conn = getConnection();
 					PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_ANNOUNCEMENT_MESSAGE,  Statement.RETURN_GENERATED_KEYS)) {
-				stmt.setLong(1, messagePO.getAuthorId());
-				stmt.setLong(2, messagePO.getTargetId());
+				stmt.setLong(1, messagePO.getauthorId());
+				stmt.setLong(2, messagePO.gettargetId());
 				stmt.setString(3, messagePO.getContent());
 				stmt.setString(4, "ANNOUNCEMENT");
-				stmt.setLong(5, messagePO.getLocationId());
+				stmt.setLong(5, messagePO.getlocationId());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
