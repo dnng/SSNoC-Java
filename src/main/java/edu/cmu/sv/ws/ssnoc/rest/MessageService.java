@@ -54,37 +54,37 @@ public class MessageService extends BaseService {
 			// Step 1: Get the existing user id from user name
 			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
 			UserPO existingUser = uDao.findByName(userName);
-			long userId = 0;
 			if (existingUser != null)
 			{
-				userId = existingUser.getUserId();
+				long userId = existingUser.getUserId();
+				//TODO: If no location is passed in, then skip this step
+				// Step 2: Insert a new location and get back the location id
+				ILocationCrumbDAO lDao = DAOFactory.getInstance()
+						.getLocationCrumbDAO();
+				LocationCrumbPO lcpo = new LocationCrumbPO();
+				lcpo.setUserId(userId);
+				lcpo.setLocation(message.getLocation());
+				long locationId = lDao.save(lcpo);
+
+				// Step 3: Insert a new wall message and get back the message id
+				MessagePO mpo = new MessagePO();
+				mpo.setAuthorId(userId);
+				mpo.setLocationId(locationId);
+				mpo.setContent(message.getContent());
+				long messageId = DAOFactory.getInstance().getMessageDAO().saveWallMessage(mpo);
+
+				// Step 4: Update the user with the new message, location crumb id
+				// and modified at time
+				existingUser.setLastLocationCrumbId(locationId);
+				uDao.update(existingUser);
+
+				// Step 5: send a response back
+				resp = ConverterUtils.convert(mpo);
 			} else {
-				userId = 0;
+				Log.error("No existing user found. Cannot post a public message without an existing user.");
 			}
 
-			//TODO: If no location is passed in, then skip this step
-			// Step 2: Insert a new location and get back the location id
-			ILocationCrumbDAO lDao = DAOFactory.getInstance()
-					.getLocationCrumbDAO();
-			LocationCrumbPO lcpo = new LocationCrumbPO();
-			lcpo.setUserId(userId);
-			lcpo.setLocation(message.getLocation());
-			long locationId = lDao.save(lcpo);
-
-			// Step 3: Insert a new wall message and get back the message id
-			MessagePO mpo = new MessagePO();
-			mpo.setAuthorId(userId);
-			mpo.setLocationId(locationId);
-			mpo.setContent(message.getContent());
-			long messageId = DAOFactory.getInstance().getMessageDAO().saveWallMessage(mpo);
-
-			// Step 4: Update the user with the new message, location crumb id
-			// and modified at time
-			existingUser.setLastLocationCrumbId(locationId);
-			uDao.update(existingUser);
-
-			// Step 5: send a response back
-			resp = ConverterUtils.convert(mpo);
+			
 		} catch (Exception e) {
 			this.handleException(e);
 		} finally {
@@ -194,37 +194,36 @@ public class MessageService extends BaseService {
 			// Step 1: Get the existing user id from user name
 			IUserDAO uDao = DAOFactory.getInstance().getUserDAO();
 			UserPO existingUser = uDao.findByName(message.getAuthor());
-			long userId = 0;
 			if (existingUser != null)
 			{
-				userId = existingUser.getUserId();
+				long userId = existingUser.getUserId();
+				//TODO: If no location is passed in, then skip this step
+				// Step 2: Insert a new location and get back the location id
+				ILocationCrumbDAO lDao = DAOFactory.getInstance()
+						.getLocationCrumbDAO();
+				LocationCrumbPO lcpo = new LocationCrumbPO();
+				lcpo.setUserId(userId);
+				lcpo.setLocation(message.getLocation());
+				long locationId = lDao.save(lcpo);
+
+				// Step 3: Insert a new wall message and get back the message id
+				MessagePO mpo = new MessagePO();
+				mpo.setAuthorId(userId);
+				mpo.setLocationId(locationId);
+				mpo.setContent(message.getContent());
+				long messageId = DAOFactory.getInstance().getMessageDAO().saveAnnouncementMessage(mpo);
+
+				// Step 4: Update the user with the new message, location crumb id
+				// and modified at time
+				existingUser.setLastLocationCrumbId(locationId);
+				uDao.update(existingUser);
+
+				// Step 5: send a response back
+				resp = ConverterUtils.convert(mpo);
 			} else {
-				userId = 0;
+				Log.error("No existing user found. Cannot post an announcement without an existing user.");
 			}
 
-			//TODO: If no location is passed in, then skip this step
-			// Step 2: Insert a new location and get back the location id
-			ILocationCrumbDAO lDao = DAOFactory.getInstance()
-					.getLocationCrumbDAO();
-			LocationCrumbPO lcpo = new LocationCrumbPO();
-			lcpo.setUserId(userId);
-			lcpo.setLocation(message.getLocation());
-			long locationId = lDao.save(lcpo);
-
-			// Step 3: Insert a new wall message and get back the message id
-			MessagePO mpo = new MessagePO();
-			mpo.setAuthorId(userId);
-			mpo.setLocationId(locationId);
-			mpo.setContent(message.getContent());
-			long messageId = DAOFactory.getInstance().getMessageDAO().saveAnnouncementMessage(mpo);
-
-			// Step 4: Update the user with the new message, location crumb id
-			// and modified at time
-			existingUser.setLastLocationCrumbId(locationId);
-			uDao.update(existingUser);
-
-			// Step 5: send a response back
-			resp = ConverterUtils.convert(mpo);
 		} catch (Exception e) {
 			this.handleException(e);
 		} finally {

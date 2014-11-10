@@ -116,6 +116,7 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				stmt.setString(3, messagePO.getContent());
 				stmt.setString(4, "CHAT");
 				stmt.setLong(5, messagePO.getLocationId());
+				stmt.setTimestamp(6, messagePO.getCreatedAt());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				
@@ -284,10 +285,11 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_PRIVATE_CHAT_MESSAGE)) {
-			stmt.setLong(1, po.getLocationId());
-			stmt.setString(2, po.getContent());
-			stmt.setLong(3, receiverId);
-			stmt.setLong(4, senderId);
+			stmt.setTimestamp(1, po.getCreatedAt());
+		    stmt.setLong(2, po.getLocationId());
+			stmt.setString(3, po.getContent());
+			stmt.setLong(4, receiverId);
+			stmt.setLong(5, senderId);
 		
 			int rowCount = stmt.executeUpdate();
 			Log.trace("Statement executed, and " + rowCount + " rows inserted.");

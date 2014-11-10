@@ -450,7 +450,7 @@ public class SQL {
 	 */
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
@@ -466,7 +466,7 @@ public class SQL {
 	public static final String INSERT_PRIVATE_CHAT_MESSAGE = "insert into "
 			+ "SSN_MESSAGES "
 			+ "(created_at, location_id, message_type, content, target_id, author_id) "
-			+ "values (CURRENT_TIMESTAMP(), ?, \'CHAT\', ?, ?, ?)";
+			+ "values (?, ?, \'CHAT\', ?, ?, ?)";
 
 	/**
 	 * Query to fetch chat buddies

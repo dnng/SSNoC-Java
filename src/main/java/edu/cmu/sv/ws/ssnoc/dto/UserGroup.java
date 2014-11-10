@@ -24,5 +24,24 @@ public class UserGroup {
 	public String toString() {
 		return new Gson().toJson(this);
 	}
+	
+	public boolean equals(UserGroup ug){
+	    boolean isEqual= false;
+	    List<String> temp = ug.getUserNames();
+	    
+	    if (temp.size() != this.getUserNames().size())
+	        return false;
+	    
+	    for (String user: temp){
+	        if(this.getUserNames().toString().contains(user))
+	            isEqual = true;
+	        else{
+	            isEqual = false;
+	            break;
+	        }
+	    }    
+	    return isEqual;
+	}
+	
 
 }
