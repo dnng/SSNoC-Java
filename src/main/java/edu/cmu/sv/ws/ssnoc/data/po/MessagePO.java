@@ -28,40 +28,40 @@ public class MessagePO {
      }
 
      public void setMessageId(long messageId) {
-          messageId = messageId;
+          this.messageId = messageId;
      }
 
-     public long getauthorId() {
+     public long getAuthorId() {
           return authorId;
      }
 
-     public void setauthorId(long authorId) {
+     public void setAuthorId(long authorId) {
           this.authorId = authorId;
      }
 
-     public String getauthorName() {
+     public String getAuthorName() {
           return authorName;
      }
 
 
-     public void setauthorName(String string) {
-          authorName = string;
+     public void setAuthorName(String authorName) {
+          this.authorName = authorName;
      }
 
-     public long gettargetId() {
+     public long getTargetId() {
           return targetId;
      }
 
-     public void settargetId(long targetId) {
+     public void setTargetId(long targetId) {
           this.targetId = targetId;
      }
 
-     public String gettargetName() {
+     public String getTargetName() {
           return targetName;
      }
 
-     public void settargetName(String targetName) {
-          targetName = targetName;
+     public void setTargetName(String targetName) {
+          this.targetName = targetName;
      }
 
      public String getContent() {
@@ -72,10 +72,10 @@ public class MessagePO {
           this.content = content;
      }
 
-     public long getlocationId() {
+     public long getLocationId() {
           return locationId;
      }
-     public void setlocationId(long locationId) {
+     public void setLocationId(long locationId) {
           this.locationId = locationId;
      }
 
@@ -87,11 +87,11 @@ public class MessagePO {
           this.location = location;
      }
 
-     public String getmessageType() {
+     public String getMessageType() {
           return messageType;
      }
 
-     public void setmessageType(String messageType) {
+     public void setMessageType(String messageType) {
           this.messageType = messageType;
      }
 

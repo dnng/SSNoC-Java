@@ -73,8 +73,8 @@ public class MessageService extends BaseService {
 
                // Step 3: Insert a new wall message and get back the message id
                MessagePO mpo = new MessagePO();
-               mpo.setauthorId(userId);
-               mpo.setlocationId(locationId);
+               mpo.setAuthorId(userId);
+               mpo.setLocationId(locationId);
                mpo.setContent(message.getContent());
                long messageId = DAOFactory.getInstance().getMessageDAO().saveWallMessage(mpo);
 
@@ -156,11 +156,11 @@ public class MessageService extends BaseService {
           try {
 
                po = new MessagePO();
-               po.setauthorName(sendingUserName);
+               po.setAuthorName(sendingUserName);
                po.setContent(content);
                po.setCreatedAt(postedAt);
                po.setLocation(location);
-               po.settargetName(receivingUserName);
+               po.setTargetName(receivingUserName);
                DAOFactory.getInstance().getMessageDAO().savePrivateChatMessage(sendingUserName, receivingUserName, po);
 
           } catch (Exception e) {
@@ -213,8 +213,8 @@ public class MessageService extends BaseService {
 
                // Step 3: Insert a new wall message and get back the message id
                MessagePO mpo = new MessagePO();
-               mpo.setauthorId(userId);
-               mpo.setlocationId(locationId);
+               mpo.setAuthorId(userId);
+               mpo.setLocationId(locationId);
                mpo.setContent(message.getContent());
                long messageId = DAOFactory.getInstance().getMessageDAO().saveAnnouncementMessage(mpo);
 
