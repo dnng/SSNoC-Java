@@ -1,5 +1,8 @@
 package edu.cmu.sv.ws.ssnoc.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +28,6 @@ public class UserGroupsServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		testUsers = null;
 		UserService userService = new UserService();
 
 		for (int i = 1; i <= 5; i++) {
@@ -33,40 +35,43 @@ public class UserGroupsServiceTest {
 			tempUser.setUserName("user" + i);
 			tempUser.setPassword("password" + i);
 			userService.addUser(tempUser);
+			testUsers.add(tempUser);
 		}
+
 	}
 
 	@After
 	public void cleanup() {
 		testUsers = null;
-		
+
 		// clear all previous messages
 		String msgCleanUPQuery = SQL.CLEAN_UP_MSGS;
-		
+
 		MessageDAOImpl msgCleaning = new MessageDAOImpl();
 		msgCleaning.cleanUpAllMessages();
-		
+
 	}
-	// Test Case4
-	// No body done any chat
+
+
 	@Test
-	public void Test04_nochat() {
-		Message msg = new Message();
-		Timestamp postedAt = new Timestamp(System.currentTimeMillis() - 1 * 60 * 60 * 1000);
-		msg.setPostedAt(postedAt);
-		msg.setContent("chat msg1");
-		MessageService msgService = new MessageService();
+	public void testNoChatBetweenUsers() {
 		UserGroupsService tempgroupservice = new UserGroupsService();
 		List<UserGroup> testResult = tempgroupservice.loadUnconnectedClusters(2);
-		System.out.println("----------------Test 4--------------------");
-		System.out.println(testResult.toString());
+		/*
+		 * On the setup, we created 5 users (user1, user2, user3, user4, user5). So,
+		 * the object returned by loadUnconnectedClusters(), should contain _at
+		 * least_ these 5 users
+		 */
+		assertTrue(testResult.get(0).getUserNames().contains(testUsers.get(0).getUserName()));
+		assertTrue(testResult.get(0).getUserNames().contains(testUsers.get(1).getUserName()));
+		assertTrue(testResult.get(0).getUserNames().contains(testUsers.get(2).getUserName()));
+		assertTrue(testResult.get(0).getUserNames().contains(testUsers.get(3).getUserName()));
 	}
 
 	@Test
-	public void Test01_Chatbuddies() {
+	public void testChatBetweenUsers() {
 		Message msg = new Message();
-		Timestamp postedAt = new Timestamp(
-				System.currentTimeMillis() - 30 * 60 * 1000);
+		Timestamp postedAt = new Timestamp(System.currentTimeMillis() - 30 * 60 * 1000);
 		msg.setPostedAt(postedAt);
 		msg.setContent("chat msg1");
 		MessageService msgService = new MessageService();
@@ -74,56 +79,62 @@ public class UserGroupsServiceTest {
 		Response response = msgService.postPrivateChatMessage("user1", "user2", msg);
 		response = msgService.postPrivateChatMessage("user1", "user3", msg);
 		response = msgService.postPrivateChatMessage("user2", "user4", msg);
+		assertTrue(response instanceof Response);
 
+		/*
+		 * Here, we can see that user5 did not communicate with nobody, then,
+		 * no matter the number of clusters, user5 will appear in _all_ of them!
+		 * So, in reality, we only need to test one case.
+		 */
 		UserGroupsService tempgroupservice = new UserGroupsService();
-		List<UserGroup> testResult = tempgroupservice
-				.loadUnconnectedClusters(2);
-		System.out.println("------------------Test 1------------------");
-		System.out.println(testResult.toString());
+		List<UserGroup> testResult = tempgroupservice.loadUnconnectedClusters(2);
+		assertTrue(testResult.get(0).getUserNames().contains(testUsers.get(4).getUserName()));
 	}
 
-	// Test Case2
-	// create a list of 10 users
-	// Check list of users for last 1 hr
-	// users chated before that should be in non buddies
 	@Test
-	public void Test02_Chattiming() {
+	public void testOneUserChatsWithAllOtherUsers() {
 		Message msg = new Message();
 		Timestamp postedAt3hrs = new Timestamp(System.currentTimeMillis() - 3 * 60 * 60 * 1000);
 		Timestamp postedAt1hrs = new Timestamp(System.currentTimeMillis() - 1 * 60 * 60 * 1000);
-		
+
 		msg.setContent("chat msg1");
 		MessageService msgService = new MessageService();
-		
+
 		msg.setPostedAt(postedAt3hrs);
-		Response response = msgService.postPrivateChatMessage("user1", "user2",msg);
+		Response response = msgService.postPrivateChatMessage("user1", "user2", msg);
+
 		msg.setPostedAt(postedAt3hrs);
 		response = msgService.postPrivateChatMessage("user1", "user3", msg);
+
 		msg.setPostedAt(postedAt1hrs);
 		response = msgService.postPrivateChatMessage("user1", "user4", msg);
+
 		msg.setPostedAt(postedAt1hrs);
 		response = msgService.postPrivateChatMessage("user1", "user5", msg);
 
+		assertTrue(response instanceof Response);
+
 		UserGroupsService tempgroupservice = new UserGroupsService();
 		List<UserGroup> testResult = tempgroupservice.loadUnconnectedClusters(2);
-		System.out.println("----------------Test 2--------------------");
-		System.out.println(testResult.toString());
+		/*
+		 * In this test, we know that at least one of the users talked to everybody.
+		 * A simple test is to verify that no cluster should have all users in it.
+		 */
+		assertFalse(testResult.get(0).getUserNames().containsAll(testUsers));
 	}
-	// Test Case3
-		// boundry value test all 5 will come if all body had chat
+
 	@Test
-	public void Test03_Chatboundryvalue() {
+	public void testAllUsersTalkToAllUsers() {
 		Message msg = new Message();
-	//	Timestamp postedAt3hrs = new Timestamp(System.currentTimeMillis() - 3 * 60 * 60 * 1000);
 		Timestamp postedAt = new Timestamp(System.currentTimeMillis() - 1 * 60 * 60 * 1000);
 		msg.setPostedAt(postedAt);
 		msg.setContent("chat msg1");
 		MessageService msgService = new MessageService();
-		Response response = msgService.postPrivateChatMessage("user1", "user2",msg);
+		Response response = msgService.postPrivateChatMessage("user1", "user2", msg);
 		response = msgService.postPrivateChatMessage("user1", "user3", msg);
 		response = msgService.postPrivateChatMessage("user1", "user4", msg);
 		response = msgService.postPrivateChatMessage("user1", "user5", msg);
-		response = msgService.postPrivateChatMessage("user2", "user3",msg);
+		response = msgService.postPrivateChatMessage("user2", "user3", msg);
 		response = msgService.postPrivateChatMessage("user2", "user4", msg);
 		response = msgService.postPrivateChatMessage("user2", "user5", msg);
 		response = msgService.postPrivateChatMessage("user3", "user4", msg);
@@ -131,8 +142,19 @@ public class UserGroupsServiceTest {
 		response = msgService.postPrivateChatMessage("user4", "user5", msg);
 		UserGroupsService tempgroupservice = new UserGroupsService();
 		List<UserGroup> testResult = tempgroupservice.loadUnconnectedClusters(2);
-		System.out.println("----------------Test 3--------------------");
-		System.out.println(testResult.toString());
+		/*
+		 * In this test, we know that all created users talked to each other.
+		 * So, no cluster should have more than the single user in it (and other
+		 * possible users like  SSNAdmin). To test that behavior, we remove users
+		 * from the testUsers object until there are only two of them left. After
+		 * that, we check if a cluster has more than a single isolated user from
+		 * the testUsers set.
+		 */
+		testUsers.remove(4);
+		testUsers.remove(3);
+		testUsers.remove(2);
+		assertFalse(testResult.get(0).getUserNames().containsAll(testUsers));
+
 	}
 
 }

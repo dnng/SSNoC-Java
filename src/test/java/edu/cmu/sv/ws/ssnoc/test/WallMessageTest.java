@@ -66,9 +66,12 @@ public class WallMessageTest {
 
 		/*
 		 * Add message with null usename
+         *
+         * Temporarily commented this check out, coz i want null user ids for
+         * performance testing. Will have to fix this eventually. Sorry.
+         *
 		 */
-		//Temporarily commented this check out, coz i want null user ids for performance testing. Will have to fix this eventually. Sorry. 
-		//assertNull(msgService.addWallMessage("", msg));
+		// assertNull(msgService.addWallMessage("", msg));
 
 		/*
 		 * Add atleast 1 message
