@@ -75,20 +75,22 @@ public class MessagesService extends BaseService {
 		IUserDAO dao = DAOFactory.getInstance().getUserDAO();
 		UserPO existingUser = new UserPO();
 		List<Message> messages = new ArrayList<Message>();
+		List<Message> msg = new ArrayList<Message>();
 
 		messages = this.loadWallMessages();
+		msg = this.loadAllMessages();
 
 		if (messages != null) {
 			for (Message m : messages) {
 				String authorName = m.getAuthor();
 				existingUser = dao.findByName(authorName);
 				if (existingUser.getAccountStatus() != "active") {
-					messages.remove(m);
+					msg.remove(m);
 				}
 
 			}
 		}
-		return messages;
+		return msg;
 	}
 
 	/**
@@ -192,11 +194,14 @@ public class MessagesService extends BaseService {
 			@PathParam("userName1") String userName1, @PathParam("userName2") String userName2) {
 		Log.enter(userName1, userName2);
 		List<Message> messages = this.getAllChatMessagesForPeers(userName1, userName2);
+		List<Message> msg = this.getAllChatMessagesForPeers(userName1, userName2);
+
 		try {
+
 			if (messages != null) {
 				for (Message m : messages) {
 					if (m.getStatus() != "visible") {
-						messages.remove(m);
+						msg.remove(m);
 					}
 				}
 			}
@@ -207,7 +212,7 @@ public class MessagesService extends BaseService {
 			Log.exit(messages);
 		}
 
-		return messages;
+		return msg;
 	}
 
 	/**
@@ -253,11 +258,13 @@ public class MessagesService extends BaseService {
 	public List<Message> loadVisibleAnnouncementMessages() {
 		Log.enter();
 		List<Message> messages = this.loadAnnouncementMessages();
+		List<Message> msg = this.loadAnnouncementMessages();
+
 		try {
 			if (messages != null) {
 				for (Message m : messages) {
 					if (m.getStatus() != "visible") {
-						messages.remove(m);
+						msg.remove(m);
 					}
 				}
 			}
@@ -267,7 +274,7 @@ public class MessagesService extends BaseService {
 		} finally {
 			Log.exit(messages);
 		}
-		return messages;
+		return msg;
 	}
 
 }

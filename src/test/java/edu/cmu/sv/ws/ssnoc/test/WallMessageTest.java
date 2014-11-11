@@ -65,15 +65,6 @@ public class WallMessageTest {
 		MessageService msgService = new MessageService();
 
 		/*
-		 * Add message with null usename
-         *
-         * Temporarily commented this check out, coz i want null user ids for
-         * performance testing. Will have to fix this eventually. Sorry.
-         *
-		 */
-		// assertNull(msgService.addWallMessage("", msg));
-
-		/*
 		 * Add atleast 1 message
 		 */
 		msg.setAuthor("foo");
@@ -86,6 +77,30 @@ public class WallMessageTest {
 		List<Message> messages = msgsService.loadWallMessages();
 		assertTrue(messages.size() != 0);
 		for (Message m : messages) {
+			assertTrue(m instanceof Message);
+		}
+	}
+
+	@Test
+	public void testGetAllVisibleMessagesFromPublicWall() {
+		Message msg = new Message();
+		MessagesService msgsService = new MessagesService();
+		MessageService msgService = new MessageService();
+
+		/*
+		 * Add atleast 1 message
+		 */
+		msg.setAuthor("foo");
+		Timestamp postedAt = new Timestamp(1234);
+		msg.setPostedAt(postedAt);
+		msg.setContent("testGetAllMessagesFromPublicWall");
+
+		msgService.addWallMessage("foo", msg);
+
+		List<Message> visibleMessages = new ArrayList<Message>();
+		visibleMessages = msgsService.loadVisibleWallMessages();
+		assertTrue(visibleMessages.size() != 0);
+		for (Message m : visibleMessages) {
 			assertTrue(m instanceof Message);
 		}
 	}
@@ -161,5 +176,54 @@ public class WallMessageTest {
 
 		msgBetweenUsers =  msgsSrv.getAllChatMessagesForPeers(user1.getUserName(), user2.getUserName());
 		assertTrue(msgBetweenUsers instanceof List<?>);
+
+		List<Message> visibleMsgBetweenUsers = new ArrayList<Message>();
+		visibleMsgBetweenUsers = msgsSrv.getAllVisibleChatMessagesForPeers(user1.getUserName(), user2.getUserName());
+		assertTrue(visibleMsgBetweenUsers instanceof List<?>);
+	}
+
+	@Test
+	public void testLoadingAnnouncementMessages() {
+		MessageService msgSrv = new MessageService();
+		MessagesService msgsSrv = new MessagesService();
+		List<Message> announcementMessages = new ArrayList<Message>();
+
+		Message msg = new Message();
+		msg.setAuthor("");
+		msg.setContent("");
+		msg.setAuthor("bar");
+		Timestamp postedAt = new Timestamp(4321);
+		msg.setPostedAt(postedAt);
+		msg.setContent("testLoadingAnnouncementMessages");
+
+		/*
+		 * Add at least one announcement
+		 */
+		msgSrv.addAnnouncementMessage(msg);
+
+		announcementMessages = msgsSrv.loadAnnouncementMessages();
+		assertTrue(announcementMessages instanceof List<?>);
+	}
+
+	@Test
+	public void testLoadingVisibleAnnouncementMessages() {
+
+		MessagesService msgsSrv = new MessagesService();
+		List<Message> visibleannouncementMessages = new ArrayList<Message>();
+
+		/*
+		 * Add at least one announcement
+		 */
+		Message msg = new Message();
+		msg.setAuthor("");
+		msg.setContent("");
+		msg.setAuthor("foo");
+		Timestamp postedAt = new Timestamp(4321);
+		msg.setPostedAt(postedAt);
+		msg.setContent("testLoadingVisibleAnnouncementMessages");
+
+
+		visibleannouncementMessages = msgsSrv.loadVisibleAnnouncementMessages();
+		assertTrue(visibleannouncementMessages instanceof List<?>);
 	}
 }
