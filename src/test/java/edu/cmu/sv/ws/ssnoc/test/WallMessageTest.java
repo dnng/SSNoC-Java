@@ -14,6 +14,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.cmu.sv.ws.ssnoc.common.logging.Log;
+import edu.cmu.sv.ws.ssnoc.data.util.ConnectionPoolFactory;
+import edu.cmu.sv.ws.ssnoc.data.util.DBUtils;
+import edu.cmu.sv.ws.ssnoc.data.util.IConnectionPool;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.StatusCrumb;
 import edu.cmu.sv.ws.ssnoc.dto.User;
@@ -28,20 +32,45 @@ public class WallMessageTest {
 	User user2 = new User();
 	@Before
 	public void setUp() throws Exception {
-		UserService userService = new UserService();
+		
+		try {
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToTest();
+			
+			DBUtils.reinitializeDatabase();
+			
+			UserService userService = new UserService();
 
-		user1.setUserName("foo");
-		user1.setPassword("1234");
+			user1.setUserName("foo");
+			user1.setPassword("1234");
 
-		user2.setUserName("bar");
-		user2.setPassword("1234");
+			user2.setUserName("bar");
+			user2.setPassword("1234");
 
-		userService.addUser(user1);
-		userService.addUser(user2);
+			userService.addUser(user1);
+			userService.addUser(user2);
+
+		} catch (Exception e) {
+			Log.error(e);
+		} finally {
+			Log.exit();
+		}
+
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		try {
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToLive(); 
+
+		} catch (Exception e) {
+			Log.error(e);
+		} finally {
+			Log.exit();
+		}
 	}
 
 	@Test

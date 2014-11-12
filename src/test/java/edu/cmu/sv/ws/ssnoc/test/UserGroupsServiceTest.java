@@ -13,8 +13,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.cmu.sv.ws.ssnoc.data.SQL;
+import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.dao.MessageDAOImpl;
+import edu.cmu.sv.ws.ssnoc.data.util.ConnectionPoolFactory;
+import edu.cmu.sv.ws.ssnoc.data.util.DBUtils;
+import edu.cmu.sv.ws.ssnoc.data.util.IConnectionPool;
 import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.User;
 import edu.cmu.sv.ws.ssnoc.dto.UserGroup;
@@ -28,27 +31,49 @@ public class UserGroupsServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		UserService userService = new UserService();
+		
+		try {
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToTest();
+			
+			DBUtils.reinitializeDatabase();
+			
+			UserService userService = new UserService();
 
-		for (int i = 1; i <= 5; i++) {
-			User tempUser = new User();
-			tempUser.setUserName("user" + i);
-			tempUser.setPassword("password" + i);
-			userService.addUser(tempUser);
-			testUsers.add(tempUser);
+			for (int i = 1; i <= 5; i++) {
+				User tempUser = new User();
+				tempUser.setUserName("user" + i);
+				tempUser.setPassword("password" + i);
+				userService.addUser(tempUser);
+				testUsers.add(tempUser);
+			}
+
+		} catch (Exception e) {
+			Log.error(e);
+		} finally {
+			Log.exit();
 		}
-
 	}
 
 	@After
 	public void cleanup() {
 		testUsers = null;
 
-		// clear all previous messages
-		String msgCleanUPQuery = SQL.CLEAN_UP_MSGS;
 
 		MessageDAOImpl msgCleaning = new MessageDAOImpl();
 		msgCleaning.cleanUpAllMessages();
+		
+		try {
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToLive(); 
+
+		} catch (Exception e) {
+			Log.error(e);
+		} finally {
+			Log.exit();
+		}
 
 	}
 
