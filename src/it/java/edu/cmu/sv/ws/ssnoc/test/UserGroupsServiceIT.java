@@ -46,7 +46,7 @@ public class UserGroupsServiceIT {
 	@HttpTest(method = Method.GET, path = "/1")
 	public void testuserGroupsListsUsers() {
 		String message = response.getBody();
-		assertTrue(message, message.equals("[{\"userNames\":[\"SSNAdmin\"]}]"));
+		assertTrue(message, message.equals("[{\"userNames\":[*\"SSNAdmin\"*]}]"));
 	}
 	
 }
