@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -285,6 +286,10 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 		
 		try (Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_PRIVATE_CHAT_MESSAGE)) {
+			if(po.getCreatedAt() == null) 
+			{
+			    po.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			}  
 			stmt.setTimestamp(1, po.getCreatedAt());
 		    stmt.setLong(2, po.getLocationId());
 			stmt.setString(3, po.getContent());
