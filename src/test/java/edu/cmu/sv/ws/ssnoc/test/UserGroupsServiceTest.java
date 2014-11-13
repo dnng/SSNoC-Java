@@ -57,7 +57,7 @@ public class UserGroupsServiceTest {
 	}
 
 	@After
-	public void cleanup() {
+	public void teardown() {
 		testUsers = null;
 
 
