@@ -104,7 +104,8 @@ public class MessageService extends BaseService {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "message")
-	public Message loadMessage(@PathParam("messageID") long messageID) {
+	@Path("/{messageID}")
+	public Message loadMessage(@PathParam("messageID") int messageID) {
 		Log.enter();
 
 		Message message = null;

@@ -146,7 +146,7 @@ public class WallMessageTest {
 
 		msgService.addWallMessage("foo", msg);
 
-		long id = 1;
+		int id = 1;
 
 		Message retreived = msgService.loadMessage(id);
 
@@ -161,9 +161,9 @@ public class WallMessageTest {
 
 		msg.setAuthor("");
 		msg.setContent("");
-		assertNull(msgService.postPrivateChatMessage(null, null, msg));
+		assertTrue(msgService.postPrivateChatMessage(null, null, msg).toString().contains("400"));
 
-		msg.setAuthor("foo");
+		msg.setAuthor("SSNAdmin");
 		Timestamp postedAt = new Timestamp(1234);
 		msg.setPostedAt(postedAt);
 		msg.setContent("testSendPrivateMessageToAnotherUser");
