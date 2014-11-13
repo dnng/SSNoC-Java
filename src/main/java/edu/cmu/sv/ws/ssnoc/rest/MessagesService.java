@@ -194,24 +194,25 @@ public class MessagesService extends BaseService {
 			@PathParam("userName1") String userName1, @PathParam("userName2") String userName2) {
 		Log.enter(userName1, userName2);
 		List<Message> messages = this.getAllChatMessagesForPeers(userName1, userName2);
-		List<Message> msg = this.getAllChatMessagesForPeers(userName1, userName2);
+		List<Message> msg = new ArrayList<Message>(messages);
 
-		try {
-
-			if (messages != null) {
-				for (Message m : messages) {
-					//TODO: This does not work at all - you need to get the author and pull his account status
-					if (m.getStatus() != "visible") {
-						msg.remove(m);
-					}
-				}
-			}
-		} catch (Exception e) {
-			Log.error("Could not load list of visible chat messages");
-			this.handleException(e);
-		} finally {
-			Log.exit(messages);
-		}
+		//TODO: This does not work at all - you need to get the author and pull his account status
+//		try {
+//
+//			if (messages != null) {
+//				for (Message m : messages) {
+//					
+//					if (m.getStatus() != "visible") {
+//						msg.remove(m);
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			Log.error("Could not load list of visible chat messages");
+//			this.handleException(e);
+//		} finally {
+//			Log.exit(messages);
+//		}
 
 		return msg;
 	}
@@ -259,23 +260,24 @@ public class MessagesService extends BaseService {
 	public List<Message> loadVisibleAnnouncementMessages() {
 		Log.enter();
 		List<Message> messages = this.loadAnnouncementMessages();
-		List<Message> msg = this.loadAnnouncementMessages();
+		List<Message> msg = new ArrayList<Message>(messages);
 
-		try {
-			if (messages != null) {
-				for (Message m : messages) {
-					//TODO: This does not work at all - you need to get the author and pull his account status
-					if (m.getStatus() != "visible") {
-						msg.remove(m);
-					}
-				}
-			}
-		} catch (Exception e) {
-			Log.error("Could not load visible messages");
-			this.handleException(e);
-		} finally {
-			Log.exit(messages);
-		}
+		//TODO: This does not work at all - you need to get the author and pull his account status
+//		try {
+//			if (messages != null) {
+//				for (Message m : messages) {
+//					
+//					if (m.getStatus() != "visible") {
+//						msg.remove(m);
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			Log.error("Could not load visible messages");
+//			this.handleException(e);
+//		} finally {
+//			Log.exit(messages);
+//		}
 		return msg;
 	}
 
