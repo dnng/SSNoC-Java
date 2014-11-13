@@ -31,6 +31,10 @@ public class BaseService {
 	protected Response created(Object obj) {
 		return Response.status(Status.CREATED).entity(obj).build();
 	}
+	
+	protected Response badRequest(Object obj) {
+		return Response.status(Status.BAD_REQUEST).entity(obj).build();
+	}
 
 	protected UserPO loadExistingUser(String userName) {
 		UserPO po = DAOFactory.getInstance().getUserDAO().findByName(userName);

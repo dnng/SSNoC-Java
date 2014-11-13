@@ -1,7 +1,6 @@
 package edu.cmu.sv.ws.ssnoc.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
@@ -10,8 +9,8 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
@@ -28,10 +27,11 @@ import edu.cmu.sv.ws.ssnoc.rest.UserService;
 
 public class WallMessageTest {
 
-	User user1 = new User();
-	User user2 = new User();
-	@Before
-	public void setUp() throws Exception {
+	static User user1 = new User();
+	static User user2 = new User();
+	
+	@BeforeClass
+	public static void setUp() throws Exception {
 		
 		try {
 			IConnectionPool cp = ConnectionPoolFactory.getInstance()
@@ -59,8 +59,8 @@ public class WallMessageTest {
 
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		try {
 			IConnectionPool cp = ConnectionPoolFactory.getInstance()
 					.getH2ConnectionPool();
@@ -146,7 +146,7 @@ public class WallMessageTest {
 
 		msgService.addWallMessage("foo", msg);
 
-		long id = 1;
+		int id = 1;
 
 		Message retreived = msgService.loadMessage(id);
 
@@ -161,9 +161,9 @@ public class WallMessageTest {
 
 		msg.setAuthor("");
 		msg.setContent("");
-		assertNull(msgService.postPrivateChatMessage(null, null, msg));
+		assertTrue(msgService.postPrivateChatMessage(null, null, msg).toString().contains("400"));
 
-		msg.setAuthor("foo");
+		msg.setAuthor("SSNAdmin");
 		Timestamp postedAt = new Timestamp(1234);
 		msg.setPostedAt(postedAt);
 		msg.setContent("testSendPrivateMessageToAnotherUser");
@@ -173,7 +173,7 @@ public class WallMessageTest {
 	}
 
 	@Test
-	public void testloadWallAndStatusMessages() {
+	public void testLoadWallAndStatusMessages() {
 		StatusService statSrv = new StatusService();
 		StatusCrumb statCrmb1 = new StatusCrumb();
 
@@ -199,7 +199,7 @@ public class WallMessageTest {
 	}
 
 	@Test
-	public void testgetAllChatMessagesForPeers() {
+	public void testGetAllChatMessagesForPeers() {
 		MessagesService msgsSrv = new MessagesService();
 		List<Message> msgBetweenUsers = new ArrayList<Message>();
 

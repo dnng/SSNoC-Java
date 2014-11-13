@@ -82,11 +82,11 @@ public class MessageService extends BaseService {
 				resp = ConverterUtils.convert(mpo);
 			} else {
 				Log.error("No existing user found. Cannot post a public message without an existing user.");
+				return this.badRequest(message);
 			}
 
-			
 		} catch (Exception e) {
-			this.handleException(e);
+			return this.badRequest(message);
 		} finally {
 			Log.exit();
 		}
@@ -104,7 +104,8 @@ public class MessageService extends BaseService {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@XmlElementWrapper(name = "message")
-	public Message loadMessage(@PathParam("messageID") long messageID) {
+	@Path("/{messageID}")
+	public Message loadMessage(@PathParam("messageID") int messageID) {
 		Log.enter();
 
 		Message message = null;
@@ -142,9 +143,15 @@ public class MessageService extends BaseService {
 		MessagePO po = null;
 		if (sendingUserName != null && receivingUserName != null && message.getContent() != null)
 		{
-			po = this.sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
+			try {
+				po = this.sendPrivateMessage(sendingUserName, receivingUserName, message.getContent(), message.getPostedAt(), message.getLocation());
+			} catch (Exception e) {
+				return this.badRequest(message);
+			} finally {
+				Log.exit(message);
+			}
 		} else {
-			return null;
+			return this.badRequest(message);
 		}
 
 		resp = ConverterUtils.convert(po);
