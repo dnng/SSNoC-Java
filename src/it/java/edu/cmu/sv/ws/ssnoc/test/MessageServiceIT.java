@@ -39,39 +39,39 @@ public class MessageServiceIT {
         Assert.assertTrue(msg.contains("This is a test chat message"));
     }
 
-    @HttpTest(method = Method.POST, path = "/message/SSNAdmin/user1", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"\",\"postedAt\":\"12345\"}")
+    @HttpTest(method = Method.POST, path = "/message/SSNAdmin/user999", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"\",\"postedAt\":\"12345\"}")
     public void testChatSadAMessage() {
-        assertCreated(response);
+        assertResetContent(response);
         String msg = response.getBody();
         Assert.assertNotSame(msg.contains("This is a test chat message"),true);
     }
 
-    @HttpTest(method = Method.POST, path = "/message/SSNAdmin", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"12345\"}")
+    @HttpTest(method = Method.POST, path = "/message/user999", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"12345\"}")
     public void testPostingASadMessage() {
         assertCreated(response);
         String msg = response.getBody();
         Assert.assertNotSame(msg.contains("This is a test wall message"), false);
     }
   ///get//  
-//    @HttpTest( method = Method.GET, path = "/messages/wall", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
-//    public void checkWallMessage() {
-//    assertOk(response);
-//    String msg = response.getBody();
-//    Assert.assertTrue(msg.contains("This is a test wall message"));
-//    }
-//    
-//    @HttpTest( method = Method.GET, path = "/messages/SSNAdmin/user1", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test chat message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}" )
-//    public void checkChatMessage() {
-//    assertOk(response);
-//    String msg = response.getBody();
-//    Assert.assertTrue(msg.contains("This is a test chat message"));
-//    }
-//    @HttpTest( method = Method.GET, path = "/message/1", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
-//    public void checkMessageID() {
-//    assertOk(response);
-//    String msg = response.getBody();
-//    Assert.assertTrue(msg.contains("This is a test wall message"));
-//    }
+    @HttpTest( method = Method.GET, path = "/messages/wall", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
+    public void checkWallMessage() {
+    assertOk(response);
+    String msg = response.getBody();
+    Assert.assertTrue(msg.contains("This is a test wall message"));
+    }
+    
+    @HttpTest( method = Method.GET, path = "/messages/SSNAdmin/user1", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test chat message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}" )
+    public void checkChatMessage() {
+    assertOk(response);
+    String msg = response.getBody();
+    Assert.assertTrue(msg.contains("This is a test chat message"));
+    }
+    @HttpTest( method = Method.GET, path = "/message/1", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
+    public void checkMessageID() {
+    assertOk(response);
+    String msg = response.getBody();
+    Assert.assertTrue(msg.contains("This is a test wall message"));
+    }
     @HttpTest( method = Method.GET, path = "/users/SSNAdmin/chatbuddies", type = MediaType.APPLICATION_JSON, content = "{\"author_name\":\"SSNAdmin\",\"target_name\":\"user1\",\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
     public void checkChatBuddies() {
     assertOk(response);
