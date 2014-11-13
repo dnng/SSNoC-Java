@@ -173,7 +173,7 @@ public class WallMessageTest {
 	}
 
 	@Test
-	public void testloadWallAndStatusMessages() {
+	public void testLoadWallAndStatusMessages() {
 		StatusService statSrv = new StatusService();
 		StatusCrumb statCrmb1 = new StatusCrumb();
 
@@ -199,7 +199,7 @@ public class WallMessageTest {
 	}
 
 	@Test
-	public void testgetAllChatMessagesForPeers() {
+	public void testGetAllChatMessagesForPeers() {
 		MessagesService msgsSrv = new MessagesService();
 		List<Message> msgBetweenUsers = new ArrayList<Message>();
 

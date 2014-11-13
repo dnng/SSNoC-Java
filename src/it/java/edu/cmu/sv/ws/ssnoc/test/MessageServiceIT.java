@@ -1,8 +1,8 @@
 package edu.cmu.sv.ws.ssnoc.test;
 
 import static com.eclipsesource.restfuse.Assert.assertCreated;
-import static com.eclipsesource.restfuse.Assert.assertResetContent;
 import static com.eclipsesource.restfuse.Assert.assertOk;
+import static com.eclipsesource.restfuse.Assert.assertBadRequest;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -40,17 +40,13 @@ public class MessageServiceIT {
     }
 
     @HttpTest(method = Method.POST, path = "/message/SSNAdmin/user999", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"\",\"postedAt\":\"12345\"}")
-    public void testChatSadAMessage() {
-        assertResetContent(response);
-        String msg = response.getBody();
-        Assert.assertNotSame(msg.contains("This is a test chat message"),true);
+    public void testChattingWithNonExistantUsers() {
+        assertBadRequest(response);
     }
 
     @HttpTest(method = Method.POST, path = "/message/user999", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"12345\"}")
-    public void testPostingASadMessage() {
-        assertCreated(response);
-        String msg = response.getBody();
-        Assert.assertNotSame(msg.contains("This is a test wall message"), false);
+    public void testPostingMessageAsANonExistantUser() {
+    	assertBadRequest(response);
     }
   ///get//  
     @HttpTest( method = Method.GET, path = "/messages/wall", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
