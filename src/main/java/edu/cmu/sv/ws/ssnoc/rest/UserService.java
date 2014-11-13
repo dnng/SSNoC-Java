@@ -15,6 +15,7 @@ import org.h2.util.StringUtils;
 
 import edu.cmu.sv.ws.ssnoc.common.exceptions.ServiceException;
 import edu.cmu.sv.ws.ssnoc.common.exceptions.UnauthorizedUserException;
+import edu.cmu.sv.ws.ssnoc.common.exceptions.UnknownUserException;
 import edu.cmu.sv.ws.ssnoc.common.exceptions.ValidationException;
 import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.common.utils.ConverterUtils;
@@ -107,6 +108,8 @@ public class UserService extends BaseService {
 			if (!this.validateUserPassword(user.getPassword(), po)) {
 				throw new UnauthorizedUserException(userName);
 			}
+		} catch (UnknownUserException ue) {
+			return this.badRequest("Invalid username: " + userName);
 		} catch (Exception e) {
 			this.handleException(e);
 		} finally {
