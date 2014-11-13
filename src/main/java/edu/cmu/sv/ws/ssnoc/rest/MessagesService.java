@@ -84,7 +84,7 @@ public class MessagesService extends BaseService {
 			for (Message m : messages) {
 				String authorName = m.getAuthor();
 				existingUser = dao.findByName(authorName);
-				if (existingUser.getAccountStatus() != "active") {
+				if (existingUser.getAccountStatus() != "Active") {
 					msg.remove(m);
 				}
 
@@ -200,6 +200,7 @@ public class MessagesService extends BaseService {
 
 			if (messages != null) {
 				for (Message m : messages) {
+					//TODO: This does not work at all - you need to get the author and pull his account status
 					if (m.getStatus() != "visible") {
 						msg.remove(m);
 					}
@@ -263,6 +264,7 @@ public class MessagesService extends BaseService {
 		try {
 			if (messages != null) {
 				for (Message m : messages) {
+					//TODO: This does not work at all - you need to get the author and pull his account status
 					if (m.getStatus() != "visible") {
 						msg.remove(m);
 					}
