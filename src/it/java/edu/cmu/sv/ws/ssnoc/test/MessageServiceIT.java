@@ -3,9 +3,11 @@ package edu.cmu.sv.ws.ssnoc.test;
 import static com.eclipsesource.restfuse.Assert.assertBadRequest;
 import static com.eclipsesource.restfuse.Assert.assertCreated;
 import static com.eclipsesource.restfuse.Assert.assertOk;
+import java.sql.Timestamp;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
@@ -22,7 +24,9 @@ import edu.cmu.sv.ws.ssnoc.common.logging.Log;
 import edu.cmu.sv.ws.ssnoc.data.util.ConnectionPoolFactory;
 import edu.cmu.sv.ws.ssnoc.data.util.DBUtils;
 import edu.cmu.sv.ws.ssnoc.data.util.IConnectionPool;
+import edu.cmu.sv.ws.ssnoc.dto.Message;
 import edu.cmu.sv.ws.ssnoc.dto.User;
+import edu.cmu.sv.ws.ssnoc.rest.MessageService;
 import edu.cmu.sv.ws.ssnoc.rest.UserService;
 
 @RunWith(HttpJUnitRunner.class)
@@ -36,7 +40,7 @@ public class MessageServiceIT {
 	public Response response;
 	
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public static void initialSetUp() throws Exception {
 		
 		try {
 			IConnectionPool cp = ConnectionPoolFactory.getInstance()
@@ -61,11 +65,40 @@ public class MessageServiceIT {
 	}
 	
 	@AfterClass
-	public static void tearDown() throws Exception {
+	public static void finalTearDown() throws Exception {
 		try {
 			IConnectionPool cp = ConnectionPoolFactory.getInstance()
 					.getH2ConnectionPool();
 			cp.switchConnectionToLive(); 
+
+		} catch (Exception e) {
+			Log.error(e);
+		} finally {
+			Log.exit();
+		}
+	}
+	
+	@Before
+	public void interimSetUp() throws Exception {
+		
+		try {
+			UserService userService = new UserService();
+
+			User testuser = new User();
+			testuser.setUserName("testuser");
+			testuser.setPassword("testuser");
+
+			userService.addUser(testuser);
+			
+			Message msg = new Message();
+			MessageService msgService = new MessageService();
+
+			msg.setAuthor("SSNAdmin");
+			Timestamp postedAt = new Timestamp(1234);
+			msg.setPostedAt(postedAt);
+			msg.setContent("testSendPrivateMessageToAnotherUser");
+
+			msgService.postPrivateChatMessage("SSNAdmin", "testuser", msg);
 
 		} catch (Exception e) {
 			Log.error(e);
