@@ -191,7 +191,8 @@ public class ConverterUtils {
 		dto.setLocationId(po.getLocationId());
 		dto.setLocation(po.getLocation());
 		dto.setPostedAt(po.getCreatedAt());
-		
+		dto.setImagePath(po.getImagePath());
+		dto.setVideoPath(po.getVideoPath());
 		return dto;
 	}
 
@@ -217,6 +218,8 @@ public class ConverterUtils {
 		po.setLocationId(dto.getLocationId());
 		po.setLocation(dto.getLocation());
 		po.setCreatedAt(dto.getPostedAt());
+		po.setImagePath(dto.getImagePath());
+        po.setVideoPath(dto.getVideoPath());
 		return po;
 	}
 

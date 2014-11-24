@@ -22,6 +22,8 @@ public class MessagePO {
      private String content;
      private String messageType;
      private Timestamp createdAt;
+     private String imagePath;
+     private String videoPath;
 
      public long getMessageId() {
           return messageId;
@@ -103,7 +105,23 @@ public class MessagePO {
           this.createdAt = createdAt;
      }
 
-     @Override
+     public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
+
+    @Override
      public String toString() {
           return new Gson().toJson(this);
      }

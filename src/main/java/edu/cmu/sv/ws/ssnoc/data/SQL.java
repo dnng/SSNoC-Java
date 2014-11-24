@@ -278,7 +278,8 @@ public class SQL {
 			+ SSN_MESSAGES + " ( message_id IDENTITY PRIMARY KEY,"
 			+ " author_id BIGINT, target_id BIGINT,  location_id BIGINT,"
 			+ " content VARCHAR(1024), message_type VARCHAR(64),"
-			+ " created_at TIMESTAMP )";
+			+ " created_at TIMESTAMP, "
+			+ " image_path VARCHAR(1024), video_path VARCHAR(1024))";
 
 	/**
 	 * Query to drop the MESSAGES table.
@@ -296,7 +297,7 @@ public class SQL {
 	/**
 	 * Query to load message by the specific message ID
 	 */
-	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.message_type, ssm.created_at "
+	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.message_type, ssm.created_at, ssm.image_path, ssm.video_path"
 			+ "from "
 			+ SSN_MESSAGES
 			+ " ssm "
@@ -316,7 +317,7 @@ public class SQL {
 	 */
 	public static final String FIND_ALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
 			+ " sb.user_name, ssm.location_id, slc.location, "
-			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " ssm.content, ssm.message_type, ssm.created_at, ssm.image_path, ssm.video_path"
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
@@ -336,7 +337,7 @@ public class SQL {
 	 */
 	public static final String FIND_ALL_CHAT_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
 			+ " sb.user_name, ssm.location_id, slc.location, "
-			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " ssm.content, ssm.message_type, ssm.created_at, ssm.image_path, ssm.video_path" 
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
@@ -357,7 +358,7 @@ public class SQL {
 	 */
 	public static final String FIND_ALL_WALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
 			+ " sb.user_name, ssm.location_id, slc.location, "
-			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " ssm.content, ssm.message_type, ssm.created_at, ssm.image_path, ssm.video_path"
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
@@ -378,7 +379,7 @@ public class SQL {
 	 */
 	public static final String FIND_ALL_ACTIVE_WALL_MESSAGES = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id,"
 			+ " sb.user_name, ssm.location_id, slc.location, "
-			+ " ssm.content, ssm.message_type, ssm.created_at "
+			+ " ssm.content, ssm.message_type, ssm.created_at, ssm.image_path, ssm.video_path"
 			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
@@ -443,14 +444,14 @@ public class SQL {
 	 */
 	public static final String INSERT_CHAT_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at, image_path, video_path) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP(), ?, ?)";
 
 	/**
 	 * Query to insert a new wall message into the messages table.
 	 */
 	public static final String INSERT_WALL_MESSAGE = "insert into "
 			+ SSN_MESSAGES
-			+ " (author_id, target_id, content, message_type, location_id, created_at) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP())";
+			+ " (author_id, target_id, content, message_type, location_id, created_at, image_path, video_path) values (?, ?, ?, ?, ?,CURRENT_TIMESTAMP(), ?, ?)";
 
 	/**
 	 * Query to insert a new chat message into the chat_messages table.
@@ -465,8 +466,8 @@ public class SQL {
 	 */
 	public static final String INSERT_PRIVATE_CHAT_MESSAGE = "insert into "
 			+ "SSN_MESSAGES "
-			+ "(created_at, location_id, message_type, content, target_id, author_id) "
-			+ "values (?, ?, \'CHAT\', ?, ?, ?)";
+			+ "(created_at, location_id, message_type, content, target_id, author_id, image_path, video_path) "
+			+ "values (?, ?, \'CHAT\', ?, ?, ?, ?, ?)";
 
 	/**
 	 * Query to fetch chat buddies

@@ -21,6 +21,8 @@ public class Message implements Comparable<Message> {
 	private String messageType;
 	private String status;
 	private Timestamp postedAt;
+	private String imagePath;
+	private String videoPath;
 
 	public long getMessageId() {
 		return messageId;
@@ -110,7 +112,23 @@ public class Message implements Comparable<Message> {
 		this.postedAt = postedAt;
 	}
 
-	@Override
+	public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
+
+    @Override
 	public String toString() {
 		return new Gson().toJson(this);
 	}

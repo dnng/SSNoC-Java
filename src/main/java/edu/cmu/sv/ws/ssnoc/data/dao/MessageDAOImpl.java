@@ -87,8 +87,9 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				if(colCount >=7) po.setLocation(rs.getString(7));
 				if(colCount >=8) po.setContent(rs.getString(8));
 				if(colCount >=9) po.setMessageType(rs.getString(9));
-				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));	
-
+				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));
+				if(colCount >=11) po.setImagePath(rs.getString(11));
+				if(colCount >=12) po.setVideoPath(rs.getString(12));
 				messages.add(po);
 			}
 		} catch (SQLException e) {
@@ -217,7 +218,9 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				if(colCount >=7) po.setLocation(rs.getString(7));
 				if(colCount >=8) po.setContent(rs.getString(8));
 				if(colCount >=9) po.setMessageType(rs.getString(9));
-				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));				
+				if(colCount >=10) po.setCreatedAt(rs.getTimestamp(10));	
+				if(colCount >=11) po.setImagePath(rs.getString(11));
+                if(colCount >=12) po.setVideoPath(rs.getString(12));
 			}
 		} catch (SQLException e) {
 			handleException(e);
