@@ -86,6 +86,20 @@ public class WallMessageTest {
 		Response response = msgService.addWallMessage("foo", msg);
 		assertEquals(((Message)response.getEntity()).getContent(), "testSendMessageToPublicWall");
 	}
+	
+	@Test
+	public void testSendMessageToPublicWallFromInvalidUser() {
+
+		Message msg = new Message();
+		msg.setAuthor("invaliduser");
+		Timestamp postedAt = new Timestamp(1234);
+		msg.setPostedAt(postedAt);
+		msg.setContent("testSendMessageToPublicWall");
+
+		MessageService msgService = new MessageService();
+		Response response = msgService.addWallMessage("invaliduser", msg);
+		assertTrue(response.getStatus() == 400);
+	}
 
 	@Test
 	public void testGetAllMessagesFromPublicWall() {
@@ -170,6 +184,24 @@ public class WallMessageTest {
 
 		Response resp = msgService.postPrivateChatMessage(user1.getUserName(), user2.getUserName(), msg);
 		assertTrue(resp instanceof Response);
+	}
+	
+	@Test
+	public void testSendPrivateMessageToInvalidUser() {
+		Message msg = new Message();
+		MessageService msgService = new MessageService();
+
+		msg.setAuthor("");
+		msg.setContent("");
+		assertTrue(msgService.postPrivateChatMessage(null, null, msg).toString().contains("400"));
+
+		msg.setAuthor("SSNAdmin");
+		Timestamp postedAt = new Timestamp(1234);
+		msg.setPostedAt(postedAt);
+		msg.setContent("testSendPrivateMessageToAnotherUser");
+
+		Response resp = msgService.postPrivateChatMessage(user1.getUserName(), "invaliduser", msg);
+		assertTrue(resp.getStatus() == 400);
 	}
 
 	@Test

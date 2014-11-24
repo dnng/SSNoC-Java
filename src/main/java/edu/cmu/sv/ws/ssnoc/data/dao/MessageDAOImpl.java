@@ -33,22 +33,6 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 	}
 	
 	@Override
-	public List<MessagePO> loadChatMessages() {
-		Log.enter();
-		String query = SQL.FIND_ALL_CHAT_MESSAGES;
-		List<MessagePO> messages = new ArrayList<MessagePO>();
-			try (Connection conn = getConnection();
-			PreparedStatement stmt = conn.prepareStatement(query);) {
-			messages = processResults(stmt);
-		} catch (SQLException e) {
-			handleException(e);
-		Log.exit(messages);
-	}
-
-			return messages;
-	}
-	
-	@Override
 	public List<MessagePO> loadAnnouncementMessages() {
 		Log.enter();
 		String query = SQL.FIND_ALL_ACTIVE_ANNOUNCEMENT_MESSAGES;
@@ -100,44 +84,6 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 
 		return messages;
 	}
-	
-	//Chat Save//
-	public long saveChatMessage(MessagePO messagePO) {
-
-			Log.enter(messagePO);
-			long messageId = 0;
-			if (messagePO == null) {
-				Log.warn("Inside save method with messagePO == NULL");
-				return messageId;
-			}
-
-			try (Connection conn = getConnection();
-				PreparedStatement stmt = conn.prepareStatement(SQL.INSERT_CHAT_MESSAGE,  Statement.RETURN_GENERATED_KEYS)) {
-				stmt.setLong(1, messagePO.getAuthorId());
-				stmt.setLong(2, messagePO.getTargetId());
-				stmt.setString(3, messagePO.getContent());
-				stmt.setString(4, "CHAT");
-				stmt.setLong(5, messagePO.getLocationId());
-				stmt.setTimestamp(6, messagePO.getCreatedAt());
-				int rowCount = stmt.executeUpdate();
-				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
-				
-				try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-		            if (generatedKeys.next()) {
-		            	messageId = generatedKeys.getLong(1);
-		            }
-		            else {
-		                throw new SQLException("Creating messageId failed, no ID obtained.");
-		            }
-		        }
-				
-			} catch (SQLException e) {
-				handleException(e);
-			} finally {
-				Log.exit();
-			}
-			return messageId;
-		}
 	
 	//Wall Save//
 	@Override

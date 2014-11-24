@@ -19,14 +19,6 @@ public interface IMessageDAO {
 	long saveWallMessage(MessagePO messagePO);
 
 	/**
-	 * This method will save the information of the chat message into the database.
-	 *
-	 * @param MessagePO
-	 *            - Message information to be saved.
-	 */
-	long saveChatMessage(MessagePO messagePO);
-
-	/**
 	 * This method will save the information of the announcement into the database.
 	 *
 	 * @param MessagePO
@@ -41,14 +33,6 @@ public interface IMessageDAO {
 	 * @return - List of all  wall messages.
 	 */
 	List<MessagePO> loadWallMessages();
-
-	/**
-	 * This method will load all chat messages in the
-	 * database.
-	 *
-	 * @return - List of all  chat messages.
-	 */
-	List<MessagePO> loadChatMessages();
 	
 	/**
 	 * This method will load all announcement messages in the
