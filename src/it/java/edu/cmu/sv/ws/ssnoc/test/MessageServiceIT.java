@@ -3,6 +3,7 @@ package edu.cmu.sv.ws.ssnoc.test;
 import static com.eclipsesource.restfuse.Assert.assertBadRequest;
 import static com.eclipsesource.restfuse.Assert.assertCreated;
 import static com.eclipsesource.restfuse.Assert.assertOk;
+
 import java.sql.Timestamp;
 
 import org.junit.AfterClass;
@@ -43,11 +44,11 @@ public class MessageServiceIT {
 	public static void initialSetUp() throws Exception {
 		
 		try {
-			IConnectionPool cp = ConnectionPoolFactory.getInstance()
-					.getH2ConnectionPool();
-			cp.switchConnectionToTest();
-			
-			DBUtils.reinitializeDatabase();
+//			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+//					.getH2ConnectionPool();
+//			cp.switchConnectionToTest();
+//			
+//			DBUtils.reinitializeDatabase();
 			
 			UserService userService = new UserService();
 
@@ -56,6 +57,18 @@ public class MessageServiceIT {
 			testuser.setPassword("testuser");
 
 			userService.addUser(testuser);
+			System.out.println(">>>>>>>Created testuser<<<<<<");
+			
+			Message msg = new Message();
+			MessageService msgService = new MessageService();
+
+			msg.setAuthor("SSNAdmin");
+			Timestamp postedAt = new Timestamp(1234);
+			msg.setPostedAt(postedAt);
+			msg.setContent("testSendPrivateMessageToAnotherUser");
+
+			msgService.postPrivateChatMessage("SSNAdmin", "testuser", msg);
+			System.out.println(">>>>>>>Sent private message from SSNAdmin to testuser<<<<<<");
 
 		} catch (Exception e) {
 			Log.error(e);
@@ -67,38 +80,9 @@ public class MessageServiceIT {
 	@AfterClass
 	public static void finalTearDown() throws Exception {
 		try {
-			IConnectionPool cp = ConnectionPoolFactory.getInstance()
-					.getH2ConnectionPool();
-			cp.switchConnectionToLive(); 
-
-		} catch (Exception e) {
-			Log.error(e);
-		} finally {
-			Log.exit();
-		}
-	}
-	
-	@Before
-	public void interimSetUp() throws Exception {
-		
-		try {
-			UserService userService = new UserService();
-
-			User testuser = new User();
-			testuser.setUserName("testuser");
-			testuser.setPassword("testuser");
-
-			userService.addUser(testuser);
-			
-			Message msg = new Message();
-			MessageService msgService = new MessageService();
-
-			msg.setAuthor("SSNAdmin");
-			Timestamp postedAt = new Timestamp(1234);
-			msg.setPostedAt(postedAt);
-			msg.setContent("testSendPrivateMessageToAnotherUser");
-
-			msgService.postPrivateChatMessage("SSNAdmin", "testuser", msg);
+//			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+//					.getH2ConnectionPool();
+//			cp.switchConnectionToLive(); 
 
 		} catch (Exception e) {
 			Log.error(e);
