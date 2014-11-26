@@ -44,11 +44,11 @@ public class MessageServiceIT {
 	public static void initialSetUp() throws Exception {
 		
 		try {
-//			IConnectionPool cp = ConnectionPoolFactory.getInstance()
-//					.getH2ConnectionPool();
-//			cp.switchConnectionToTest();
-//			
-//			DBUtils.reinitializeDatabase();
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToTest();
+			
+			DBUtils.reinitializeDatabase();
 			
 			UserService userService = new UserService();
 
@@ -80,15 +80,21 @@ public class MessageServiceIT {
 	@AfterClass
 	public static void finalTearDown() throws Exception {
 		try {
-//			IConnectionPool cp = ConnectionPoolFactory.getInstance()
-//					.getH2ConnectionPool();
-//			cp.switchConnectionToLive(); 
+			IConnectionPool cp = ConnectionPoolFactory.getInstance()
+					.getH2ConnectionPool();
+			cp.switchConnectionToLive(); 
 
 		} catch (Exception e) {
 			Log.error(e);
 		} finally {
 			Log.exit();
 		}
+	}
+	
+	@HttpTest(method = Method.POST, path = "/user/signup", type = MediaType.APPLICATION_JSON, 
+			content = "{\"userName\":\"testuser\",\"password\":\"testuser\"}")
+	public void createTestUser() {
+		assertCreated(response);
 	}
 
 	@HttpTest(method = Method.POST, path = "/message/SSNAdmin", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
