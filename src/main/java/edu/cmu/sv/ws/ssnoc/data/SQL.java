@@ -298,7 +298,7 @@ public class SQL {
 	 * Query to load message by the specific message ID
 	 */
 	public static final String FIND_MESSAGE_BY_ID = "select ssm.message_id, ssm.author_id, sa.user_name, ssm.target_id, sb.user_name, ssm.location_id, slc.location,  ssm.content, ssm.message_type, ssm.created_at, ssm.image_path, ssm.video_path"
-			+ "from "
+			+ " from "
 			+ SSN_MESSAGES
 			+ " ssm "
 			+ "left outer join "
