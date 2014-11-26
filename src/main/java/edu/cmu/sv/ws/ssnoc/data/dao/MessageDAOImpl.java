@@ -102,6 +102,8 @@ public class MessageDAOImpl extends BaseDAOImpl implements IMessageDAO {
 				stmt.setString(3, messagePO.getContent());
 				stmt.setString(4, "WALL");
 				stmt.setLong(5, messagePO.getLocationId());
+				stmt.setString(6, messagePO.getImagePath());
+				stmt.setString(7, messagePO.getVideoPath());
 				int rowCount = stmt.executeUpdate();
 				Log.trace("Statement executed, and " + rowCount + " rows inserted.");
 				

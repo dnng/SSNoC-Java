@@ -466,8 +466,8 @@ public class SQL {
 	 */
 	public static final String INSERT_PRIVATE_CHAT_MESSAGE = "insert into "
 			+ "SSN_MESSAGES "
-			+ "(created_at, location_id, message_type, content, target_id, author_id, image_path, video_path) "
-			+ "values (?, ?, \'CHAT\', ?, ?, ?, ?, ?)";
+			+ "(created_at, location_id, message_type, content, target_id, author_id) "
+			+ "values (?, ?, \'CHAT\', ?, ?, ?)";
 
 	/**
 	 * Query to fetch chat buddies
