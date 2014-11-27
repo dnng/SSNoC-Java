@@ -63,8 +63,10 @@ public class UserDAOImpl extends BaseDAOImpl implements IUserDAO {
 				if(colCount >=2) po.setUserName(rs.getString(2));
 				if(colCount >=3) po.setPassword(rs.getString(3));
 				if(colCount >=4) po.setSalt(rs.getString(4));
+				if(colCount >=5) po.setLastStatusCrumbId(rs.getLong(5));
 				if(colCount >=6) po.setLastStatus(rs.getString(6));
 				if(colCount >=7) po.setLastStatusTime(rs.getTimestamp(7));
+				if(colCount >=5) po.setLastLocationCrumbId(rs.getLong(8));
 				if(colCount >=9) po.setLastLocation(rs.getString(9));
 				if(colCount >=10) po.setPrivilegeLevel(rs.getString(10));
 				if(colCount >=11) po.setAccountStatus(rs.getString(11));
