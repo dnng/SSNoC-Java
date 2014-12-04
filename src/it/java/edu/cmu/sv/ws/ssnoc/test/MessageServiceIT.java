@@ -90,12 +90,6 @@ public class MessageServiceIT {
 			Log.exit();
 		}
 	}
-	
-	@HttpTest(method = Method.POST, path = "/user/signup", type = MediaType.APPLICATION_JSON, 
-			content = "{\"userName\":\"testuser\",\"password\":\"testuser\"}")
-	public void createTestUser() {
-		assertCreated(response);
-	}
 
 	@HttpTest(method = Method.POST, path = "/message/SSNAdmin", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test wall message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
 	public void testPostingAMessage() {
@@ -104,12 +98,12 @@ public class MessageServiceIT {
 		Assert.assertTrue(msg.contains("This is a test wall message"));
 	}
 
-	@HttpTest(method = Method.POST, path = "/message/SSNAdmin/testuser", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test chat message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
-	public void testChatMessage() {
-		assertCreated(response);
-		String msg = response.getBody();
-		Assert.assertTrue(msg.contains("This is a test chat message"));
-	}
+//	@HttpTest(method = Method.POST, path = "/message/SSNAdmin/testuser", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"This is a test chat message\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
+//	public void testChatMessage() {
+//		assertCreated(response);
+//		String msg = response.getBody();
+//		Assert.assertTrue(msg.contains("This is a test chat message"));
+//	}
 
 	@HttpTest(method = Method.POST, path = "/message/SSNAdmin/invaliduser", type = MediaType.APPLICATION_JSON, content = "{\"content\":\"\",\"postedAt\":\"Nov 11, 2014 10:10:15 AM\"}")
 	public void testChattingWithNonExistantUsers() {
@@ -129,23 +123,23 @@ public class MessageServiceIT {
 		Assert.assertTrue(msg.contains("This is a test wall message"));
 	}
 
-	@HttpTest(method = Method.GET, path = "/messages/SSNAdmin/testuser")
-	public void checkChatMessage() {
-		assertOk(response);
-		String msg = response.getBody();
-		Assert.assertTrue(msg.contains("This is a test chat message"));
-	}
+//	@HttpTest(method = Method.GET, path = "/messages/SSNAdmin/testuser")
+//	public void checkChatMessage() {
+//		assertOk(response);
+//		String msg = response.getBody();
+//		Assert.assertTrue(msg.contains("This is a test chat message"));
+//	}
 
 	@HttpTest(method = Method.GET, path = "/message/1")
 	public void checkMessageID() {
 		assertOk(response);
 	}
 
-	@HttpTest(method = Method.GET, path = "/users/SSNAdmin/chatbuddies")
-	public void checkChatBuddies() {
-		assertOk(response);
-		String buddies = response.getBody();
-		Assert.assertTrue(buddies.contains("testuser"));
-	}
+//	@HttpTest(method = Method.GET, path = "/users/SSNAdmin/chatbuddies")
+//	public void checkChatBuddies() {
+//		assertOk(response);
+//		String buddies = response.getBody();
+//		Assert.assertTrue(buddies.contains("testuser"));
+//	}
 
 }
